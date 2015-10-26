@@ -13,12 +13,20 @@ class EmailHelper {
         $data = [
             'to'        => $to,
             'from'      => $from,
-            'subject'   => $subject
+            'subject'   => $subject,
+            'body'      => $msg,
         ];
 
-        Mail::send(['raw' => $msg], [], function ($message) use ($data) {
+//        Mail::send(['raw' => $msg], [], function ($message) use ($data) {
+//            $message->to($data['to'])
+//                ->subject($data['subject']);
+////                ->from($data['from']);
+//        });
+
+        Mail::send([], [], function ($message) use ($data) {
             $message->to($data['to'])
-                ->subject(['$data->subject']);
+                ->subject($data['subject'])
+                ->setBody($data['body'], 'text/html');
 //                ->from($data['from']);
         });
 

@@ -29,6 +29,8 @@ Route::group(['prefix' => '/api/v1'], function () {
     Route::post('users/change_password', ['as' => 'api.v1.users.change_password', 'uses' => 'Api\UserController@change_password']);
     Route::post('users/forgot_password', ['as' => 'api.v1.users.forgot_password', 'uses' => 'Api\UserController@forgot_password']);
     Route::post('users/get_invite_code', ['as' => 'api.v1.users.get_invite_code', 'uses' => 'Api\UserController@get_invite_code']);
+    Route::post('users/get_login_code', ['as' => 'api.v1.users.get_login_code', 'uses' => 'Api\UserController@get_login_code']);
+    Route::post('users/sign_in_with_code', ['as' => 'api.v1.users.sign_in_with_code', 'uses' => 'Api\UserController@sign_in_with_code']);
 
     Route::post('merchants/forgot_password', ['as' => 'api.v1.merchants.forgot_password', 'uses' => 'Api\MerchantController@forgot_password']);
     Route::post('merchants/update_status', ['as' => 'api.v1.merchants.update_status', 'uses' => 'Api\MerchantController@update_status']);

@@ -32,6 +32,22 @@ class StringHelper {
     }
 
     /**
+     * Generate Random Digits
+     *
+     * @params int
+     * @return string
+     */
+    function randomDigits($length = 6) {
+
+        $characters = '0123456789';
+        $random_str = '';
+        for ($i = 0; $i < $length; $i++) {
+            $random_str .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        return $random_str;
+    }
+
+    /**
      * Generate Random String
      *
      * @params int

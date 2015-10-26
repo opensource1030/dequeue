@@ -430,6 +430,102 @@ class UserController extends ApiController
     }
 
     /**
+     * Get login code
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function get_login_code() {
+
+        $validator = Validator::make($this->request->all(), [
+            'szEmail'       => 'required|email',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->respondWithValidationErrors($validator->errors());
+        }
+
+        $szEmail = $this->request['szEmail'];
+
+        try {
+
+            $szLoginCode = \StringHelper::randomDigits();
+            $user = $this->userService->get_by_email($szEmail);
+
+            if (empty($user)) {
+                throw new \Exception('Invalid email');
+            }
+
+            $this->userService->userRepository->update([
+                'szLoginCode' => $szLoginCode,
+            ], $user->id);
+
+            # email
+
+            $subject = "Login Code";
+            $message = "Hello {$user->szFirstName}<br>Here is your login code : {$szLoginCode}";
+
+            $to = $user->szEmail;
+            $from = \Config::get('constants.__SUPPORT_EMAIL_ADDRESS__');
+
+            \EmailHelper::sendEmail($from, $to, $subject, $message, $user->id);
+
+            return $this->respond([
+                'szLoginCode' => $szLoginCode
+            ]);
+        } catch (\Exception $e) {
+            throw $e;
+//            return $this->respondWithErrors($e->getMessage(), $e->getCode());
+        }
+    }
+
+    /**
+     * sign in with login code
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function sign_in_with_code() {
+        ### validate
+
+        $validator = Validator::make($this->request->all(), [
+            'szEmail'       => 'required|email',
+            'szLoginCode'   => 'required|digits:6',
+//            'szUserType'    => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->respondWithValidationErrors($validator->errors());
+        }
+
+        $szEmail = $this->request['szEmail'];
+        $szLoginCode = $this->request['szLoginCode'];
+
+        try {
+            $user = $this->userService->get_by_email($szEmail);
+
+            if (empty($user)) {
+                throw new \Exception('Invalid email');
+            }
+
+            if ($user->szLoginCode != $szLoginCode) {
+                throw new \Exception('Invalid login code');
+            }
+
+            $this->userService->userRepository->update([
+                'szLoginCode' => '',
+            ], $user->id);
+
+            $fractalManager = new Manager();
+            $fractalManager->setSerializer(new CustomSerializer());
+            $user = new Item($user, new UserTransformer());
+            $user = $fractalManager->createData($user)->toArray();
+
+            return $this->respond($user);
+        } catch (\Exception $e) {
+            return $this->respondWithErrors($e->getMessage(), $e->getCode());
+        }
+    }
+
+    /**
      * sign in
      *
      * @return \Illuminate\Http\Response
@@ -591,10 +687,7 @@ class UserController extends ApiController
         $forgot_key = \StringHelper::randomCode(15);
 
         try {
-            $user = $this->userService->userRepository->findWhere([
-                'szEmail' => $szEmail,
-                'isDeleted' => 0,
-            ])->first();
+            $user = $this->userService->get_by_email($szEmail);
 
             if (empty($user)) {
                 throw new \Exception('Invalid email');
