@@ -520,7 +520,7 @@ class OrderService extends Service {
             $from = \Config::get('constants.__SUPPORT_EMAIL_ADDRESS__');
             $to = $subscription->emailRedemption;
 
-            \EmailHleper::sendEmail($from, $to, $subject, $message, $subscription->idMerchant);
+            \EmailHelper::sendEmail($from, $to, $subject, $message, $subscription->idMerchant);
         }
 
         # on demand

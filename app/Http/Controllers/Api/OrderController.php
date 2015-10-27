@@ -438,8 +438,97 @@ class OrderController extends ApiController
         }
     }
 
+
     /**
-     * order by Braintree API (
+     * Update auto renew flag
+     *
+     * @return Response|\Illuminate\Http\JsonResponse
+     */
+    public function toggle_auto_renew_flag() {
+
+        $validator = Validator::make($this->request->all(), [
+            'szMobileKey'   => 'required',
+            'orderId'       => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->respondWithErrors($validator->errors());
+        }
+
+        $szMobileKey = $this->request['szMobileKey'];
+        $orderId = $this->request['orderId'];
+
+        try {
+            $user = $this->orderService->userRepository->findWhere([
+                'szMobileKey' => $szMobileKey,
+                'isDeleted' => 0,
+            ])->first();
+
+            if (empty($user)) {
+                throw new \Exception('Invalid mobile key');
+            }
+
+            $order = $this->orderService->orderRepository->find($orderId);
+
+            if (empty($order)) {
+                throw new \Exception('No order found');
+            }
+
+            if ($order->idUser != $user->id) {
+                throw new \Exception('Unauthorized user');
+            }
+
+            # main process
+
+            if ($order->szPassType == 'subscription pass') {
+                if ($order->iAutoRenewFlag == 0) {
+                    $order = $this->orderService->orderRepository->update([
+                        'iCancelSubscriptionFlag' => 1,
+                    ], $order->id);
+                } else {
+                    $order = $this->orderService->orderRepository->update([
+                        'iCancelSubscriptionFlag' => 0,
+                    ], $order->id);
+                }
+            } else {
+                if ($order->iAutoRenewFlag == 0) {
+                    $order = $this->orderService->orderRepository->update([
+                        'iAutoRenewFlag' => 1,
+                    ], $order->id);
+                } else {
+                    $order = $this->orderService->orderRepository->update([
+                        'iAutoRenewFlag' => 0,
+                    ], $order->id);
+                }
+            }
+
+            if ($order) {
+                $fractalManager = new Manager();
+                $fractalManager->setSerializer(new CustomSerializer());
+                $order = new Item($order, new OrderTransformer());
+                $order = $fractalManager->createData($order)->toArray();
+
+                return $this->respond($order);
+            }
+
+            return $this->respondWithErrors();
+        } catch (\Exception $e) {
+            return $this->respondWithErrors($e->getMessage(), $e->getCode());
+        }
+    }
+
+
+    /**
+     * ------------------------------------------------
+     *
+     * Real payment are going through Braintree APIs
+     *
+     * ------------------------------------------------
+     */
+
+
+    /**
+     * order by Braintree API
      *
      * @return Response|\Illuminate\Http\JsonResponse
      */
@@ -587,84 +676,6 @@ class OrderController extends ApiController
     }
 
     /**
-     * Update auto renew flag
-     *
-     * @return Response|\Illuminate\Http\JsonResponse
-     */
-    public function toggle_auto_renew_flag() {
-
-        $validator = Validator::make($this->request->all(), [
-            'szMobileKey'   => 'required',
-            'orderId'       => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return $this->respondWithErrors($validator->errors());
-        }
-
-        $szMobileKey = $this->request['szMobileKey'];
-        $orderId = $this->request['orderId'];
-
-        try {
-            $user = $this->orderService->userRepository->findWhere([
-                'szMobileKey' => $szMobileKey,
-                'isDeleted' => 0,
-            ])->first();
-
-            if (empty($user)) {
-                throw new \Exception('Invalid mobile key');
-            }
-
-            $order = $this->orderService->orderRepository->find($orderId);
-
-            if (empty($order)) {
-                throw new \Exception('No order found');
-            }
-
-            if ($order->idUser != $user->id) {
-                throw new \Exception('Unauthorized user');
-            }
-
-            # main process
-
-            if ($order->szPassType == 'subscription pass') {
-                if ($order->iAutoRenewFlag == 0) {
-                    $order = $this->orderService->orderRepository->update([
-                        'iCancelSubscriptionFlag' => 1,
-                    ], $order->id);
-                } else {
-                    $order = $this->orderService->orderRepository->update([
-                        'iCancelSubscriptionFlag' => 0,
-                    ], $order->id);
-                }
-            } else {
-                if ($order->iAutoRenewFlag == 0) {
-                    $order = $this->orderService->orderRepository->update([
-                        'iAutoRenewFlag' => 1,
-                    ], $order->id);
-                } else {
-                    $order = $this->orderService->orderRepository->update([
-                        'iAutoRenewFlag' => 0,
-                    ], $order->id);
-                }
-            }
-
-            if ($order) {
-                $fractalManager = new Manager();
-                $fractalManager->setSerializer(new CustomSerializer());
-                $order = new Item($order, new OrderTransformer());
-                $order = $fractalManager->createData($order)->toArray();
-
-                return $this->respond($order);
-            }
-
-            return $this->respondWithErrors();
-        } catch (\Exception $e) {
-            return $this->respondWithErrors($e->getMessage(), $e->getCode());
-        }
-    }
-
-    /**
      * Re-new package pass
      *
      * @return Response|\Illuminate\Http\JsonResponse
@@ -752,6 +763,8 @@ class OrderController extends ApiController
     /**
      * get braintree token or make a payment
      *
+     * get token used last time in order,
+     *
      * @return Response|\Illuminate\Http\JsonResponse
      */
     public function get_braintree_token() {
@@ -804,6 +817,8 @@ class OrderController extends ApiController
 
                     $szPeriod = $this->request['szPeriod'];
                 }
+
+                # get last payment type or 'Credit/Debit'
 
                 $last_order = $this->orderService->orderRepository->findWhere([
                     'idUser' => $user->id
@@ -1095,9 +1110,10 @@ class OrderController extends ApiController
     }
 
     /**
-     * Upgrade pass confirm
+     * upgrade pass confirm
      *
      * @return Response|\Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function upgrade_pass() {
 
