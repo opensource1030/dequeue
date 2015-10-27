@@ -196,14 +196,13 @@ class MerchantController extends ApiController {
 
 
 	/**
-	* Update the specified resource in storage.
+	* Update the specified resource in storage. - merchant / addEditMerchant()
 	*
 	* @param  Request $request
 	* @param  int     $id
 	*
 	* @return Response
 	*/
-    #TODO set szFileName, szUploadFileName - merchant / addEditMerchant()
 	public function update( Request $request, $id )
 	{
         $validator = Validator::make($request->all(), [
@@ -643,6 +642,55 @@ class MerchantController extends ApiController {
 
             return $this->respond();
         } catch (\Exception $e) {
+            return $this->respondWithErrors($e->getMessage(), $e->getCode());
+        }
+    }
+
+    public function get_by_mobile_key() {
+
+        $validator = Validator::make($this->request->all(), [
+//            'idMerchant'    => 'required',
+            'szMobileKey'   => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->respondWithValidationErrors($validator->errors());
+        }
+
+        $data = $this->request->all();
+
+        try {
+
+            if (isset($data['isAdmin']) && $data['isAdmin'] == 1) {
+                $admin = $this->merchantService->adminRepository->findWhere(['szMobileKey' => $data['szMobileKey']])->first();
+
+                if (empty($admin)) {
+                    throw new \Exception('Invalid mobile key');
+                }
+
+                if (isset($data['idMerchant']) && $data['idMerchant'] > 0) {
+                    $merchant = $this->merchantService->merchantRepository->find($data['idMerchant']);
+                } else {
+                    throw new \Exception('Merchant Id is required');
+                }
+            } else {
+                $merchant = $this->merchantService->merchantRepository->findWhere(['szMobileKey' => $data['szMobileKey']])->first();
+
+                $data['isAdmin'] = 0;
+            }
+
+            if (empty($merchant)) {
+                throw new \Exception('No merchant found');
+            }
+
+            $fractalManager = new Manager();
+            $fractalManager->setSerializer(new CustomSerializer());
+            $merchant = new Item($merchant, new MerchantTransformer());
+            $merchant = $fractalManager->createData($merchant)->toArray();
+
+            return $this->respond($merchant);
+        } catch (\Exception $e) {
+//            throw $e;
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }

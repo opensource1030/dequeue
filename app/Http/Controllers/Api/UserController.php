@@ -353,7 +353,7 @@ class UserController extends ApiController
             'szFirstName'   => 'required',
             'szLastName'    => 'required',
             'szEmail'       => 'email',
-            'szZipCode'     => 'required',
+//            'szZipCode'     => 'required',
         ]);
 
         if ($validator->fails()) {

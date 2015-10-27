@@ -45,6 +45,7 @@ class OrderDetailTransformer extends TransformerAbstract {
             'szLastName'        => $order->szLastName,
             'szEmail'           => $order->szEmail,
             'szPassType'        => $order->szPassType,
+            'iPromotional'      => $order->iPromotional,
             'iLimitionCount'    => $order->iLimitionCount,
             'passes_left'       => $order->iLimitionCount > 0 ? $order->iLimitionCount - $order->iTotalUsedCount : 0,
             'pass_amount'       => $order->fSubscriptionAmount,

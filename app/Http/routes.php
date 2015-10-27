@@ -33,6 +33,7 @@ Route::group(['prefix' => '/api/v1'], function () {
     Route::post('users/sign_in_with_code', ['as' => 'api.v1.users.sign_in_with_code', 'uses' => 'Api\UserController@sign_in_with_code']);
 
     Route::post('merchants/forgot_password', ['as' => 'api.v1.merchants.forgot_password', 'uses' => 'Api\MerchantController@forgot_password']);
+    Route::post('merchants/get_by_mobile_key', ['as' => 'api.v1.merchants.get_by_mobile_key', 'uses' => 'Api\MerchantController@get_by_mobile_key']);
     Route::post('merchants/update_status', ['as' => 'api.v1.merchants.update_status', 'uses' => 'Api\MerchantController@update_status']);
     Route::post('merchants/get_payout', ['as' => 'api.v1.merchants.get_payout', 'uses' => 'Api\MerchantController@get_payout']);
     Route::post('merchants/update_payout', ['as' => 'api.v1.merchants.update_payout', 'uses' => 'Api\MerchantController@update_payout']);

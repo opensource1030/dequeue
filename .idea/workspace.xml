@@ -50,12 +50,11 @@
           <file leaf-file-name="SubscriptionController.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/SubscriptionController.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="1020" max-vertical-offset="5175">
-                  <caret line="444" column="33" selection-start-line="444" selection-start-column="33" selection-end-line="444" selection-end-column="33" />
+                <state vertical-scroll-proportion="-5.5686274" vertical-offset="2941" max-vertical-offset="5835">
+                  <caret line="437" column="37" selection-start-line="437" selection-start-column="37" selection-end-line="437" selection-end-column="37" />
                   <folding>
                     <element signature="e#2045#6053#0#PHP" expanded="false" />
                     <element signature="e#6626#10744#0#PHP" expanded="false" />
-                    <element signature="e#10889#12678#0#PHP" expanded="false" />
                     <element signature="e#15823#16472#0#PHP" expanded="false" />
                     <element signature="e#16478#17127#0#PHP" expanded="false" />
                   </folding>
@@ -66,12 +65,10 @@
           <file leaf-file-name="UserController.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/UserController.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-1.4509804" vertical-offset="3931" max-vertical-offset="11640">
-                  <caret line="294" column="0" selection-start-line="294" selection-start-column="0" selection-end-line="294" selection-end-column="0" />
+                <state vertical-scroll-proportion="-6.1568627" vertical-offset="5026" max-vertical-offset="12045">
+                  <caret line="356" column="11" selection-start-line="356" selection-start-column="11" selection-end-line="356" selection-end-column="11" />
                   <folding>
                     <element signature="e#44#62#0#PHP" expanded="true" />
-                    <element signature="e#6746#9372#0#PHP" expanded="false" />
-                    <element signature="e#7195#7927#0#PHP" expanded="false" />
                   </folding>
                 </state>
               </provider>
@@ -80,8 +77,34 @@
           <file leaf-file-name="OrderDetailTransformer.php" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/app/Database/Transformers/OrderDetailTransformer.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.6896552" vertical-offset="780" max-vertical-offset="1455">
-                  <caret line="83" column="148" selection-start-line="82" selection-start-column="37" selection-end-line="83" selection-end-column="148" />
+                <state vertical-scroll-proportion="0.63917524" vertical-offset="438" max-vertical-offset="1470">
+                  <caret line="57" column="50" selection-start-line="57" selection-start-column="50" selection-end-line="57" selection-end-column="50" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="MerchantController.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/MerchantController.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-10.375" vertical-offset="5331" max-vertical-offset="5940">
+                  <caret line="679" column="13" selection-start-line="679" selection-start-column="13" selection-end-line="679" selection-end-column="13" />
+                  <folding>
+                    <element signature="e#10396#12135#0#PHP" expanded="false" />
+                    <element signature="e#12141#13793#0#PHP" expanded="false" />
+                    <element signature="e#13799#16064#0#PHP" expanded="false" />
+                    <element signature="e#16070#19973#0#PHP" expanded="false" />
+                    <element signature="e#19979#21959#0#PHP" expanded="false" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="SubscriptionService.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/app/Database/Services/SubscriptionService.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-10.862745" vertical-offset="676" max-vertical-offset="3615">
+                  <caret line="82" column="5" selection-start-line="57" selection-start-column="4" selection-end-line="82" selection-end-column="5" />
                   <folding />
                 </state>
               </provider>
@@ -90,8 +113,8 @@
           <file leaf-file-name="OrderController.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-13.125" vertical-offset="3525" max-vertical-offset="17670">
-                  <caret line="276" column="36" selection-start-line="276" selection-start-column="36" selection-end-line="276" selection-end-column="36" />
+                <state vertical-scroll-proportion="-8.215686" vertical-offset="2311" max-vertical-offset="17670">
+                  <caret line="202" column="65" selection-start-line="202" selection-start-column="65" selection-end-line="202" selection-end-column="65" />
                   <folding />
                 </state>
               </provider>
@@ -102,26 +125,6 @@
               <provider selected="true" editor-type-id="text-editor">
                 <state vertical-scroll-proportion="-11.625" vertical-offset="216" max-vertical-offset="915">
                   <caret line="33" column="38" selection-start-line="33" selection-start-column="38" selection-end-line="33" selection-end-column="38" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="composer.json" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/composer.json">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="261" max-vertical-offset="945">
-                  <caret line="40" column="27" selection-start-line="40" selection-start-column="27" selection-end-line="40" selection-end-column="27" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="app.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/config/app.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="1896" max-vertical-offset="3360">
-                  <caret line="133" column="61" selection-start-line="133" selection-start-column="61" selection-end-line="133" selection-end-column="61" />
                   <folding />
                 </state>
               </provider>
@@ -143,16 +146,6 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="UserTransformer.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/Database/Transformers/UserTransformer.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-13.75" vertical-offset="0" max-vertical-offset="780">
-                  <caret line="24" column="38" selection-start-line="24" selection-start-column="38" selection-end-line="24" selection-end-column="38" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="OrderService.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app/Database/Services/OrderService.php">
               <provider selected="true" editor-type-id="text-editor">
@@ -208,11 +201,31 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="MerchantTransformer.php" pinned="false" current-in-tab="true">
+          <file leaf-file-name="routes.php" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.51724136" vertical-offset="75" max-vertical-offset="1050">
+                  <caret line="35" column="145" selection-start-line="35" selection-start-column="145" selection-end-line="35" selection-end-column="145" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="MerchantTransformer.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app/Database/Transformers/MerchantTransformer.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.71428573" vertical-offset="345" max-vertical-offset="1275">
-                  <caret line="54" column="66" selection-start-line="54" selection-start-column="50" selection-end-line="54" selection-end-column="66" />
+                <state vertical-scroll-proportion="-16.25" vertical-offset="345" max-vertical-offset="1275">
+                  <caret line="51" column="19" selection-start-line="51" selection-start-column="19" selection-end-line="51" selection-end-column="19" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="MerchantService.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/app/Database/Services/MerchantService.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-4.75" vertical-offset="36" max-vertical-offset="645">
+                  <caret line="10" column="60" selection-start-line="10" selection-start-column="60" selection-end-line="10" selection-end-column="60" />
                   <folding />
                 </state>
               </provider>
@@ -233,16 +246,6 @@
               <provider selected="true" editor-type-id="text-editor">
                 <state vertical-scroll-proportion="-13.25" vertical-offset="192" max-vertical-offset="825">
                   <caret line="34" column="7" selection-start-line="34" selection-start-column="7" selection-end-line="34" selection-end-column="7" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="constants.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/config/constants.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-18.125" vertical-offset="0" max-vertical-offset="675">
-                  <caret line="29" column="58" selection-start-line="29" selection-start-column="58" selection-end-line="29" selection-end-column="58" />
                   <folding />
                 </state>
               </provider>
@@ -281,9 +284,7 @@
         <option value="$PROJECT_DIR$/app/Database/Services/SubscriptionService.php" />
         <option value="$PROJECT_DIR$/app/Database/Repositories/AuthenticatableTrait.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Api/LocationController.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Api/MerchantController.php" />
         <option value="$PROJECT_DIR$/config/oureastudios.braintree.php" />
-        <option value="$PROJECT_DIR$/app/Database/Transformers/OrderDetailTransformer.php" />
         <option value="$PROJECT_DIR$/app/Database/Transformers/OrderTransformer.php" />
         <option value="$USER_HOME$/Documents/02" />
         <option value="$PROJECT_DIR$/app/Database/Models/UserInviteMapping.php" />
@@ -300,7 +301,6 @@
         <option value="$PROJECT_DIR$/app/Helpers/StringHelper.php" />
         <option value="$PROJECT_DIR$/app/Database/Repositories/UserRepository.php" />
         <option value="$PROJECT_DIR$/app/Database/Services/UserService.php" />
-        <option value="$PROJECT_DIR$/app/Http/routes.php" />
         <option value="$PROJECT_DIR$/config/mail.php" />
         <option value="$PROJECT_DIR$/app/Helpers/EmailHelper.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php" />
@@ -308,9 +308,12 @@
         <option value="$PROJECT_DIR$/app/Database/Transformers/UserTransformer.php" />
         <option value="$PROJECT_DIR$/storage/logs/laravel.log" />
         <option value="$PROJECT_DIR$/app/Database/Services/OrderService.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Api/UserController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Api/OtherController.php" />
         <option value="$PROJECT_DIR$/app/Database/Transformers/MerchantTransformer.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Api/UserController.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Api/MerchantController.php" />
+        <option value="$PROJECT_DIR$/app/Http/routes.php" />
+        <option value="$PROJECT_DIR$/app/Database/Transformers/OrderDetailTransformer.php" />
       </list>
     </option>
   </component>
@@ -507,11 +510,99 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="Http" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pass" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pass" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Http" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Controllers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pass" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pass" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Http" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Controllers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Api" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pass" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pass" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="Database" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Transformers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pass" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pass" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Database" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Services" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -706,11 +797,11 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="15" y="23" width="1894" height="974" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2505669" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2505669" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3265306" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23582767" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -754,20 +845,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/LocationController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.2916665" vertical-offset="2837" max-vertical-offset="3525">
-          <caret line="273" column="0" selection-start-line="273" selection-start-column="0" selection-end-line="273" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/MerchantController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.72549" vertical-offset="3494" max-vertical-offset="7830">
-          <caret line="333" column="60" selection-start-line="333" selection-start-column="60" selection-end-line="333" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Database/Serializers/CustomSerializer.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-14.291667" vertical-offset="1172" max-vertical-offset="1755">
@@ -794,13 +871,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-1.7916666" vertical-offset="317" max-vertical-offset="900">
           <caret line="24" column="6" selection-start-line="24" selection-start-column="6" selection-end-line="24" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Database/Services/SubscriptionService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.627451" vertical-offset="1180" max-vertical-offset="3615">
-          <caret line="108" column="9" selection-start-line="108" selection-start-column="9" selection-end-line="108" selection-end-column="9" />
         </state>
       </provider>
     </entry>
@@ -890,20 +960,6 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="180">
           <caret line="6" column="1" selection-start-line="0" selection-start-column="0" selection-end-line="6" selection-end-column="1" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/SubscriptionController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1020" max-vertical-offset="5175">
-          <caret line="444" column="33" selection-start-line="444" selection-start-column="33" selection-end-line="444" selection-end-column="33" />
-          <folding>
-            <element signature="e#2045#6053#0#PHP" expanded="false" />
-            <element signature="e#6626#10744#0#PHP" expanded="false" />
-            <element signature="e#10889#12678#0#PHP" expanded="false" />
-            <element signature="e#15823#16472#0#PHP" expanded="false" />
-            <element signature="e#16478#17127#0#PHP" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1048,26 +1104,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.125" vertical-offset="3525" max-vertical-offset="17670">
-          <caret line="276" column="36" selection-start-line="276" selection-start-column="36" selection-end-line="276" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Database/Services/UserService.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-5.0" vertical-offset="0" max-vertical-offset="315">
           <caret line="8" column="50" selection-start-line="8" selection-start-column="50" selection-end-line="8" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.75" vertical-offset="0" max-vertical-offset="1035">
-          <caret line="15" column="3" selection-start-line="15" selection-start-column="3" selection-end-line="15" selection-end-column="3" />
           <folding />
         </state>
       </provider>
@@ -1149,30 +1189,87 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/Database/Transformers/MerchantTransformer.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-16.25" vertical-offset="345" max-vertical-offset="1275">
+          <caret line="51" column="19" selection-start-line="51" selection-start-column="19" selection-end-line="51" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Database/Services/SubscriptionService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.862745" vertical-offset="676" max-vertical-offset="3615">
+          <caret line="82" column="5" selection-start-line="57" selection-start-column="4" selection-end-line="82" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/UserController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.4509804" vertical-offset="3931" max-vertical-offset="11640">
-          <caret line="294" column="0" selection-start-line="294" selection-start-column="0" selection-end-line="294" selection-end-column="0" />
+        <state vertical-scroll-proportion="-6.1568627" vertical-offset="5026" max-vertical-offset="12045">
+          <caret line="356" column="11" selection-start-line="356" selection-start-column="11" selection-end-line="356" selection-end-column="11" />
           <folding>
             <element signature="e#44#62#0#PHP" expanded="true" />
-            <element signature="e#6746#9372#0#PHP" expanded="false" />
-            <element signature="e#7195#7927#0#PHP" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/SubscriptionController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.5686274" vertical-offset="2941" max-vertical-offset="5835">
+          <caret line="437" column="37" selection-start-line="437" selection-start-column="37" selection-end-line="437" selection-end-column="37" />
+          <folding>
+            <element signature="e#2045#6053#0#PHP" expanded="false" />
+            <element signature="e#6626#10744#0#PHP" expanded="false" />
+            <element signature="e#15823#16472#0#PHP" expanded="false" />
+            <element signature="e#16478#17127#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Database/Services/MerchantService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.75" vertical-offset="36" max-vertical-offset="645">
+          <caret line="10" column="60" selection-start-line="10" selection-start-column="60" selection-end-line="10" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.51724136" vertical-offset="75" max-vertical-offset="1050">
+          <caret line="35" column="145" selection-start-line="35" selection-start-column="145" selection-end-line="35" selection-end-column="145" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/MerchantController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.375" vertical-offset="5331" max-vertical-offset="5940">
+          <caret line="679" column="13" selection-start-line="679" selection-start-column="13" selection-end-line="679" selection-end-column="13" />
+          <folding>
+            <element signature="e#10396#12135#0#PHP" expanded="false" />
+            <element signature="e#12141#13793#0#PHP" expanded="false" />
+            <element signature="e#13799#16064#0#PHP" expanded="false" />
+            <element signature="e#16070#19973#0#PHP" expanded="false" />
+            <element signature="e#19979#21959#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.215686" vertical-offset="2311" max-vertical-offset="17670">
+          <caret line="202" column="65" selection-start-line="202" selection-start-column="65" selection-end-line="202" selection-end-column="65" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Database/Transformers/OrderDetailTransformer.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6896552" vertical-offset="780" max-vertical-offset="1455">
-          <caret line="83" column="148" selection-start-line="82" selection-start-column="37" selection-end-line="83" selection-end-column="148" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Database/Transformers/MerchantTransformer.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.71428573" vertical-offset="345" max-vertical-offset="1275">
-          <caret line="54" column="66" selection-start-line="54" selection-start-column="50" selection-end-line="54" selection-end-column="66" />
+        <state vertical-scroll-proportion="0.63917524" vertical-offset="438" max-vertical-offset="1470">
+          <caret line="57" column="50" selection-start-line="57" selection-start-column="50" selection-end-line="57" selection-end-column="50" />
           <folding />
         </state>
       </provider>
