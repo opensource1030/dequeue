@@ -283,7 +283,7 @@ class UserController extends ApiController
 
             # email
 
-            $template = $this->emailTemplateRepository->findWhere(['keyname' => '__REGISTRATION_EMAIL__'])->first();
+            $template = $this->userService->emailTemplateRepository->findWhere(['keyname' => '__REGISTRATION_EMAIL__'])->first();
 
             $subject = $template->subject;
             $message = $template->message;
@@ -316,11 +316,13 @@ class UserController extends ApiController
      */
     public function show($id)
     {
-        //
-        $user = [
-            'id'    => $id,
-            'key'   => StringHelper::randomString()
-        ];
+        $user = $this->userService->userRepository->find($id);
+
+        $fractalManager = new Manager();
+        $fractalManager->setSerializer(new CustomSerializer());
+
+        $user = new Item($user, new UserTransformer());
+        $user = $fractalManager->createData($user)->toArray();
 
         return $this->respond($user);
     }

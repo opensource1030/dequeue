@@ -20,8 +20,11 @@ return [
     '__MONTHLY_PLAN__'                  => 'test',
     '__YEARLY_PLAN__'                   => 'Yearly',
 
-    '__MAIN_SITE_PATH__'                => '/Applications/XAMPP/xamppfiles/htdocs/pass_old/',
-    '__MAIN_SITE_URL__'                 => 'http://localhost/pass_old/',
+//    '__MAIN_SITE_PATH__'                => '/Applications/XAMPP/xamppfiles/htdocs/pass_old/',
+//    '__MAIN_SITE_URL__'                 => 'http://localhost/pass_old/',
+
+    '__MAIN_SITE_PATH__'                => '/var/www/html/pass/',
+    '__MAIN_SITE_URL__'                 => 'http://52.26.137.137/pass/',
 
     '__IMAGE_DIR__'                     => 'images/',
     '__UPLOAD_SUBSCRIPTION_IMAGE_DIR__' => 'subscriptionImage/archiveSubscriptionImage/',

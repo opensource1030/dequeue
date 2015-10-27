@@ -273,7 +273,7 @@ class OrderService extends Service {
             # insert_user_debit_history
             if ($user->fTotalCredit > 0.00 && $fDiscountAmount > 0.00) {
 
-                \DB::table('')->insert([
+                \DB::table('tblusercreditdebithistory')->insert([
                     'idUser'    => $user->id,
                     'fPrice'    => $fDiscountAmount,
                     'idDebitOrder'  => $order->id,
@@ -290,8 +290,8 @@ class OrderService extends Service {
 
             $template = $this->emailTemplateRepository->findWhere(['keyname' => '__SUBSCRIPTION_CONFIRMATION_EMAIL__'])->first();
 
-            $subject = $template['subject'];
-            $message = $template['description'];
+            $subject = $template->subject;
+            $message = $template->description;
 
             $subject = str_replace('szNumber', $order->id, $subject);
 //            $passType = $order->szPassType;
@@ -761,181 +761,12 @@ class OrderService extends Service {
     }
 
     /**
-     * Paypal Payment Response Log
+     * Get pass order
      *
+     * @param $idUser
+     * @param $idSubscription
+     * @param $iType
      */
-    function paymentResponse($idOrder, $idCart, $tranctionStatus, $profileId, $szRecurringPeriod = '', $amountSubscription = '')
-    {
-        $completed = 0;
-        $iTotalPaymentCount = 0;
-        $now = Carbon::now();
-
-        if(strtolower($tranctionStatus) == 'approved') {
-            $completed = 1;
-            $iTotalPaymentCount = 1;
-        }
-
-        $order = $this->orderRepository->update([
-            'TRANSACTIONID' => $idCart,
-            'iCompleted'    => $completed,
-            'PROFILESTATUS' => $tranctionStatus,
-            'PROFILEID'     => $profileId,
-            'dtPurchased'   => $now,
-            'fPaidAmount'   => $amountSubscription,
-            'dtAvailable'   => $now,
-            'iTotalPaymentCount'    => $iTotalPaymentCount,
-        ], $idOrder);
-
-        if ($order) {
-
-            if($tranctionStatus == 'Active') {
-
-                $subscription = $this->subscriptionRepository->find($order->idSubscription);
-                $user = $this->userRepository->find($order->idUser);
-
-                $szName = $user->szFirstName . ' ' . $user->szLastName;
-                $szAppUrl = \Config::get('constants.__MAIN_SITE_URL__') . 'app/';
-                $szPassUrl = \Config::get('constants.__MAIN_SITE_URL__') . 'myPasses/';
-
-                $template = $this->emailTemplateRepository->findWhere(['keyname' => '__SUBSCRIPTION_CONFIRMATION_EMAIL__'])->first();
-
-                $subject = $template->subject;
-                $message = $template->description;
-
-                $subject = str_replace('szNumber', $idOrder, $subject);
-
-                $message = str_replace('szNumber', $idOrder, $message);
-                $message = str_replace('szName', $szName, $message);
-                $message = str_replace('szPeriod', $order->szSubscriptionPeriod, $message);
-                $message = str_replace('szAmount', "Subscription Amount:- $" . number_format($order->fPaidAmount, 2), $message);
-                $message = str_replace('szActivation',$order->iLimitionCount, $message);
-                $message = str_replace('szSubscriptionName', $subscription->szTilte, $message);
-                $message = str_replace('szAppUrl', $szAppUrl, $message);
-                $message = str_replace('szPassUrl', $szPassUrl, $message);
-
-                $to = $user->szEmail;
-                $from = \Config::get('constants.__SUPPORT_EMAIL_ADDRESS__');
-
-                \EmailHelper::sendEmail($from, $to, $subject, $message, $order->idUser);
-            }
-
-            if($this->updatePaymentLog($idOrder, $profileId, $tranctionStatus, $idCart))
-                return true;
-        }
-
-        return false;
-    }
-
-    function updatePaymentLog($idOrder, $profileId, $tranctionStatus, $idCart)
-    {
-        $order = $this->orderRepository->find($idOrder);
-
-        \DB::table('tblpaypallog')->insert([
-            'dtEndDate'     => $order->dtExpiry,
-            'PROFILEID'     => $profileId,
-            'PROFILESTATUS' => $tranctionStatus,
-            'idOrder'       => $idOrder,
-            'idUser'        => $order->idUser,
-            'idSubscription'=> $order->idSubscription,
-            'szAmount'      => $order->fPaidAmount,
-            'szCartID'      => $idCart,
-        ]);
-
-        return true;
-    }
-
-    /**
-	 * Paypal Payment Response Log
-     *
-	 */
-    function paymentResponseBrainTree($idOrder, $idCart, $tranctionStatus, $profileId, $szRecurringPeriod = '', $amountSubscription = '')
-    {
-        $completed = 0;
-        $iTotalPaymentCount = 0;
-        $now = Carbon::now();
-
-        if(strtolower($tranctionStatus) == 'approved')
-        {
-            $completed = 1;
-            $iTotalPaymentCount = 1;
-        }
-
-        $order = $this->orderRepository->update([
-            'TRANSACTIONID' => $idCart,
-            'iCompleted'    => $completed,
-            'PROFILESTATUS' => $tranctionStatus,
-            'PROFILEID'     => $profileId,
-            'dtPurchased'   => $now,
-            'fPaidAmount'   => $amountSubscription,
-            'dtAvailable'   => $now,
-            'iTotalPaymentCount'    => $iTotalPaymentCount,
-        ], $idOrder);
-
-        if ($order) {
-
-            if($tranctionStatus == 'Active') {
-
-                $subscription = $this->subscriptionRepository->find($order->idSubscription);
-                $user = $this->userRepository->find($order->idUser);
-
-                $szName = $user->szFirstName . ' ' . $user->szLastName;
-                $szAppUrl = \Config::get('constants.__MAIN_SITE_URL__') . 'app/';
-                $szPassUrl = \Config::get('constants.__MAIN_SITE_URL__') . 'myPasses/';
-
-                $template = $this->emailTemplateRepository->findWhere(['keyname' => '__SUBSCRIPTION_CONFIRMATION_EMAIL__'])->first();
-
-                $subject = $template->subject;
-                $message = $template->description;
-
-                $subject = str_replace('szNumber', $idOrder, $subject);
-
-                $message = str_replace('szNumber', $idOrder, $message);
-                $message = str_replace('szName', $szName, $message);
-                $message = str_replace('szPeriod', $order->szSubscriptionPeriod, $message);
-                $message = str_replace('szAmount', "Subscription Amount:- $" . number_format($order->fPaidAmount, 2), $message);
-                $message = str_replace('szActivation',$order->iLimitionCount, $message);
-                $message = str_replace('szSubscriptionName', $subscription->szTilte, $message);
-                $message = str_replace('szAppUrl', $szAppUrl, $message);
-                $message = str_replace('szPassUrl', $szPassUrl, $message);
-
-                $to = $user->szEmail;
-                $from = \Config::get('constants.__SUPPORT_EMAIL_ADDRESS__');
-
-                \EmailHelper::sendEmail($from, $to, $subject, $message, $order->idUser);
-            }
-            if($this->insertPaymentBrainTreeLog($idOrder, $profileId, $tranctionStatus))
-            {
-                return true;
-            }
-        }
-    }
-
-    /**
-     * Insert payment log with braintree
-     *
-     * @param $idOrder
-     * @param $profileId
-     * @param $tranctionStatus
-     * @return bool
-     */
-    function insertPaymentBrainTreeLog($idOrder, $profileId, $tranctionStatus) {
-
-        $order = $this->orderRepository->find($idOrder);
-
-        \DB::table('tblbraintreelog')->insert([
-            'idOrder'       => $idOrder,
-            'idUser'        => $order->idUser,
-            'idSubscription'=> $order->idSubscription,
-            'szDate'        => Carbon::now(),
-            'iActive'       => 1,
-            'dtEndDate'     => $order->dtExpiry,
-            'PROFILEID'     => $profileId,
-            'PROFILESTATUS' => $tranctionStatus,
-        ]);
-
-        return true;
-    }
-
     function giftPassOrder($idUser, $idSubscription, $iType) {
 
         $now = Carbon::now();
