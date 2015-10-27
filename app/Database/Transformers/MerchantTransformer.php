@@ -28,6 +28,9 @@ class MerchantTransformer extends TransformerAbstract {
 	 */
 	public function transform(Merchant $merchant) {
 
+        $url = \Config::get('constants.__MAIN_SITE_URL__');
+        $path = \Config::get('constants.__MAIN_SITE_PATH__');
+
 		return [
 			'id'			=> (int) $merchant->id,
 			'szName'		=> $merchant->szName,
@@ -49,7 +52,8 @@ class MerchantTransformer extends TransformerAbstract {
             'szWebsite'		=> $merchant->szWebsite,
             'szNote'        => $merchant->szNote,
             'szFileName'	=> $merchant->szFileName,
-            'szUploadFileName'		=> $merchant->szUploadFileName,
+            'szUploadFileName'		=> $merchant->szUploadFileName && file_exists($path . \Config::get('constants.__UPLOAD_MERCHANT_IMAGE_DIR__') . $merchant->szUploadFileName) ?
+                $url . \Config::get('constants.__UPLOAD_MERCHANT_IMAGE_DIR__') . $merchant->szUploadFileName : $url . 'images/coming-soon-blog.png',
             'szShortDescription'	=> $merchant->szShortDescription,
             'szDescription'	=> $merchant->szDescription,
             'iOrder'		=> $merchant->iOrder,
