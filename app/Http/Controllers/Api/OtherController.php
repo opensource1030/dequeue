@@ -340,7 +340,7 @@ class OtherController extends ApiController
             $template = $this->service->emailTemplateRepository->findWhere(['keyname' => '__PASS_CREDIT_EMAIL__'])->first();
 
             $subject = $template->subject;
-            $message = $template->message;
+            $message = $template->description;
 
             $message = str_replace('szUserName', $szName, $message);
             $message = str_replace('szReferralCode', $user->szInviteCode, $message);

@@ -785,7 +785,7 @@ class OrderService extends Service {
             $dtExpiry = '2099-12-31';
         }
 
-        $order = $this->userService->orderRepository->create([
+        $order = $this->orderRepository->create([
             'idUser'    => $user->id,
             'idSubscription'    => $subscription->id,
             'szFirstName'   => $user->szFirstName,
@@ -814,14 +814,16 @@ class OrderService extends Service {
 
         if ($iType == 2) {
 
-            $merchant = $subscription->merchant()->get();
+            $merchant = $this->merchantRepository->findWhere([
+                'id' => $subscription->idMerchant,
+            ])->first();
 
             $template = $this->emailTemplateRepository->findWhere([
                 'keyname' => '__GIFT_PASS_EMAIL__'
             ])->first();
 
             $subject = $template->subject;
-            $message = $template->message;
+            $message = $template->description;
 
             $message = str_replace('szPassName', $subscription->szTilte, $message);
             $message = str_replace('szMerchantName', $merchant->szName, $message);

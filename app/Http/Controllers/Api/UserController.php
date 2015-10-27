@@ -286,7 +286,7 @@ class UserController extends ApiController
             $template = $this->userService->emailTemplateRepository->findWhere(['keyname' => '__REGISTRATION_EMAIL__'])->first();
 
             $subject = $template->subject;
-            $message = $template->message;
+            $message = $template->description;
 
             $from = \Config::get('constants.__SUPPORT_EMAIL_ADDRESS__');
             $to = $szEmail;
@@ -301,8 +301,8 @@ class UserController extends ApiController
                 return $this->respond($user);
             }
         } catch (\Exception $e) {
-//            throw $e;
-            return $this->respondWithErrors($e->getMessage(), $e->getCode());
+            throw $e;
+//            return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
 
