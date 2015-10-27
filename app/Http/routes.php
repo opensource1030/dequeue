@@ -40,6 +40,7 @@ Route::group(['prefix' => '/api/v1'], function () {
     Route::post('merchants/update_notes', ['as' => 'api.v1.merchants.update_notes', 'uses' => 'Api\MerchantController@update_notes']);
 
     Route::post('locations/find_by_mobile_key', ['as' => 'api.v1.locations.find_by_mobile_key', 'uses' => 'Api\LocationController@find_by_mobile_key']);
+    Route::post('locations/get_by_merchant', ['as' => 'api.v1.locations.get_by_merchant', 'uses' => 'Api\LocationController@get_by_merchant']);
 
     Route::post('subscriptions/search_by_text', ['as' => 'api.v1.subscriptions.search_by_text', 'uses' => 'Api\SubscriptionController@search_by_text']);
     Route::post('subscriptions/search_by_zipcode', ['as' => 'api.v1.subscriptions.search_by_zipcode', 'uses' => 'Api\SubscriptionController@search_by_zipcode']);
@@ -68,7 +69,7 @@ Route::group(['prefix' => '/api/v1'], function () {
     Route::post('others/new_pass_request', ['as' => 'api.v1.others.new_pass_request', 'uses' => 'Api\OtherController@new_pass_request']);
     Route::post('others/new_feedback', ['as' => 'api.v1.others.new_feedback', 'uses' => 'Api\OtherController@new_feedback']);
     Route::post('others/apply_promo_code', ['as' => 'api.v1.others.apply_promo_code', 'uses' => 'Api\OtherController@apply_promo_code']);
-    Route::post('others/send_invite_code', ['as' => 'api.v1.others.send_invite_code', 'uses' => 'Api\OtherController@apply_promo_code']);
+    Route::post('others/send_invite_code', ['as' => 'api.v1.others.send_invite_code', 'uses' => 'Api\OtherController@send_invite_code']);
     Route::post('others/track_level_up', ['as' => 'api.v1.others.track_level_up', 'uses' => 'Api\OtherController@track_level_up']);
     Route::post('others/track_redemption_location', ['as' => 'api.v1.others.track_redemption_location', 'uses' => 'Api\OtherController@track_redemption_location']);
 });

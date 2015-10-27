@@ -303,4 +303,62 @@ class LocationController extends ApiController
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
+
+    public function get_by_merchant() {
+
+        $validator = Validator::make($this->request->all(), [
+            'idLocation'    => 'required',
+            'szMobileKey'   => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->respondWithValidationErrors($validator->errors());
+        }
+
+        $data = $this->request->all();
+
+        try {
+
+            if (isset($data['isAdmin']) && $data['isAdmin'] == 1) {
+                $admin = $this->locationService->adminRepository->findWhere(['szMobileKey' => $data['szMobileKey']])->first();
+
+                if (empty($admin)) {
+                    throw new \Exception('Invalid mobile key');
+                }
+
+                if (isset($data['idMerchant']) && $data['idMerchant'] > 0) {
+                    $merchant = $this->locationService->merchantRepository->find($data['idMerchant']);
+                } else {
+                    throw new \Exception('Merchant Id is required');
+                }
+            } else {
+                $merchant = $this->locationService->merchantRepository->findWhere(['szMobileKey' => $data['szMobileKey']])->first();
+
+                $data['isAdmin'] = 0;
+            }
+
+            if (empty($merchant)) {
+                throw new \Exception('No merchant found');
+            }
+
+            $location = $this->locationService->locationRepository->findWhere([
+                'id' => $data['idLocation'],
+                'idMerchant' => $merchant->id,
+            ])->first();
+
+            if (empty($location)) {
+                throw new \Exception('No location found');
+            }
+
+            $fractalManager = new Manager();
+            $fractalManager->setSerializer(new CustomSerializer());
+            $location = new Item($location, new LocationTransformer());
+            $location = $fractalManager->createData($location)->toArray();
+
+            return $this->respond($location);
+        } catch (\Exception $e) {
+//            throw $e;
+            return $this->respondWithErrors($e->getMessage(), $e->getCode());
+        }
+    }
 }
