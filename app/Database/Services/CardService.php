@@ -10,10 +10,21 @@ class CardService extends Service {
 
         $customer = Braintree_Customer::find($customerId);
 
-//        $result = [
-//            'creditCards' => $customer->creditCards,
-//        ];
+        $creditCards = [];
+        foreach ($customer->creditCards as $cc) {
+            $creditCards[] = [
+                'bin'           => $cc->bin,
+                'cardType'      => $cc->cardType,
+                'cardholderName'    => $cc->cardholderName,
+                'expirationYear'    => $cc->expirationYear,
+                'expirationMonth'   => $cc->expirationMonth,
+                'last4'         => $cc->last4,
+                'maskedNumber'  => $cc->maskedNumber,
+                'token'         => $cc->token,
+                'uniqueNumberIdentifier'    => $cc->uniqueNumberIdentifier,
+            ];
+        }
 
-        return $customer;
+        return $creditCards;
     }
 }

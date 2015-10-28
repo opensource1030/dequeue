@@ -57,13 +57,13 @@ class CardController extends ApiController
         $result = $this->cardService->get_all_cards($user->szCustomerId);
 
         if ($result) {
-            var_dump($result);
+//            var_dump($result);
 //            var_dump($result->creditCards);
 //            var_dump($result->paymentMethods);
-//            return $this->respond($result->creditCards);
+            return $this->respond($result);
         }
 
-//        return $this->respond(['szCustomerId' => $user->szCustomerId]);
+        return $this->respond(['customerId' => $user->szCustomerId]);
 //        return $this->respond();
     }
 

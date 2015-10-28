@@ -549,9 +549,9 @@ class OrderService extends Service {
         }
 
         $result = [
-            'szTitle'   => $subscription->szTitle,
+            'szTitle'   => $subscription->szTilte,
             'szName'    => "{$order->szFirstName} {$order->szLastName}",
-            'iAutoRenewFlag'    => $order->iAutoRenewFlat,
+            'iAutoRenewFlag'    => $order->iAutoRenewFlag,
             'passType'  => $order->szPassType
         ];
 
