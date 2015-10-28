@@ -912,8 +912,8 @@ class OrderController extends ApiController
                 'client_token' => $clientToken,
             ]);
         } catch (\Exception $e) {
-            throw $e;
-//            return $this->respondWithErrors($e->getMessage(), $e->getCode());
+//            throw $e;
+            return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
 
