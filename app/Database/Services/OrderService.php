@@ -23,11 +23,18 @@ class OrderService extends Service {
 
         if ($user) {
 
-            $order = $this->orderRepository->getModel()->newQuery()
+            $queryBuilder = $this->orderRepository->getModel()->newQuery()
                 ->where('iCompleted', 1)
                 ->where('dtExpiry', '>=', Carbon::now())
                 ->where('idUser', $user->id)
-                ->get();
+                ->where(function($query) {
+                    $query->whereNotIn('szPassType', ['package pass', 'gift pass', 'gift pass', 'one time pass']);
+                    $query->orWhereRaw(\DB::raw('iLimitionCount > iTotalUsedCount'));
+                });
+
+            \Log::info($queryBuilder->toSql());
+
+            $order = $queryBuilder->get();
 
             return $order;
         } else {
@@ -52,21 +59,21 @@ class OrderService extends Service {
             throw new \Exception('Unauthorized User');
         }
 
-        $order = $this->orderRepository->getModel()->newQuery()
+        $queryBuilder = $this->orderRepository->getModel()->newQuery()
             ->whereHas('subscription', function($query) {
                 $query->where('isDeleted', 0);
             })
             ->where('iCompleted', 1)
             ->where('dtExpiry', '>=', Carbon::now())
             ->where('idUser', $user->id)
-            ->whereIn('szPassType', ['package pass', 'subscription pass'])
-            ->get();
+            ->where(function($query) {
+                $query->where('szPassType', 'subscription pass');
+                $query->orWhereRaw(\DB::raw("(szPassType = 'package pass' && iLimitionCount > iTotalUsedCount)"));
+            });
 
-            /*->findWhere([
-                'iCompleted'    => 1,
-                'dtExpiry'      => ['dtExpiry', '>=', Carbon::now()],
-                'idUser'        => $user->id,
-            ]);*/
+        \Log::info($queryBuilder->toSql());
+
+        $order = $queryBuilder->get();
 
         return $order;
     }
