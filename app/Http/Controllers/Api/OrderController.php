@@ -22,6 +22,7 @@ use Braintree_Customer;
 use Braintree_Transaction;
 use Braintree_Subscription;
 use Braintree_ClientToken;
+use Braintree_PaymentMethod;
 
 class OrderController extends ApiController
 {
