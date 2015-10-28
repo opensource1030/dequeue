@@ -23,7 +23,7 @@ class SubscriptionDetailTransformer extends TransformerAbstract {
      */
     public function transform(Subscription $subscription) {
 
-        $merchant = $subscription->merchant()->get();
+        $merchant = $subscription->merchant()->get()->first();
 
         return [
             'id'			=> (int) $subscription->id,
