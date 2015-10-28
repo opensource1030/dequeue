@@ -228,23 +228,23 @@ class OtherController extends ApiController
         try {
             $subscription = $this->service->subscriptionRepository->find($idPass);
             if (empty($subscription)) {
-                throw new Exception('Invalid idPass');
+                throw new \ErrorException('Invalid idPass');
             }
 
             $promo = collect(DB::table('tblpromocode')->where('szName', $szPromoCode)->get())->first();
 
             if (empty($promo)) {
-                throw new Exception('Invalid szPromoCode');
+                throw new \ErrorException('Invalid szPromoCode');
             }
 
             if ($promo->idMerchant != $subscription->idMerchant) {
-                throw new Exception('Promotion code is invalid. Merchant is different');
+                throw new \ErrorException('Promotion code is invalid. Merchant is different');
             }
 
             $mapping = DB::table('tblpromocodepassmapping')->where('idPromoCode', $promo->id)->get();
 
             if (empty($mapping) || count($mapping) == 0) {
-                throw new Exception('Not mapping found');
+                throw new \ErrorException('Not mapping found');
             }
 
             $idSubscriptionArr = array_pluck($mapping, 'idSubscription');
@@ -280,7 +280,7 @@ class OtherController extends ApiController
                 'discountAmount'    => $discountAmount,
             ]);
 
-        } catch (Exception $e) {
+        } catch (\ErrorException $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -332,7 +332,7 @@ class OtherController extends ApiController
             ])->first();
 
             if (empty($user)) {
-                throw new \Exception('Invalid mobile key');
+                throw new \ErrorException('Invalid mobile key');
             }
 
             $szName = $user->szFirstName . ' ' . $user->szLastName;
@@ -351,7 +351,7 @@ class OtherController extends ApiController
             }
 
             return $this->respond([], 'Email has been successfully sent');
-        } catch (\Exception $e) {
+        } catch (\ErrorException $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -381,7 +381,7 @@ class OtherController extends ApiController
             ])->first();
 
             if (empty($user)) {
-                throw new \Exception('Invalid mobile key');
+                throw new \ErrorException('Invalid mobile key');
             }
 
             $order = $this->service->orderRepository->findWhere([
@@ -390,11 +390,11 @@ class OtherController extends ApiController
             ])->first();
 
             if (empty($order)) {
-                throw new \Exception('No order found');
+                throw new \ErrorException('No order found');
             }
 
             if ($order->iduser != $user->id) {
-                throw new \Exception('Unauthorized user');
+                throw new \ErrorException('Unauthorized user');
             }
 
             \DB::table('tbltracklevelup')->insert([
@@ -405,7 +405,7 @@ class OtherController extends ApiController
 
             return $this->respond();
 
-        } catch (\Exception $e) {
+        } catch (\ErrorException $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -438,7 +438,7 @@ class OtherController extends ApiController
             ])->first();
 
             if (empty($user)) {
-                throw new \Exception('Invalid mobile key');
+                throw new \ErrorException('Invalid mobile key');
             }
 
             $order = $this->service->orderRepository->findWhere([
@@ -447,7 +447,7 @@ class OtherController extends ApiController
             ])->first();
 
             if (empty($order)) {
-                throw new \Exception('No order found');
+                throw new \ErrorException('No order found');
             }
 
             $subscription = $this->service->subscriptionRepository->findWhere([
@@ -456,7 +456,7 @@ class OtherController extends ApiController
             ])->first();
 
             if (empty($subscription)) {
-                throw new \Exception('No subscription found');
+                throw new \ErrorException('No subscription found');
             }
 
             if (!isset($this->request['szLocationCode']) || $this->request['szLocationCode'] == '') {
@@ -466,7 +466,7 @@ class OtherController extends ApiController
                 ])->first();
 
                 if (empty($location)) {
-                    throw new \Exception('Location code is required');
+                    throw new \ErrorException('Location code is required');
                 }
 
                 return $this->respond();
@@ -478,17 +478,17 @@ class OtherController extends ApiController
             ])->first();
 
             if (empty($location)) {
-                throw new \Exception('Invalid location code');
+                throw new \ErrorException('Invalid location code');
             }
 
             $now = Carbon::now();
 
             if ($order->dtExpiry <= $now) {
-                throw new \Exception('Your pass has expired');
+                throw new \ErrorException('Your pass has expired');
             }
 
             if ($order->dtAvailable > $now){
-                throw new \Exception('This Pass is not available at this time');
+                throw new \ErrorException('This Pass is not available at this time');
             }
 
             if ($order->szPassType == 'package pass' ||
@@ -496,7 +496,7 @@ class OtherController extends ApiController
                 $order->iLimitions == 'Activation Number' ||
                 $order->szPassType =='gift pass') {
                 if ($order->iTotalUsedCount == $order->iLimitionCount){
-                    throw new \Exception('message"=>"Your pass has been used');
+                    throw new \ErrorException('message"=>"Your pass has been used');
                 }
             }
 
@@ -519,7 +519,7 @@ class OtherController extends ApiController
             \DB::table('tbltrackredemptionlocation')->insert($attributes);
 
             return $this->respond($attributes);
-        } catch (Exception $e) {
+        } catch (\ErrorException $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }

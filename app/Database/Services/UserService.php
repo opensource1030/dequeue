@@ -13,4 +13,14 @@ class UserService extends Service {
 
         return $user;
     }
+
+    function get_by_key($szMobileKey, $isDeleted = 0) {
+
+        $user = $this->userRepository->findWhere([
+            'isDeleted' => $isDeleted,
+            'szMobileKey' => $szMobileKey,
+        ])->first();
+
+        return $user;
+    }
 }

@@ -16,7 +16,6 @@ use App\Database\Serializers\CustomSerializer;
 use App\Database\Transformers\OrderTransformer;
 use App\Database\Transformers\OrderDetailTransformer;
 use App\Database\Services\OrderService;
-use Mockery\CountValidator\Exception;
 
 use Braintree_Exception;
 use Braintree_Customer;
@@ -144,17 +143,17 @@ class OrderController extends ApiController
             $order = $this->orderService->orderRepository->find($id);
 
             if (empty($order)) {
-                throw new \Exception('No order found');
+                throw new \ErrorException('No order found');
             }
 
             $user = $this->orderService->userRepository->findWhere(['szMobileKey' => $szMobileKey])->first();
 
             if (empty($user)) {
-                throw new \Exception('Invalid mobile key');
+                throw new \ErrorException('Invalid mobile key');
             }
 
             if ($order->idUser !== $user->id) {
-                throw new \Exception('Unauthorized user');
+                throw new \ErrorException('Unauthorized user');
             }
 
             if ($order->szPaymentType == 'PayPal' && $order->PROFILEID) {
@@ -184,7 +183,7 @@ class OrderController extends ApiController
                         'PROFILESTATUS'     => 'Cancelled',
                     ]);
                 } else {
-                    throw new \Exception('Fail in connecting to paypal', 20001);
+                    throw new \ErrorException('Fail in connecting to paypal', 20001);
                 }
             } else if($order->szPaymentType == 'Credit/Debit' && $order->PROFILEID) {
 
@@ -208,10 +207,10 @@ class OrderController extends ApiController
                         'PROFILESTATUS'     => 'Cancelled',
                     ]);
                 } else {
-                    throw new \Exception('Fail in connecting to braintree', 20001);
+                    throw new \ErrorException('Fail in connecting to braintree', 20001);
                 }
             } else {
-                throw new \Exception('No payment', 20001);
+                throw new \ErrorException('No payment', 20001);
             }
 
             return $this->respond();
@@ -252,7 +251,7 @@ class OrderController extends ApiController
             }
 
             return $this->respond();
-        } catch (\Exception $e) {
+        } catch (\ErrorException $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -288,7 +287,7 @@ class OrderController extends ApiController
             }
 
             return $this->respond();
-        } catch (\Exception $e) {
+        } catch (\ErrorException $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -321,7 +320,7 @@ class OrderController extends ApiController
             ])->first();
 
             if (empty($subscription)) {
-                throw new \Exception('Not a promotional pass');
+                throw new \ErrorException('Not a promotional pass');
             }
 
             $user = $this->orderService->userRepository->findWhere([
@@ -330,7 +329,7 @@ class OrderController extends ApiController
             ])->first();
 
             if (empty($user)) {
-                throw new \Exception('Invalid user');
+                throw new \ErrorException('Invalid user');
             }
 
             $model = $this->orderService->orderRepository->findWhere([
@@ -340,7 +339,7 @@ class OrderController extends ApiController
             ])->first();
 
             if ($model) {
-                throw new \Exception('You have already claimed a promotional pass');
+                throw new \ErrorException('You have already claimed a promotional pass');
             }
 
             $model = $this->orderService->order_promotional_pass($user->id, $subscription->id);
@@ -356,7 +355,7 @@ class OrderController extends ApiController
             }
 
             return $this->respond();
-        } catch (\Exception $e) {
+        } catch (\ErrorException $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -389,7 +388,7 @@ class OrderController extends ApiController
             ])->first();
 
             if (empty($subscription)) {
-                throw new \Exception('No subscription found with the coupon code');
+                throw new \ErrorException('No subscription found with the coupon code');
             }
 
             $inviteCode = $this->orderService->inviteRepository->findWhere([
@@ -404,7 +403,7 @@ class OrderController extends ApiController
             ])->first();
 
             if (empty($user)) {
-                throw new \Exception('Invalid mobile key');
+                throw new \ErrorException('Invalid mobile key');
             }
 
             $order = $this->orderService->orderRepository->getModel()->newQuery()
@@ -425,17 +424,17 @@ class OrderController extends ApiController
                 ])->first();
 
                 if ($uiMapping) {
-                    throw new \Exception("You have already claimed a promotional pass - {$merchant->szName}");
+                    throw new \ErrorException("You have already claimed a promotional pass - {$merchant->szName}");
                 }
 
                 if ($inviteCode) {
 
                     if ($inviteCode->dtStart != '0000-00-00' && $inviteCode->dtStart > $now) {
-                        throw new \Exception('Coupon Code not available at the time');
+                        throw new \ErrorException('Coupon Code not available at the time');
                     }
 
                     if ($inviteCode->dtEnd != '0000-00-00' && $inviteCode->dtEnd < $now) {
-                        throw new \Exception('Coupon Code no longer available');
+                        throw new \ErrorException('Coupon Code no longer available');
                     }
 
                     if ($inviteCode->iUserLimit > 0) {
@@ -445,7 +444,7 @@ class OrderController extends ApiController
                         ])->count();
 
                         if ($totalUser >= $inviteCode->iUserLimit) {
-                            throw new \Exception('Coupon Code over used');
+                            throw new \ErrorException('Coupon Code over used');
                         }
                     }
 
@@ -490,7 +489,7 @@ class OrderController extends ApiController
             }
 
             return $this->respondWithErrors();
-        } catch (\Exception $e) {
+        } catch (\ErrorException $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -514,7 +513,8 @@ class OrderController extends ApiController
         try {
             $result = $this->orderService->active_pass($this->request->all());
             return $this->respond($result);
-        } catch (\Exception $e) {
+        } catch (\ErrorException $e) {
+//            throw $e;
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -545,17 +545,17 @@ class OrderController extends ApiController
             ])->first();
 
             if (empty($user)) {
-                throw new \Exception('Invalid mobile key');
+                throw new \ErrorException('Invalid mobile key');
             }
 
             $order = $this->orderService->orderRepository->find($orderId);
 
             if (empty($order)) {
-                throw new \Exception('No order found');
+                throw new \ErrorException('No order found');
             }
 
             if ($order->idUser != $user->id) {
-                throw new \Exception('Unauthorized user');
+                throw new \ErrorException('Unauthorized user');
             }
 
             # main process
@@ -592,7 +592,7 @@ class OrderController extends ApiController
             }
 
             return $this->respondWithErrors();
-        } catch (\Exception $e) {
+        } catch (\ErrorException $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -633,7 +633,7 @@ class OrderController extends ApiController
         try {
 
             if($data['szYear'] < date('y') || ($data['szYear'] == date('y') && $data['szMonth'] < date('m'))) {
-                throw new \Exception('Card expired');
+                throw new \ErrorException('Card expired');
             }
 
             # user
@@ -644,7 +644,7 @@ class OrderController extends ApiController
             ])->first();
 
             if (empty($user)) {
-                throw new \Exception('Unauthorized user');
+                throw new \ErrorException('Unauthorized user');
             }
 
             $attributes = [
@@ -665,7 +665,7 @@ class OrderController extends ApiController
             ])->first();
 
             if (empty($subscription)) {
-                throw new \Exception('This Pass is not available at this time');
+                throw new \ErrorException('This Pass is not available at this time');
             }
 
             if(strtolower($subscription->szPassType) != 'package pass' && strtolower($subscription->zPassType) !='one time pass') {
@@ -750,7 +750,7 @@ class OrderController extends ApiController
             }
 
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
-        } catch (\Exception $e) {
+        } catch (\ErrorException $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -782,17 +782,17 @@ class OrderController extends ApiController
             ])->first();
 
             if (empty($user)) {
-                throw new \Exception('Invalid mobile key');
+                throw new \ErrorException('Invalid mobile key');
             }
 
             $order = $this->orderService->orderRepository->find($orderId);
 
             if (empty($order)) {
-                throw new \Exception('No order found');
+                throw new \ErrorException('No order found');
             }
 
             if ($order->idUser != $user->id) {
-                throw new \Exception('Unauthorized user');
+                throw new \ErrorException('Unauthorized user');
             }
 
             $subscription = $this->orderService->subscriptionRepository->findWhere([
@@ -801,7 +801,7 @@ class OrderController extends ApiController
             ])->first();
 
             if (empty($subscription)) {
-                throw new \Exception('This Pass is not available at this time');
+                throw new \ErrorException('This Pass is not available at this time');
             }
 
             $merchant = $this->orderService->merchantRepository->find($subscription->idMerchant);
@@ -835,7 +835,7 @@ class OrderController extends ApiController
 
         } catch (Braintree_Exception_NotFound $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
-        } catch (\Exception $e) {
+        } catch (\ErrorException $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -870,7 +870,7 @@ class OrderController extends ApiController
             ])->first();
 
             if (empty($user)) {
-                throw new \Exception('Invalid mobile key');
+                throw new \ErrorException('Invalid mobile key');
             }
 
             if ($user->szPaymentToken == '') {
@@ -885,7 +885,7 @@ class OrderController extends ApiController
             ])->first();
 
             if (empty($subscription)) {
-                throw new \Exception('No subscription found');
+                throw new \ErrorException('No subscription found');
             }
 
             $payment_method_token = $user->szPaymentToken;
@@ -895,7 +895,7 @@ class OrderController extends ApiController
             ])->sortByDesc('id')->first();
 
             if (empty($last_order)) {
-                throw new \Exception('No last order found');
+                throw new \ErrorException('No last order found');
             }
 
             $paymentType = $last_order->szPaymentType;
@@ -931,7 +931,7 @@ class OrderController extends ApiController
                 'status' => 'CLIENT TOKEN',
                 'client_token' => $clientToken,
             ]);
-        } catch (\Exception $e) {
+        } catch (\ErrorException $e) {
             throw $e;
 //            return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
@@ -978,7 +978,7 @@ class OrderController extends ApiController
             ])->first();
 
             if (empty($user)) {
-                throw new \Exception('Invalid mobile key');
+                throw new \ErrorException('Invalid mobile key');
             }
 
             $subscription = $this->orderService->subscriptionRepository->findWhere([
@@ -987,13 +987,13 @@ class OrderController extends ApiController
             ])->first();
 
             if (empty($subscription)) {
-                throw new \Exception('No subscription found');
+                throw new \ErrorException('No subscription found');
             }
 
             if (strtolower($subscription->szPassType) != 'package pass' && strtolower($subscription->szPassType) != 'one time pass') {
 
                 if (!isset($this->request['szPeriod'])) {
-                    throw new \Exception('szPeriod is required');
+                    throw new \ErrorException('szPeriod is required');
                 }
 
                 $szPeriod = $this->request['szPeriod'];
@@ -1104,7 +1104,7 @@ class OrderController extends ApiController
 
 //            throw $be;
             return $this->respondWithErrors($be->getMessage(), $be->getCode());
-        } catch (\Exception $e) {
+        } catch (\ErrorException $e) {
 //            throw $e;
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
@@ -1130,17 +1130,17 @@ class OrderController extends ApiController
             ])->first();
 
             if (empty($user )) {
-                throw new \Exception('Invalid mobile key');
+                throw new \ErrorException('Invalid mobile key');
             }
 
             if ($user->szPaymentToken != '') {
 
                 if (!isset($this->request['szPaymentAmount']) || $this->request['szPaymentAmount'] < 0.01) {
-                    throw new \Exception('Payment Amount must be 0.01 or more');
+                    throw new \ErrorException('Payment Amount must be 0.01 or more');
                 }
 
                 if (!isset($this->request['idPass']) || $this->request['idPass'] <= 0) {
-                    throw new \Exception('Pass Id required');
+                    throw new \ErrorException('Pass Id required');
                 }
 
                 $szPaymentAmount = $this->request['szPaymentAmount'];
@@ -1150,13 +1150,13 @@ class OrderController extends ApiController
                 $subscription = $this->orderService->subscriptionRepository->find($idSubscription);
 
                 if (empty($subscription)) {
-                    throw new \Exception('No subscription found');
+                    throw new \ErrorException('No subscription found');
                 }
 
                 if (strtolower($subscription->szPassType) != 'package pass' && strtolower($subscription->szPassType) != 'one time pass') {
 
                     if (!isset($this->request['szPeriod']) || $this->request['szPeriod'] == '') {
-                        throw new \Exception('Period required');
+                        throw new \ErrorException('Period required');
                     }
 
                     $szPeriod = $this->request['szPeriod'];
@@ -1207,7 +1207,7 @@ class OrderController extends ApiController
                 $merchant = $this->orderService->merchantRepository->find($subscription->idMerchant);
 
                 if (empty($merchant)) {
-                    throw new \Exception('No merchant found');
+                    throw new \ErrorException('No merchant found');
                 }
 
                 $this->orderService->placeOrder($user->id, $merchant->id, $subscription->id, $payment_method_token, $paymentType, $szPaymentAmount);
@@ -1232,7 +1232,7 @@ class OrderController extends ApiController
             } else {
                 return $this->respondWithErrors('Did not get client token');
             }
-        } catch (\Exception $e) {
+        } catch (\ErrorException $e) {
 //            throw $e;
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
@@ -1260,7 +1260,7 @@ class OrderController extends ApiController
             ])->first();
 
             if (empty($user)) {
-                throw new \Exception('Invalid mobile key');
+                throw new \ErrorException('Invalid mobile key');
             }
 
             $result6 = Braintree_Customer::create(array(
@@ -1293,7 +1293,7 @@ class OrderController extends ApiController
 
         } catch (\Braintree_Exception $be) {
             return $this->respondWithErrors($be->getMessage(), $be->getCode());
-        } catch (\Exception $e) {
+        } catch (\ErrorException $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }

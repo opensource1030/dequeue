@@ -2,24 +2,29 @@
 
 namespace App\Http\Controllers\Api;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\ResponseFactory;
+use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 use App\Database\Services\CardService;
+use App\Database\Services\UserService;
 
 class CardController extends ApiController
 {
     protected $cardService;
+    protected $userService;
 
     public function __construct(
         ResponseFactory $response,
         Request $request,
-        CardService $cardService
+        CardService $cardService,
+        UserService $userService
     )
     {
         parent::__construct($response, $request);
-        $this->locationService = $cardService;
+        $this->cardService = $cardService;
+        $this->userService = $userService;
     }
 
     /**
@@ -29,7 +34,37 @@ class CardController extends ApiController
      */
     public function index()
     {
+        $validator = Validator::make($this->request->all(), [
+            'szMobileKey'   => 'required',
+        ]);
 
+        if ($validator->fails()) {
+            return $this->respondWithValidationErrors($validator->errors());
+        }
+
+        $szMobileKey = $this->request['szMobileKey'];
+
+        $user = $this->userService->get_by_key($szMobileKey);
+
+        if (empty($user)) {
+            return $this->respondWithErrors('Invalid mobile key');
+        }
+
+        if ($user->szCustomerId == '') {
+            return $this->respond([], 'Unregistered customer');
+        }
+
+        $result = $this->cardService->get_all_cards($user->szCustomerId);
+
+        if ($result) {
+            var_dump($result);
+//            var_dump($result->creditCards);
+//            var_dump($result->paymentMethods);
+//            return $this->respond($result->creditCards);
+        }
+
+//        return $this->respond(['szCustomerId' => $user->szCustomerId]);
+//        return $this->respond();
     }
 
     /**

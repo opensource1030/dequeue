@@ -27,15 +27,12 @@
     <splitter split-orientation="horizontal" split-proportion="0.5">
       <split-first>
         <leaf>
-          <file leaf-file-name="SubscriptionController.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/SubscriptionController.php">
+          <file leaf-file-name="UserService.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/app/Database/Services/UserService.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-34.098038" vertical-offset="1816" max-vertical-offset="6360">
-                  <caret line="459" column="78" selection-start-line="459" selection-start-column="78" selection-end-line="459" selection-end-column="78" />
-                  <folding>
-                    <element signature="e#2045#6053#0#PHP" expanded="false" />
-                    <element signature="e#6626#10744#0#PHP" expanded="false" />
-                  </folding>
+                <state vertical-scroll-proportion="-13.125" vertical-offset="0" max-vertical-offset="465">
+                  <caret line="21" column="20" selection-start-line="21" selection-start-column="20" selection-end-line="21" selection-end-column="20" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -43,14 +40,9 @@
           <file leaf-file-name="UserController.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/UserController.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-8.137255" vertical-offset="9005" max-vertical-offset="9600">
-                  <caret line="730" column="22" selection-start-line="730" selection-start-column="22" selection-end-line="730" selection-end-column="22" />
-                  <folding>
-                    <element signature="e#44#62#0#PHP" expanded="true" />
-                    <element signature="e#19007#20868#0#PHP" expanded="false" />
-                    <element signature="e#21908#23735#0#PHP" expanded="false" />
-                    <element signature="e#23841#25920#0#PHP" expanded="false" />
-                  </folding>
+                <state vertical-scroll-proportion="-2.3529413" vertical-offset="0" max-vertical-offset="12045">
+                  <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="41" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -58,7 +50,7 @@
           <file leaf-file-name="OrderDetailTransformer.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app/Database/Transformers/OrderDetailTransformer.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-9.941176" vertical-offset="228" max-vertical-offset="1470">
+                <state vertical-scroll-proportion="-7.8431373" vertical-offset="335" max-vertical-offset="1470">
                   <caret line="52" column="54" selection-start-line="52" selection-start-column="54" selection-end-line="52" selection-end-column="54" />
                   <folding />
                 </state>
@@ -68,10 +60,34 @@
           <file leaf-file-name="CardController.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/CardController.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-16.875" vertical-offset="165" max-vertical-offset="1575">
-                  <caret line="38" column="7" selection-start-line="38" selection-start-column="7" selection-end-line="38" selection-end-column="7" />
+                <state vertical-scroll-proportion="-31.875" vertical-offset="225" max-vertical-offset="2100">
+                  <caret line="66" column="28" selection-start-line="66" selection-start-column="28" selection-end-line="66" selection-end-column="28" />
                   <folding>
-                    <element signature="e#44#62#0#PHP" expanded="true" />
+                    <element signature="e#44#72#0#PHP" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="SubscriptionTransformer.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/app/Database/Transformers/SubscriptionTransformer.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-13.416667" vertical-offset="53" max-vertical-offset="885">
+                  <caret line="25" column="47" selection-start-line="25" selection-start-column="47" selection-end-line="25" selection-end-column="47" />
+                  <folding>
+                    <element signature="e#45#84#0#PHP" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="SubscriptionDetailTransformer.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/app/Database/Transformers/SubscriptionDetailTransformer.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-2.5" vertical-offset="750" max-vertical-offset="1380">
+                  <caret line="54" column="37" selection-start-line="54" selection-start-column="37" selection-end-line="54" selection-end-column="37" />
+                  <folding>
+                    <element signature="e#45#84#0#PHP" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -80,60 +96,49 @@
           <file leaf-file-name="LocationController.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/LocationController.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="1515">
-                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="249" selection-end-column="5" />
+                <state vertical-scroll-proportion="-24.625" vertical-offset="1629" max-vertical-offset="5550">
+                  <caret line="148" column="7" selection-start-line="148" selection-start-column="7" selection-end-line="148" selection-end-column="7" />
                   <folding>
-                    <element signature="e#1311#4271#0#PHP" expanded="false" />
-                    <element signature="e#4844#7900#0#PHP" expanded="false" />
-                    <element signature="e#8118#10036#0#PHP" expanded="false" />
-                    <element signature="e#10042#12110#0#PHP" expanded="false" />
+                    <element signature="e#44#62#0#PHP" expanded="true" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="MerchantController.php" pinned="false" current-in-tab="false">
+          <file leaf-file-name="MerchantController.php" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/MerchantController.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-36.541668" vertical-offset="4613" max-vertical-offset="5970">
-                  <caret line="382" column="46" selection-start-line="382" selection-start-column="46" selection-end-line="382" selection-end-column="46" />
+                <state vertical-scroll-proportion="0.6486043" vertical-offset="1780" max-vertical-offset="5970">
+                  <caret line="161" column="33" selection-start-line="161" selection-start-column="33" selection-end-line="161" selection-end-column="33" />
                   <folding>
-                    <element signature="e#12141#13793#0#PHP" expanded="false" />
-                    <element signature="e#13799#16064#0#PHP" expanded="false" />
-                    <element signature="e#16070#19973#0#PHP" expanded="false" />
-                    <element signature="e#19979#21959#0#PHP" expanded="false" />
-                    <element signature="e#21965#23729#0#PHP" expanded="false" />
+                    <element signature="e#12183#13850#0#PHP" expanded="false" />
+                    <element signature="e#13856#16141#0#PHP" expanded="false" />
+                    <element signature="e#16147#20075#0#PHP" expanded="false" />
+                    <element signature="e#20081#22081#0#PHP" expanded="false" />
+                    <element signature="e#22087#23871#0#PHP" expanded="false" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="OrderController.php" pinned="false" current-in-tab="true">
+          <file leaf-file-name="OrderController.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.59831935" vertical-offset="2149" max-vertical-offset="14970">
-                  <caret line="279" column="0" selection-start-line="279" selection-start-column="0" selection-end-line="279" selection-end-column="0" />
-                  <folding>
-                    <element signature="e#44#84#0#PHP" expanded="true" />
-                    <element signature="e#1803#2330#0#PHP" expanded="false" />
-                    <element signature="e#2481#2529#0#PHP" expanded="false" />
-                    <element signature="e#2935#6543#0#PHP" expanded="false" />
-                    <element signature="e#32334#32429#1#PHP" expanded="false" />
-                    <element signature="e#32454#32547#0#PHP" expanded="false" />
-                    <element signature="e#32632#32722#1#PHP" expanded="false" />
-                    <element signature="e#32747#32851#0#PHP" expanded="false" />
-                    <element signature="e#37621#44958#0#PHP" expanded="false" />
-                  </folding>
+                <state vertical-scroll-proportion="-38.294117" vertical-offset="5412" max-vertical-offset="19605">
+                  <caret line="491" column="8" selection-start-line="491" selection-start-column="8" selection-end-line="491" selection-end-column="35" />
+                  <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="oureastudios.braintree.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/config/oureastudios.braintree.php">
+          <file leaf-file-name="Merchant.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/app/Database/Models/Merchant.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-11.625" vertical-offset="216" max-vertical-offset="915">
-                  <caret line="33" column="38" selection-start-line="33" selection-start-column="38" selection-end-line="33" selection-end-column="38" />
-                  <folding />
+                <state vertical-scroll-proportion="-23.708334" vertical-offset="1" max-vertical-offset="1635">
+                  <caret line="38" column="17" selection-start-line="38" selection-start-column="17" selection-end-line="38" selection-end-column="17" />
+                  <folding>
+                    <element signature="e#39#78#0#PHP" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -142,11 +147,11 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="OrderService.php" pinned="false" current-in-tab="false">
+          <file leaf-file-name="OrderService.php" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/app/Database/Services/OrderService.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-5.352941" vertical-offset="687" max-vertical-offset="11790">
-                  <caret line="64" column="14" selection-start-line="64" selection-start-column="14" selection-end-line="64" selection-end-column="14" />
+                <state vertical-scroll-proportion="0.5652921" vertical-offset="166" max-vertical-offset="11790">
+                  <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
                   <folding>
                     <element signature="e#41#59#0#PHP" expanded="true" />
                   </folding>
@@ -154,46 +159,50 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="laravel.log" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/storage/logs/laravel.log">
-              <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
-                <state />
-              </provider>
+          <file leaf-file-name="Core_c.php" pinned="false" current-in-tab="false">
+            <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/com/jetbrains/php/lang/psi/stubs/data/Core_c.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="616">
-                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+                <state vertical-scroll-proportion="-19.666666" vertical-offset="3923" max-vertical-offset="5220">
+                  <caret line="293" column="43" selection-start-line="293" selection-start-column="43" selection-end-line="293" selection-end-column="43" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="PaymentService.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/Database/Services/PaymentService.php">
+          <file leaf-file-name="Handler.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/app/Exceptions/Handler.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-2.5" vertical-offset="0" max-vertical-offset="165">
-                  <caret line="4" column="38" selection-start-line="4" selection-start-column="38" selection-end-line="4" selection-end-column="38" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="SubscriptionService.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/Database/Services/SubscriptionService.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-8.125" vertical-offset="2160" max-vertical-offset="3645">
-                  <caret line="157" column="9" selection-start-line="157" selection-start-column="9" selection-end-line="157" selection-end-column="9" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="PaymentController.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/PaymentController.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-14.375" vertical-offset="0" max-vertical-offset="450">
-                  <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+                <state vertical-scroll-proportion="-2.5" vertical-offset="0" max-vertical-offset="945">
+                  <caret line="4" column="4" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
                   <folding>
-                    <element signature="e#44#72#0#PHP" expanded="true" />
+                    <element signature="e#34#48#0#PHP" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="UserRepository.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/app/Database/Repositories/UserRepository.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-8.625" vertical-offset="813" max-vertical-offset="3885">
+                  <caret line="68" column="14" selection-start-line="68" selection-start-column="14" selection-end-line="68" selection-end-column="14" />
+                  <folding>
+                    <element signature="e#45#95#0#PHP" expanded="true" />
+                    <element signature="e#1950#4076#0#PHP" expanded="false" />
+                    <element signature="e#4082#4971#0#PHP" expanded="false" />
+                    <element signature="e#4977#5804#0#PHP" expanded="false" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="OtherController.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/OtherController.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-9.208333" vertical-offset="4009" max-vertical-offset="7965">
+                  <caret line="282" column="18" selection-start-line="282" selection-start-column="17" selection-end-line="282" selection-end-column="18" />
+                  <folding>
+                    <element signature="e#44#83#0#PHP" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -202,22 +211,9 @@
           <file leaf-file-name="CategoryController.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/CategoryController.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="1.875" vertical-offset="375" max-vertical-offset="1725">
+                <state vertical-scroll-proportion="-13.75" vertical-offset="0" max-vertical-offset="1725">
                   <caret line="36" column="40" selection-start-line="36" selection-start-column="40" selection-end-line="36" selection-end-column="40" />
                   <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="OtherController.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/OtherController.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-5.8235292" vertical-offset="3588" max-vertical-offset="4995">
-                  <caret line="350" column="13" selection-start-line="350" selection-start-column="13" selection-end-line="350" selection-end-column="13" />
-                  <folding>
-                    <element signature="e#6698#9420#0#PHP" expanded="false" />
-                    <element signature="e#13544#17451#0#PHP" expanded="false" />
-                  </folding>
                 </state>
               </provider>
             </entry>
@@ -235,18 +231,28 @@
           <file leaf-file-name="CardService.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app/Database/Services/CardService.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-5.625" vertical-offset="0" max-vertical-offset="225">
-                  <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
+                <state vertical-scroll-proportion="-6.25" vertical-offset="0" max-vertical-offset="360">
+                  <caret line="10" column="31" selection-start-line="10" selection-start-column="31" selection-end-line="10" selection-end-column="31" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="LocationService.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/Database/Services/LocationService.php">
+          <file leaf-file-name="Customer.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/vendor/braintree/braintree_php/lib/Braintree/Customer.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-3.75" vertical-offset="0" max-vertical-offset="180">
-                  <caret line="6" column="1" selection-start-line="0" selection-start-column="0" selection-end-line="6" selection-end-column="1" />
+                <state vertical-scroll-proportion="-20.916666" vertical-offset="3323" max-vertical-offset="4020">
+                  <caret line="255" column="27" selection-start-line="255" selection-start-column="27" selection-end-line="255" selection-end-column="27" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="CustomerGateway.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/vendor/braintree/braintree_php/lib/Braintree/CustomerGateway.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-11.458333" vertical-offset="2605" max-vertical-offset="9015">
+                  <caret line="192" column="42" selection-start-line="192" selection-start-column="42" selection-end-line="192" selection-end-column="42" />
                   <folding />
                 </state>
               </provider>
@@ -264,9 +270,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="/Volumes/Work/project/gravity/Template #3.html" />
-        <option value="$PROJECT_DIR$/config/repository.php" />
-        <option value="$PROJECT_DIR$/app/Database/Transformers/SubscriptionTransformer.php" />
         <option value="$PROJECT_DIR$/app/Database/Models/Subscription.php" />
         <option value="$PROJECT_DIR$/app/Database/Models/User.php" />
         <option value="$PROJECT_DIR$/app/Database/Models/Order.php" />
@@ -293,28 +296,31 @@
         <option value="$PROJECT_DIR$/app/Database/Services/Service.php" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/app/Helpers/StringHelper.php" />
-        <option value="$PROJECT_DIR$/app/Database/Repositories/UserRepository.php" />
-        <option value="$PROJECT_DIR$/app/Database/Services/UserService.php" />
         <option value="$PROJECT_DIR$/config/mail.php" />
         <option value="$PROJECT_DIR$/app/Helpers/EmailHelper.php" />
         <option value="$PROJECT_DIR$/config/constants.php" />
         <option value="$PROJECT_DIR$/app/Database/Transformers/UserTransformer.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Api/OtherController.php" />
         <option value="$PROJECT_DIR$/app/Database/Transformers/MerchantTransformer.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Api/UserController.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Api/MerchantController.php" />
         <option value="$PROJECT_DIR$/app/Database/Transformers/OrderDetailTransformer.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Api/LocationController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Api/PaymentController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Api/SubscriptionController.php" />
         <option value="$PROJECT_DIR$/app/Database/Services/SubscriptionService.php" />
         <option value="$PROJECT_DIR$/app/Database/Services/PaymentService.php" />
         <option value="$PROJECT_DIR$/app/Http/routes.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Api/CardController.php" />
-        <option value="$PROJECT_DIR$/app/Database/Services/CardService.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php" />
-        <option value="$PROJECT_DIR$/app/Database/Services/OrderService.php" />
         <option value="$PROJECT_DIR$/storage/logs/laravel.log" />
+        <option value="$PROJECT_DIR$/app/Database/Services/UserService.php" />
+        <option value="$PROJECT_DIR$/app/Database/Transformers/SubscriptionTransformer.php" />
+        <option value="$PROJECT_DIR$/app/Database/Transformers/SubscriptionDetailTransformer.php" />
+        <option value="$PROJECT_DIR$/app/Database/Services/CardService.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Api/CardController.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php" />
+        <option value="$PROJECT_DIR$/app/Database/Repositories/UserRepository.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Api/OtherController.php" />
+        <option value="$PROJECT_DIR$/app/Database/Models/Merchant.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Api/LocationController.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Api/MerchantController.php" />
+        <option value="$PROJECT_DIR$/app/Database/Services/OrderService.php" />
       </list>
     </option>
   </component>
@@ -331,8 +337,8 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="15" />
-    <option name="y" value="23" />
+    <option name="x" value="12" />
+    <option name="y" value="37" />
     <option name="width" value="1894" />
     <option name="height" value="974" />
   </component>
@@ -577,6 +583,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="Exceptions" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pass" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pass" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="Database" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -797,14 +821,14 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="15" y="23" width="1894" height="974" extended-state="0" />
+    <frame x="12" y="37" width="1894" height="974" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2505669" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2505669" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3265306" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23582767" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23582767" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -846,41 +870,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="17.367067" vertical-offset="16905" max-vertical-offset="52125">
-          <caret line="1828" column="20" selection-start-line="1828" selection-start-column="20" selection-end-line="1828" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Database/Models/Invite.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.5" vertical-offset="0" max-vertical-offset="630">
-          <caret line="12" column="7" selection-start-line="12" selection-start-column="7" selection-end-line="12" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Database/Models/UserInviteMapping.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.75" vertical-offset="0" max-vertical-offset="630">
-          <caret line="6" column="23" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Database/Transformers/OrderTransformer.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.25" vertical-offset="0" max-vertical-offset="1065">
-          <caret line="47" column="46" selection-start-line="47" selection-start-column="46" selection-end-line="47" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Database/Repositories/InviteRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="240">
-          <caret line="4" column="10" selection-start-line="4" selection-start-column="10" selection-end-line="4" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Documents/02.txt">
       <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
         <state />
@@ -888,13 +877,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-7.733333" vertical-offset="4523" max-vertical-offset="5160">
           <caret line="317" column="19" selection-start-line="317" selection-start-column="19" selection-end-line="317" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Exceptions/Handler.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.1666666" vertical-offset="302" max-vertical-offset="885">
-          <caret line="26" column="6" selection-start-line="26" selection-start-column="6" selection-end-line="26" selection-end-column="6" />
         </state>
       </provider>
     </entry>
@@ -982,23 +964,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Database/Repositories/UserRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="756" max-vertical-offset="3525">
-          <caret line="234" column="26" selection-start-line="234" selection-start-column="26" selection-end-line="234" selection-end-column="26" />
-          <folding>
-            <element signature="e#45#95#0#PHP" expanded="true" />
-            <element signature="e#1221#1938#0#PHP" expanded="false" />
-            <element signature="e#1944#4070#0#PHP" expanded="false" />
-            <element signature="e#4076#4965#0#PHP" expanded="false" />
-            <element signature="e#4971#5798#0#PHP" expanded="false" />
-            <marker date="1445758358000" expanded="true" signature="-1:-1" placeholder="SELECT id, s..." />
-            <marker date="1445758358000" expanded="true" signature="-1:-1" placeholder="SELECT id, s..." />
-            <marker date="1445758358000" expanded="true" signature="-1:-1" placeholder="SELECT id, s..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/config/mailchimp.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="195" max-vertical-offset="300">
@@ -1039,14 +1004,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Database/Services/UserService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.0" vertical-offset="0" max-vertical-offset="315">
-          <caret line="8" column="50" selection-start-line="8" selection-start-column="50" selection-end-line="8" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/config/constants.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-18.125" vertical-offset="0" max-vertical-offset="675">
@@ -1079,14 +1036,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Database/Models/Merchant.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1590">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Database/Repositories/MerchantRepository.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="633">
@@ -1111,36 +1060,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/OtherController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.8235292" vertical-offset="3588" max-vertical-offset="4995">
-          <caret line="350" column="13" selection-start-line="350" selection-start-column="13" selection-end-line="350" selection-end-column="13" />
-          <folding>
-            <element signature="e#6698#9420#0#PHP" expanded="false" />
-            <element signature="e#13544#17451#0#PHP" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Database/Services/PaypalService.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-2.4630542" vertical-offset="1500" max-vertical-offset="7080">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/MerchantController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-36.541668" vertical-offset="4613" max-vertical-offset="5970">
-          <caret line="382" column="46" selection-start-line="382" selection-start-column="46" selection-end-line="382" selection-end-column="46" />
-          <folding>
-            <element signature="e#12141#13793#0#PHP" expanded="false" />
-            <element signature="e#13799#16064#0#PHP" expanded="false" />
-            <element signature="e#16070#19973#0#PHP" expanded="false" />
-            <element signature="e#19979#21959#0#PHP" expanded="false" />
-            <element signature="e#21965#23729#0#PHP" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1160,27 +1084,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/UserController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.137255" vertical-offset="9005" max-vertical-offset="9600">
-          <caret line="730" column="22" selection-start-line="730" selection-start-column="22" selection-end-line="730" selection-end-column="22" />
-          <folding>
-            <element signature="e#44#62#0#PHP" expanded="true" />
-            <element signature="e#19007#20868#0#PHP" expanded="false" />
-            <element signature="e#21908#23735#0#PHP" expanded="false" />
-            <element signature="e#23841#25920#0#PHP" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/CategoryController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.875" vertical-offset="375" max-vertical-offset="1725">
-          <caret line="36" column="40" selection-start-line="36" selection-start-column="40" selection-end-line="36" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/PaymentController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-14.375" vertical-offset="0" max-vertical-offset="450">
@@ -1193,25 +1096,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/SubscriptionController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-34.098038" vertical-offset="1816" max-vertical-offset="6360">
+        <state vertical-scroll-proportion="-99.39216" vertical-offset="1816" max-vertical-offset="9690">
           <caret line="459" column="78" selection-start-line="459" selection-start-column="78" selection-end-line="459" selection-end-column="78" />
-          <folding>
-            <element signature="e#2045#6053#0#PHP" expanded="false" />
-            <element signature="e#6626#10744#0#PHP" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/LocationController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1515">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="249" selection-end-column="5" />
-          <folding>
-            <element signature="e#1311#4271#0#PHP" expanded="false" />
-            <element signature="e#4844#7900#0#PHP" expanded="false" />
-            <element signature="e#8118#10036#0#PHP" expanded="false" />
-            <element signature="e#10042#12110#0#PHP" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1219,40 +1106,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-8.125" vertical-offset="2160" max-vertical-offset="3645">
           <caret line="157" column="9" selection-start-line="157" selection-start-column="9" selection-end-line="157" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.4117646" vertical-offset="0" max-vertical-offset="1110">
-          <caret line="24" column="47" selection-start-line="24" selection-start-column="47" selection-end-line="24" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/CardController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.875" vertical-offset="165" max-vertical-offset="1575">
-          <caret line="38" column="7" selection-start-line="38" selection-start-column="7" selection-end-line="38" selection-end-column="7" />
-          <folding>
-            <element signature="e#44#62#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Database/Transformers/OrderDetailTransformer.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.941176" vertical-offset="228" max-vertical-offset="1470">
-          <caret line="52" column="54" selection-start-line="52" selection-start-column="54" selection-end-line="52" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Database/Services/CardService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.625" vertical-offset="0" max-vertical-offset="225">
-          <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
           <folding />
         </state>
       </provider>
@@ -1265,41 +1118,200 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Database/Services/OrderService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.352941" vertical-offset="687" max-vertical-offset="11790">
-          <caret line="64" column="14" selection-start-line="64" selection-start-column="14" selection-end-line="64" selection-end-column="14" />
-          <folding>
-            <element signature="e#41#59#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/storage/logs/laravel.log">
       <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="616">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state vertical-scroll-proportion="-0.0" vertical-offset="1740" max-vertical-offset="1845">
+          <caret line="116" column="0" selection-start-line="116" selection-start-column="0" selection-end-line="116" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Database/Services/UserService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-13.125" vertical-offset="0" max-vertical-offset="465">
+          <caret line="21" column="20" selection-start-line="21" selection-start-column="20" selection-end-line="21" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Database/Transformers/SubscriptionDetailTransformer.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.5" vertical-offset="750" max-vertical-offset="1380">
+          <caret line="54" column="37" selection-start-line="54" selection-start-column="37" selection-end-line="54" selection-end-column="37" />
+          <folding>
+            <element signature="e#45#84#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/UserController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.3529413" vertical-offset="0" max-vertical-offset="9600">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Database/Transformers/OrderDetailTransformer.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.8431373" vertical-offset="335" max-vertical-offset="1470">
+          <caret line="52" column="54" selection-start-line="52" selection-start-column="54" selection-end-line="52" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/CardController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-31.875" vertical-offset="225" max-vertical-offset="2100">
+          <caret line="66" column="28" selection-start-line="66" selection-start-column="28" selection-end-line="66" selection-end-column="28" />
+          <folding>
+            <element signature="e#44#72#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/braintree/braintree_php/lib/Braintree/CustomerGateway.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.458333" vertical-offset="2605" max-vertical-offset="9015">
+          <caret line="192" column="42" selection-start-line="192" selection-start-column="42" selection-end-line="192" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.4117646" vertical-offset="0" max-vertical-offset="1110">
+          <caret line="24" column="47" selection-start-line="24" selection-start-column="47" selection-end-line="24" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/CategoryController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-13.75" vertical-offset="0" max-vertical-offset="1725">
+          <caret line="36" column="40" selection-start-line="36" selection-start-column="40" selection-end-line="36" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/braintree/braintree_php/lib/Braintree/Customer.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-20.916666" vertical-offset="3323" max-vertical-offset="4020">
+          <caret line="255" column="27" selection-start-line="255" selection-start-column="27" selection-end-line="255" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Database/Services/CardService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.25" vertical-offset="0" max-vertical-offset="360">
+          <caret line="10" column="31" selection-start-line="10" selection-start-column="31" selection-end-line="10" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Database/Transformers/SubscriptionTransformer.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-13.416667" vertical-offset="53" max-vertical-offset="885">
+          <caret line="25" column="47" selection-start-line="25" selection-start-column="47" selection-end-line="25" selection-end-column="47" />
+          <folding>
+            <element signature="e#45#84#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Exceptions/Handler.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.5" vertical-offset="0" max-vertical-offset="945">
+          <caret line="4" column="4" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
+          <folding>
+            <element signature="e#34#48#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/com/jetbrains/php/lang/psi/stubs/data/Core_c.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-19.666666" vertical-offset="3923" max-vertical-offset="5220">
+          <caret line="293" column="43" selection-start-line="293" selection-start-column="43" selection-end-line="293" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Database/Repositories/UserRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.625" vertical-offset="813" max-vertical-offset="3885">
+          <caret line="68" column="14" selection-start-line="68" selection-start-column="14" selection-end-line="68" selection-end-column="14" />
+          <folding>
+            <element signature="e#45#95#0#PHP" expanded="true" />
+            <element signature="e#1950#4076#0#PHP" expanded="false" />
+            <element signature="e#4082#4971#0#PHP" expanded="false" />
+            <element signature="e#4977#5804#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Database/Models/Merchant.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-23.708334" vertical-offset="1" max-vertical-offset="1635">
+          <caret line="38" column="17" selection-start-line="38" selection-start-column="17" selection-end-line="38" selection-end-column="17" />
+          <folding>
+            <element signature="e#39#78#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.59831935" vertical-offset="2149" max-vertical-offset="14970">
-          <caret line="279" column="0" selection-start-line="279" selection-start-column="0" selection-end-line="279" selection-end-column="0" />
+        <state vertical-scroll-proportion="-38.294117" vertical-offset="5412" max-vertical-offset="19605">
+          <caret line="491" column="8" selection-start-line="491" selection-start-column="8" selection-end-line="491" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/LocationController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-24.625" vertical-offset="1629" max-vertical-offset="5550">
+          <caret line="148" column="7" selection-start-line="148" selection-start-column="7" selection-end-line="148" selection-end-column="7" />
           <folding>
-            <element signature="e#44#84#0#PHP" expanded="true" />
-            <element signature="e#1803#2330#0#PHP" expanded="false" />
-            <element signature="e#2481#2529#0#PHP" expanded="false" />
-            <element signature="e#2935#6543#0#PHP" expanded="false" />
-            <element signature="e#32334#32429#1#PHP" expanded="false" />
-            <element signature="e#32454#32547#0#PHP" expanded="false" />
-            <element signature="e#32632#32722#1#PHP" expanded="false" />
-            <element signature="e#32747#32851#0#PHP" expanded="false" />
-            <element signature="e#37621#44958#0#PHP" expanded="false" />
+            <element signature="e#44#62#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/MerchantController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6486043" vertical-offset="1780" max-vertical-offset="5970">
+          <caret line="161" column="33" selection-start-line="161" selection-start-column="33" selection-end-line="161" selection-end-column="33" />
+          <folding>
+            <element signature="e#12183#13850#0#PHP" expanded="false" />
+            <element signature="e#13856#16141#0#PHP" expanded="false" />
+            <element signature="e#16147#20075#0#PHP" expanded="false" />
+            <element signature="e#20081#22081#0#PHP" expanded="false" />
+            <element signature="e#22087#23871#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/OtherController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.208333" vertical-offset="4009" max-vertical-offset="7965">
+          <caret line="282" column="18" selection-start-line="282" selection-start-column="17" selection-end-line="282" selection-end-column="18" />
+          <folding>
+            <element signature="e#44#83#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Database/Services/OrderService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5652921" vertical-offset="166" max-vertical-offset="11790">
+          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+          <folding>
+            <element signature="e#41#59#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>

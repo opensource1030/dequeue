@@ -66,7 +66,7 @@ class UserRepository extends Repository {
             return $model;
         } else {
             return array();
-//            throw new Exception('Invalid Email');
+//            throw new \ErrorException('Invalid Email');
         }
     }
 

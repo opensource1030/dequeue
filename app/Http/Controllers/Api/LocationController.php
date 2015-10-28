@@ -74,18 +74,18 @@ class LocationController extends ApiController
             if ($data['szFlag'] == 'admin') {
                 $admin = $this->locationService->adminRepository->findWhere(['szMobileKey' => $data['szMobileKey']])->first();
                 if (empty($admin)) {
-                    throw new \Exception('Invalid mobile key');
+                    throw new \ErrorException('Invalid mobile key');
                 }
 
                 if (isset($data['idMerchant']) && $data['idMerchant'] > 0) {
                     $merchant = $merchant = $this->locationService->merchantRepository->find($data['idMerchant']);
                 } else {
-                    throw new \Exception('Merchant Id is required');
+                    throw new \ErrorException('Merchant Id is required');
                 }
             } else {
                 $merchant = $this->locationService->merchantRepository->findWhere(['szMobileKey' => $data['szMobileKey']])->first();
                 if (empty($merchant)) {
-                    throw new \Exception('Invalid mobile key');
+                    throw new \ErrorException('Invalid mobile key');
                 }
                 $data['idMerchant'] = $merchant->id;
             }
@@ -93,7 +93,7 @@ class LocationController extends ApiController
             $loc = $this->locationService->locationRepository->findWhere(['szLocationCode' => $data['szLocationCode']])->first();
 
             if ($loc) {
-                throw new \Exception('Location code already exists"');
+                throw new \ErrorException('Location code already exists"');
             }
 
             $coordinate = \LocationHelper::getCoordinate($data['szAddress1'] . ' ' . $data['szAddress2'], $data['szCity'] . ',' . $data['szState'] . ',' . $data['szZipCode']);
@@ -125,7 +125,7 @@ class LocationController extends ApiController
             }
 
             return $this->respond();
-        } catch (\Exception $e) {
+        } catch (\ErrorException $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -178,18 +178,18 @@ class LocationController extends ApiController
             if ($data['szFlag'] == 'admin') {
                 $admin = $this->locationService->adminRepository->findWhere(['szMobileKey' => $data['szMobileKey']])->first();
                 if (empty($admin)) {
-                    throw new \Exception('Invalid mobile key');
+                    throw new \ErrorException('Invalid mobile key');
                 }
 
                 if (isset($data['idMerchant']) && $data['idMerchant'] > 0) {
                     $merchant = $merchant = $this->locationService->merchantRepository->find($data['idMerchant']);
                 } else {
-                    throw new \Exception('Merchant Id is required');
+                    throw new \ErrorException('Merchant Id is required');
                 }
             } else {
                 $merchant = $this->locationService->merchantRepository->findWhere(['szMobileKey' => $data['szMobileKey']])->first();
                 if (empty($merchant)) {
-                    throw new \Exception('Invalid mobile key');
+                    throw new \ErrorException('Invalid mobile key');
                 }
                 $data['idMerchant'] = $merchant->id;
             }
@@ -200,7 +200,7 @@ class LocationController extends ApiController
             ])->first();
 
             if ($loc) {
-                throw new \Exception('Location code already exists"');
+                throw new \ErrorException('Location code already exists"');
             }
 
             $coordinate = \LocationHelper::getCoordinate($data['szAddress1'] . ' ' . $data['szAddress2'], $data['szCity'] . ',' . $data['szState'] . ',' . $data['szZipCode']);
@@ -233,7 +233,7 @@ class LocationController extends ApiController
             }
 
             return $this->respond();
-//        } catch (\Exception $e) {
+//        } catch (\ErrorException $e) {
 //            return $this->respondWithErrors($e->getMessage(), $e->getCode());
 //        }
     }
@@ -269,19 +269,19 @@ class LocationController extends ApiController
                 $admin = $this->locationService->adminRepository->findWhere(['szMobileKey' => $data['szMobileKey']])->first();
 
                 if (empty($admin)) {
-                    throw new \Exception('Invalid mobile key');
+                    throw new \ErrorException('Invalid mobile key');
                 }
 
                 if (isset($data['idMerchant']) && $data['idMerchant'] > 0) {
                     $merchant = $merchant = $this->locationService->merchantRepository->find($data['idMerchant']);
                 } else {
-                    throw new \Exception('Merchant Id is required');
+                    throw new \ErrorException('Merchant Id is required');
                 }
             } else {
                 $merchant = $this->locationService->merchantRepository->findWhere(['szMobileKey' => $data['szMobileKey']])->first();
 
                 if (empty($merchant)) {
-                    throw new \Exception('Invalid mobile key');
+                    throw new \ErrorException('Invalid mobile key');
                 }
 
                 $data['isAdmin'] = 0;
@@ -299,7 +299,7 @@ class LocationController extends ApiController
             }
 
             return $this->respond();
-        } catch (\Exception $e) {
+        } catch (\ErrorException $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -323,13 +323,13 @@ class LocationController extends ApiController
                 $admin = $this->locationService->adminRepository->findWhere(['szMobileKey' => $data['szMobileKey']])->first();
 
                 if (empty($admin)) {
-                    throw new \Exception('Invalid mobile key');
+                    throw new \ErrorException('Invalid mobile key');
                 }
 
                 if (isset($data['idMerchant']) && $data['idMerchant'] > 0) {
                     $merchant = $this->locationService->merchantRepository->find($data['idMerchant']);
                 } else {
-                    throw new \Exception('Merchant Id is required');
+                    throw new \ErrorException('Merchant Id is required');
                 }
             } else {
                 $merchant = $this->locationService->merchantRepository->findWhere(['szMobileKey' => $data['szMobileKey']])->first();
@@ -338,7 +338,7 @@ class LocationController extends ApiController
             }
 
             if (empty($merchant)) {
-                throw new \Exception('No merchant found');
+                throw new \ErrorException('No merchant found');
             }
 
             $location = $this->locationService->locationRepository->findWhere([
@@ -347,7 +347,7 @@ class LocationController extends ApiController
             ])->first();
 
             if (empty($location)) {
-                throw new \Exception('No location found');
+                throw new \ErrorException('No location found');
             }
 
             $fractalManager = new Manager();
@@ -356,7 +356,7 @@ class LocationController extends ApiController
             $location = $fractalManager->createData($location)->toArray();
 
             return $this->respond($location);
-        } catch (\Exception $e) {
+        } catch (\ErrorException $e) {
 //            throw $e;
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }

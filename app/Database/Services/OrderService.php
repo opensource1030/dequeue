@@ -32,13 +32,13 @@ class OrderService extends Service {
                     $query->orWhereRaw(\DB::raw('iLimitionCount > iTotalUsedCount'));
                 });
 
-            \Log::info($queryBuilder->toSql());
+//            \Log::info($queryBuilder->toSql());
 
             $order = $queryBuilder->get();
 
             return $order;
         } else {
-            throw new \Exception('Unauthorized User');
+            throw new \ErrorException('Unauthorized User');
         }
     }
 
@@ -56,7 +56,7 @@ class OrderService extends Service {
         $user = $this->userRepository->findWhere(['szMobileKey' => $szMobileKey])->first();
 
         if (empty($user)) {
-            throw new \Exception('Unauthorized User');
+            throw new \ErrorException('Unauthorized User');
         }
 
         $queryBuilder = $this->orderRepository->getModel()->newQuery()
@@ -71,7 +71,7 @@ class OrderService extends Service {
                 $query->orWhereRaw(\DB::raw("(szPassType = 'package pass' && iLimitionCount > iTotalUsedCount)"));
             });
 
-        \Log::info($queryBuilder->toSql());
+//        \Log::info($queryBuilder->toSql());
 
         $order = $queryBuilder->get();
 
@@ -91,13 +91,13 @@ class OrderService extends Service {
         $subscription = $this->subscriptionRepository->find($idSubscription);
 
         if (empty($subscription)) {
-            throw new \Exception('No subscription found');
+            throw new \ErrorException('No subscription found');
         }
 
         $user = $this->userRepository->find($idUser);
 
         if (empty($user)) {
-            throw new \Exception('No user found');
+            throw new \ErrorException('No user found');
         }
 
         $now = Carbon::now();
@@ -122,7 +122,7 @@ class OrderService extends Service {
         $order = $this->orderRepository->create($attributes);
 
         if (empty($order)) {
-            throw new \Exception('Fail to insert');
+            throw new \ErrorException('Fail to insert');
         }
 
         $this->uosMappingRepository->create([
@@ -438,11 +438,11 @@ class OrderService extends Service {
         $now = Carbon::now();
 
         if ($order->dtExpiry <= $now) {
-            throw new \Exception('Your pass has expired');
+            throw new \ErrorException('Your pass has expired');
         }
 
         if ($order->dtAvailable > $now) {
-            throw new \Exception('This Pass is not available at this time');
+            throw new \ErrorException('This Pass is not available at this time');
         }
 
         if ($order->szPassType == 'package pass' ||
@@ -451,7 +451,7 @@ class OrderService extends Service {
             $order->iLimitioins == 'Activation Number') {
 
             if ($order->iTotalUsedCount == $order->iLimitionCount) {
-                throw new \Exception('Your pass has been used');
+                throw new \ErrorException('Your pass has been used');
             }
         }
 
@@ -686,7 +686,7 @@ class OrderService extends Service {
     public function totalPaidAmountInMonth($idMerchant) {
         $first_day_of_month = new Carbon('first day of this month');
 
-        \Log::info('First day of month : ' . $first_day_of_month->toDateTimeString());
+//        \Log::info('First day of month : ' . $first_day_of_month->toDateTimeString());
 
         $query = \DB::table('tblorder')
             ->from('tblorder as o')

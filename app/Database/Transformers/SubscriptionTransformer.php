@@ -45,7 +45,9 @@ class SubscriptionTransformer extends TransformerAbstract {
             'fYearlyPrice'	=> $model->fYearlyPrice,
             'iOrder'		=> $model->iOrder,
             'szOfferHighlight'	=> $model->szOfferHighlight,
-            'iPromotional'	=> $model->iPromotional,
+            'iPromotional'	    => $model->iPromotional,
+            'iActivationCount'  => $model->iActivationCount,
+            'szCouponCode'      => $model->szCouponCode,
             'isGifted'      => $model->isGifted,
         ];
     }

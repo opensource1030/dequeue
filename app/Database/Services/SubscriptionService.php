@@ -14,7 +14,7 @@ class SubscriptionService extends Service {
             ->first();
 
         if (!isset($user['id']) || $user['id'] == 0) {
-            throw new \Exception('Invalid User');
+            throw new \ErrorException('Invalid User');
         }
 
         $orders = $this->orderRepository

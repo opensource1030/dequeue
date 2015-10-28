@@ -81,7 +81,7 @@ class Merchant extends Model
 //        \Log::info($this->id);
 //
 //        if ($model) {
-//            throw new \Exception('Email already taken', 10005);
+//            throw new \ErrorException('Email already taken', 10005);
 ////            throw new ValidationFailureException('Validation Failed.');
 //        } else {
 //            $this->attributes['szEmail'] = $email;
