@@ -96,7 +96,30 @@ class CardController extends ApiController
      */
     public function show($id)
     {
-        //
+        $validator = Validator::make($this->request->all(), [
+            'szMobileKey'   => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->respondWithValidationErrors($validator->errors());
+        }
+
+        $szMobileKey = $this->request['szMobileKey'];
+
+        $user = $this->userService->get_by_key($szMobileKey);
+
+        if (empty($user)) {
+            return $this->respondWithErrors('Invalid mobile key');
+        }
+
+        if ($user->szCustomerId == '') {
+            return $this->respond([], 'Unregistered customer');
+        }
+
+        $result = $this->cardService->get_card($id, $user->szCustomerId);
+
+//        var_dump($result);
+        return $this->respond($result);
     }
 
     /**

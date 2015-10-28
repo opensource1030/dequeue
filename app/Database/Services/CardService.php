@@ -3,8 +3,26 @@
 namespace App\Database\Services;
 
 use Braintree_Customer;
+use Braintree_PaymentMethod;
+use Braintree_CreditCard;
 
 class CardService extends Service {
+    
+    private function convertCreditCardToJson($object) {
+        return [
+            'bin'           => $object->bin,
+            'expirationYear'    => $object->expirationYear,
+            'expirationMonth'   => $object->expirationMonth,
+            'last4'         => $object->last4,
+            'cardType'      => $object->cardType,
+            'cardholderName'    => $object->cardholderName,
+            'default'       => $object->default,
+            'expired'       => $object->expired,
+            'token'         => $object->token,
+            'uniqueNumberIdentifier'    => $object->uniqueNumberIdentifier,
+            'maskedNumber'  => $object->maskedNumber,
+        ];
+    }
 
     public function get_all_cards($customerId) {
 
@@ -12,19 +30,22 @@ class CardService extends Service {
 
         $creditCards = [];
         foreach ($customer->creditCards as $cc) {
-            $creditCards[] = [
-                'bin'           => $cc->bin,
-                'cardType'      => $cc->cardType,
-                'cardholderName'    => $cc->cardholderName,
-                'expirationYear'    => $cc->expirationYear,
-                'expirationMonth'   => $cc->expirationMonth,
-                'last4'         => $cc->last4,
-                'maskedNumber'  => $cc->maskedNumber,
-                'token'         => $cc->token,
-                'uniqueNumberIdentifier'    => $cc->uniqueNumberIdentifier,
-            ];
+            $creditCards[] = $this->convertCreditCardToJson($cc);
         }
 
         return $creditCards;
+    }
+
+    public function get_card($cardToken, $customerId) {
+
+        $paymentMethod = Braintree_PaymentMethod::find($cardToken);
+
+        $result = [];
+        if ($paymentMethod instanceof Braintree_CreditCard) {
+            $result = $this->convertCreditCardToJson($paymentMethod);
+        }
+        return $result;
+
+//        return $paymentMethod->_attributes;
     }
 }
