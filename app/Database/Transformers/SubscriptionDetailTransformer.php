@@ -5,6 +5,8 @@ namespace App\Database\Transformers;
 use League\Fractal\TransformerAbstract;
 use App\Database\Models\Subscription;
 
+use Config;
+
 class SubscriptionDetailTransformer extends TransformerAbstract {
 
     /**
