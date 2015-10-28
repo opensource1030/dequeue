@@ -77,12 +77,19 @@ class LocationHelper {
         $json = @file_get_contents($url);
         $data = json_decode($json);
 
-        if(!empty($data->results))
-        {
-            foreach ($data->results as $result)
-            {
-                foreach($result->address_components as $addressPart)
-                {
+        if(!empty($data->results)) {
+
+            foreach ($data->results as $result) {
+
+                $street_number = '';
+                $route = '';
+                $city = '';
+                $state = '';
+                $postalCode = '';
+                $country = '';
+
+                foreach($result->address_components as $addressPart) {
+
                     if(((in_array('locality', $addressPart->types)) && (in_array('political', $addressPart->types))) || (in_array('sublocality', $addressPart->types)) && (in_array('political', $addressPart->types)))
                         $city = $addressPart->long_name;
                     else if((in_array('administrative_area_level_1', $addressPart->types)) && (in_array('political', $addressPart->types)))
