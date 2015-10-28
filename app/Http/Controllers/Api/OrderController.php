@@ -16,7 +16,6 @@ use App\Database\Serializers\CustomSerializer;
 use App\Database\Transformers\OrderTransformer;
 use App\Database\Transformers\OrderDetailTransformer;
 use App\Database\Services\OrderService;
-use Mockery\CountValidator\Exception;
 
 use Braintree_Exception;
 use Braintree_Customer;
@@ -349,7 +348,7 @@ class OrderController extends ApiController
 
                 $fractalManager = new Manager();
                 $fractalManager->setSerializer(new CustomSerializer());
-                $model = new Item($model, new OrderTransformer());
+                $model = new Item($model, new OrderDetailTransformer());
                 $model = $fractalManager->createData($model)->toArray();
 
                 return $this->respond($model);
@@ -585,7 +584,7 @@ class OrderController extends ApiController
             if ($order) {
                 $fractalManager = new Manager();
                 $fractalManager->setSerializer(new CustomSerializer());
-                $order = new Item($order, new OrderTransformer());
+                $order = new Item($order, new OrderDetailTransformer());
                 $order = $fractalManager->createData($order)->toArray();
 
                 return $this->respond($order);
@@ -735,7 +734,7 @@ class OrderController extends ApiController
             if ($order) {
                 $fractalManager = new Manager();
                 $fractalManager->setSerializer(new CustomSerializer());
-                $order = new Item($order, new OrderTransformer());
+                $order = new Item($order, new OrderDetailTransformer());
                 $order = $fractalManager->createData($order)->toArray();
 
                 return $this->respond($order);
@@ -825,7 +824,7 @@ class OrderController extends ApiController
             if ($order) {
                 $fractalManager = new Manager();
                 $fractalManager->setSerializer(new CustomSerializer());
-                $order = new Item($order, new OrderTransformer());
+                $order = new Item($order, new OrderDetailTransformer());
                 $order = $fractalManager->createData($order)->toArray();
 
                 return $this->respond($order);
@@ -910,7 +909,7 @@ class OrderController extends ApiController
             if ($order) {
                 $fractalManager = new Manager();
                 $fractalManager->setSerializer(new CustomSerializer());
-                $order = new Item($order, new OrderTransformer());
+                $order = new Item($order, new OrderDetailTransformer());
                 $order = $fractalManager->createData($order)->toArray();
 
                 return $this->respond($order);
@@ -1089,7 +1088,7 @@ class OrderController extends ApiController
             if ($order) {
                 $fractalManager = new Manager();
                 $fractalManager->setSerializer(new CustomSerializer());
-                $order = new Item($order, new OrderTransformer());
+                $order = new Item($order, new OrderDetailTransformer());
                 $order = $fractalManager->createData($order)->toArray();
 
                 return $this->respond($order);

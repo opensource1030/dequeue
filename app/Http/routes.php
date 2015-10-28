@@ -22,6 +22,7 @@ Route::group(['prefix' => '/api/v1'], function () {
     Route::resource('orders'        , 'Api\OrderController');
     Route::resource('categories'    , 'Api\CategoryController');
     Route::resource('locations'     , 'Api\LocationController');
+    Route::resource('cards'         , 'Api\CardController');
 
     Route::post('users/sign_up', ['as' => 'api.v1.users.sign_up', 'uses' => 'Api\UserController@sign_up']);
     Route::post('users/sign_in', ['as' => 'api.v1.users.sign_in', 'uses' => 'Api\UserController@sign_in']);
@@ -72,4 +73,6 @@ Route::group(['prefix' => '/api/v1'], function () {
     Route::post('others/send_invite_code', ['as' => 'api.v1.others.send_invite_code', 'uses' => 'Api\OtherController@send_invite_code']);
     Route::post('others/track_level_up', ['as' => 'api.v1.others.track_level_up', 'uses' => 'Api\OtherController@track_level_up']);
     Route::post('others/track_redemption_location', ['as' => 'api.v1.others.track_redemption_location', 'uses' => 'Api\OtherController@track_redemption_location']);
+
+//    Route::get('others/app_images', ['as' => 'api.v1.others.app_images', 'uses' => 'Api\OtherController@app_images']);
 });
