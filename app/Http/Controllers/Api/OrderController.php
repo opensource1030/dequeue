@@ -1004,10 +1004,12 @@ class OrderController extends ApiController
                 'customerId' => $customer_id,
                 'paymentMethodNonce' => $szPaymentNonce,
                 'options' => [
-                    'failOnDuplicatePaymentMethod' => true,
+//                    'failOnDuplicatePaymentMethod' => true,
                     'makeDefault' => true,
                 ]
             ));
+
+            \Log::info($customer_id);
 
             # get customer , use first vault as payment method
 
@@ -1086,7 +1088,7 @@ class OrderController extends ApiController
             return $this->respondWithErrors($be->getMessage(), $be->getCode());
         } catch (\Exception $e) {
 //            throw $e;
-            return $this->respondWithErrors($e->getMessage(), $e->getCode());
+            return $this->respondWithErrors($e->getTraceAsString(), $e->getCode());
         }
     }
 
