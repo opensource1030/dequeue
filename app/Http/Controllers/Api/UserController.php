@@ -301,7 +301,8 @@ class UserController extends ApiController
                 return $this->respond($user);
             }
         } catch (\Exception $e) {
-            return $this->respondWithErrors($e->getTraceAsString(), $e->getCode());
+//            throw $e;
+            return $this->respondWithErrors($e->getMessage(), $e->getLine());
         }
     }
 

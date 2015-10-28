@@ -14,8 +14,8 @@ use League\Fractal\Resource\Item;
 use App\Database\Serializers\CustomSerializer;
 use App\Database\Services\SubscriptionService;
 use App\Database\Transformers\SubscriptionTransformer;
+use App\Database\Transformers\SubscriptionDetailTransformer;
 
-use Mockery\CountValidator\Exception;
 use StringHelper;
 use Log;
 
@@ -648,7 +648,7 @@ class SubscriptionController extends ApiController
 
             $fractalManager = new Manager();
             $fractalManager->setSerializer(new CustomSerializer());
-            $sub = new Item($sub, new SubscriptionTransformer());
+            $sub = new Item($sub, new SubscriptionDetailTransformer());
             $sub = $fractalManager->createData($sub)->toArray();
 
             return $this->respond($sub);

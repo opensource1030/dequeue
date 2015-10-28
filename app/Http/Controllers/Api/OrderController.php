@@ -1009,7 +1009,7 @@ class OrderController extends ApiController
                 ]
             ));
 
-            \Log::info($customer_id);
+//            \Log::info($customer_id);
 
             # get customer , use first vault as payment method
 

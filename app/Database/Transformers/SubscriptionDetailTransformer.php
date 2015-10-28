@@ -23,41 +23,6 @@ class SubscriptionDetailTransformer extends TransformerAbstract {
 
         $merchant = $subscription->merchant()->get();
 
-
-//                s.id,
-//	 			s.szTilte,
-//				s.szCleanTitle,
-//				s.szDescription,
-//				s.fPrice,
-//				s.iPeriod,
-//				s.iLimitions,
-//				s.dtCreated,
-//				s.iActive,
-//				s.szFileName,
-//				s.szUploadImageName,
-//				s.szShortDescription,
-//				s.iYearlyPeriod,
-//				s.fYearlyPrice,
-//				s.idCategory,
-//				s.iOrder,
-//				s.szOfferHighlight,
-//				s.idMerchant,
-//				s.iPromotional,
-//				s.iLimitionCount,
-//				s.iCountFinalExpiry,
-//				s.iUserLimit,
-//                s.szPassType,
-//                s.iActivationCount as packageActivationCount,
-//                s.szCouponCode,
-//				m.szUploadFileName As szMerchantImage,
-//				m.szName As szMerchantName,
-//				s.szOnDemandPopup,
-//				s.dtOnDemandFromdate,
-//				s.dtOnDemandTodate,
-//				m.szOnDemandPopup AS szMerchantOnDemandPopup,
-//				m.dtOnDemandFromdate AS dtMerchantOnDemandFromdate,
-//				m.dtOnDemandTodate AS dtMerchantOnDemandTodate
-
         return [
             'id'			=> (int) $subscription->id,
             'idParentPass'	=> $subscription->idParentPass,
@@ -82,6 +47,10 @@ class SubscriptionDetailTransformer extends TransformerAbstract {
             'iActivationCount'  => $subscription->iActivationCount,
             'szCouponCode'      => $subscription->szCouponCode,
             'isGifted'      => $subscription->isGifted,
+
+
+            'szMerchantName'    => $merchant->szName,
+            'szWebsite'         => $merchant->szWebsite,
         ];
     }
 }
