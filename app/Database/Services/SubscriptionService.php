@@ -170,9 +170,11 @@ AS distance";
 
 #TODO add user_pay_info_available if szMobileKey is available - subscription / loadByCleanTitle
     function find_by_title($data) {
-        $model = $this->findWhere(['szCleanTitle' => $data['szCleanTitle']]);
+        $model = $this->subscriptionRepository->findWhere([
+            'szCleanTitle' => $data['szCleanTitle'],
+            'isDeleted' => 0,
+        ]);
         return $model;
-//        $user = $this->userRepository->findWhere(['szMobileKey', $data['szMobileKey']])->first();
     }
 
     function find_by_category($data) {
@@ -189,7 +191,7 @@ AS distance";
             }
         }
 
-        $model = $this->findWhere($where);
+        $model = $this->subscriptionRepository->findWhere($where);
 
         return $model;
     }

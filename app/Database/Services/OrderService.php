@@ -656,69 +656,6 @@ class OrderService extends Service {
         return $result;
     }
 
-    public function cancel($data) {
-
-        $order = $this->orderRepository->find($data['id']);
-        $user = $this->userRepository->findWhere(['szMobileKey' => $data['szMobileKey']])->first();
-        $now = Carbon::now();
-
-        if (empty($user)) {
-            throw new \Exception('Invalid mobile key');
-        }
-
-        if ($order->idUser !== $user->id) {
-            throw new \Exception('Unauthorized user');
-        }
-
-        if ($order->szPaymentType == 'Paypal' && $order->PROFILEID) {
-            $result = ManageRecurringPaymentsProfileStatus($order->PROFILEID, 'Cancel');
-            $profile = GetRecurringPaymentsProfileDetails($order->PROFILEID);
-            //print_r($order);
-            if($result['ACK'] == 'Success' && $profile['STATUS'] == 'Cancelled')
-            {
-                $order = $this->orderRepository->update([
-                        'PROFILEID' => '',
-                        'PROFILESTATUS' => 'Cancelled',
-                        'iCancelled' => '1',
-                        'dtCancelled' => $now,
-                ], $order->id);
-
-                \DB::table('tblpaypallog')->insert([
-                    'idOrder'   => $order->id,
-                    'idUser'    => $order->idUser,
-                    'idSubscription'    => $order->idSubscription,
-                    'szResponse'        => $profile['STATUS'],
-                    'szDate'            => $now,
-                    'PROFILEID'         => $profile['PROFILEID'],
-                    'PROFILESTATUS'     => $profile['STATUS'],
-                ]);
-
-                return $order;
-            } else {
-                throw new \Exception('Fail in connecting to paypal', 20001);
-            }
-        } else if($order->szPaymentType == 'Credit/Debit' && $order->PROFILEID) {
-
-            $result = Braintree_Subscription::cancel($order->PROFILEID);
-            //print_r($result);
-            //echo "success value".$result->success;
-            if ($result->success) {
-                $order = $this->orderRepository->update([
-                    'PROFILEID' => '',
-                    'PROFILESTATUS' => 'Cancelled',
-                    'iCancelled' => '1',
-                    'dtCancelled' => $now,
-                ], $order->id);
-
-                return $order;
-            } else {
-                throw new \Exception('Fail in connecting to braintree', 20001);
-            }
-        } else {
-            throw new \Exception('No payment', 20001);
-        }
-    }
-
     public function purchasedSubscriptions($idMerchant) {
         $now = Carbon::now();
 

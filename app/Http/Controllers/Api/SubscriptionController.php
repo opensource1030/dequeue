@@ -455,9 +455,9 @@ class SubscriptionController extends ApiController
     }
 
 #TODO create and use PassTransformer instead of SubscriptionTransformer
-    public function search_by_text(Request $request) {
+    public function search_by_text() {
         try {
-            $model = $this->subscriptionService->search_by_text($request->all(), true);
+            $model = $this->subscriptionService->search_by_text($this->request->all(), true);
 
             if (count($model) > 0) {
                 $fractalManager = new Manager();
@@ -472,9 +472,10 @@ class SubscriptionController extends ApiController
         }
     }
 
-    public function search_by_zipcode(Request $request) {
+    public function search_by_zipcode() {
+
         try {
-            $model = $this->subscriptionService->search_by_zipcode($request->all());
+            $model = $this->subscriptionService->search_by_zipcode($this->request->all());
 
             if (count($model) > 0) {
                 $fractalManager = new Manager();
@@ -489,8 +490,8 @@ class SubscriptionController extends ApiController
         }
     }
 
-    public function find_by_title(Request $request) {
-        $validator = Validator::make($request->all(), [
+    public function find_by_title() {
+        $validator = Validator::make($this->request->all(), [
             'szCleanTitle'  => 'required',
 //            'szMobileKey'   => 'required',
         ]);
@@ -500,14 +501,16 @@ class SubscriptionController extends ApiController
         }
 
         try {
-            $model = $this->subscriptionService->find_by_title($request->all());
+            $model = $this->subscriptionService->find_by_title($this->request->all());
 
-            if (count($model) > 0) {
-                $fractalManager = new Manager();
-                $fractalManager->setSerializer(new CustomSerializer());
-                $model = new Collection($model, new SubscriptionTransformer());
-                $model = $fractalManager->createData($model)->toArray();
+            if (empty($model) || count($model) == 0) {
+                return $this->respond();
             }
+
+            $fractalManager = new Manager();
+            $fractalManager->setSerializer(new CustomSerializer());
+            $model = new Collection($model, new SubscriptionTransformer());
+            $model = $fractalManager->createData($model)->toArray();
 
             return $this->respond($model);
         } catch (Exception $e) {
@@ -521,8 +524,8 @@ class SubscriptionController extends ApiController
      * @param Request $request
      * @return Response|\Illuminate\Http\JsonResponse
      */
-    public function find_by_category(Request $request) {
-        $validator = Validator::make($request->all(), [
+    public function find_by_category() {
+        $validator = Validator::make($this->request->all(), [
             'categoryId'  => 'required',
 //            'merchantId'   => 'required',
         ]);
@@ -532,16 +535,18 @@ class SubscriptionController extends ApiController
         }
 
         try {
-            $model = $this->subscriptionService->find_by_category($request->all());
+            $model = $this->subscriptionService->find_by_category($this->request->all());
 
             if (count($model) > 0) {
                 $fractalManager = new Manager();
                 $fractalManager->setSerializer(new CustomSerializer());
                 $model = new Collection($model, new SubscriptionTransformer());
                 $model = $fractalManager->createData($model)->toArray();
+
+                return $this->respond($model);
             }
 
-            return $this->respond($model);
+            return $this->respond();
         } catch (Exception $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }

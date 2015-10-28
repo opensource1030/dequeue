@@ -136,22 +136,98 @@ class OrderController extends ApiController
             return $this->respondWithValidationErrors($validator->errors());
         }
 
-        try {
-            $order = $this->orderService->cancel([
-                'id' => $id,
-                'szMobileKey' => $this->request['szMobileKey'],
-            ]);
+        $szMobileKey = $this->request['szMobileKey'];
+        $now = Carbon::now();
 
-            return $this->respond($order);
+        try {
+
+            $order = $this->orderService->orderRepository->find($id);
+
+            if (empty($order)) {
+                throw new \Exception('No order found');
+            }
+
+            $user = $this->orderService->userRepository->findWhere(['szMobileKey' => $szMobileKey])->first();
+
+            if (empty($user)) {
+                throw new \Exception('Invalid mobile key');
+            }
+
+            if ($order->idUser !== $user->id) {
+                throw new \Exception('Unauthorized user');
+            }
+
+            if ($order->szPaymentType == 'PayPal' && $order->PROFILEID) {
+
+                $result = Braintree_Subscription::cancel($order->PROFILEID);
+
+//                $result = $this->paypalService->ManageRecurringPaymentsProfileStatus($order->PROFILEID, 'Cancel');
+//                $profile = $this->paypalService->GetRecurringPaymentsProfileDetails($order->PROFILEID);
+//                if($result['ACK'] == 'Success' && $profile['STATUS'] == 'Cancelled') {
+
+                if ($result->success) {
+
+                    $this->orderRepository->update([
+                        'PROFILEID' => '',
+                        'PROFILESTATUS' => 'Cancelled',
+                        'iCancelled' => 1,
+                        'dtCancelled' => $now,
+                    ], $order->id);
+
+                    \DB::table('tblpaypallog')->insert([
+                        'idOrder'   => $order->id,
+                        'idUser'    => $order->idUser,
+                        'idSubscription'    => $order->idSubscription,
+                        'szResponse'        => 'Cancelled',
+                        'szDate'            => $now,
+                        'PROFILEID'         => $order->PROFILEID,
+                        'PROFILESTATUS'     => 'Cancelled',
+                    ]);
+                } else {
+                    throw new \Exception('Fail in connecting to paypal', 20001);
+                }
+            } else if($order->szPaymentType == 'Credit/Debit' && $order->PROFILEID) {
+
+                $result = Braintree_Subscription::cancel($order->PROFILEID);
+
+                if ($result->success) {
+
+                    $this->orderRepository->update([
+                        'PROFILEID' => '',
+                        'PROFILESTATUS' => 'Cancelled',
+                        'iCancelled' => 1,
+                        'dtCancelled' => $now,
+                    ], $order->id);
+
+                    \DB::table('tblbraintreelog')->insert([
+                        'idOrder'   => $order->id,
+                        'idUser'    => $order->idUser,
+                        'idSubscription'    => $order->idSubscription,
+                        'szDate'            => $now,
+                        'PROFILEID'         => $order->PROFILEID,
+                        'PROFILESTATUS'     => 'Cancelled',
+                    ]);
+                } else {
+                    throw new \Exception('Fail in connecting to braintree', 20001);
+                }
+            } else {
+                throw new \Exception('No payment', 20001);
+            }
+
+            return $this->respond();
         } catch(\Exception $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
 
-#TODO user purchased passes
-    public function find_by_user() {
+# user defined actions
 
-//        Log::info('SubscriptionController find_by_merchant');
+    /**
+     * find by user
+     *
+     * @return Response|\Illuminate\Http\JsonResponse
+     */
+    public function find_by_user() {
 
         $validator = Validator::make($this->request->all(), [
             'szMobileKey'   => 'required',
@@ -181,6 +257,11 @@ class OrderController extends ApiController
         }
     }
 
+    /**
+     * find package pass by user
+     *
+     * @return Response|\Illuminate\Http\JsonResponse
+     */
     public function find_package_pass_by_user() {
 
         $validator = Validator::make($this->request->all(), [
@@ -437,7 +518,6 @@ class OrderController extends ApiController
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
-
 
     /**
      * Update auto renew flag
@@ -761,12 +841,276 @@ class OrderController extends ApiController
     }
 
     /**
-     * get braintree token or make a payment
-     *
-     * get token used last time in order,
+     * upgrade pass confirm
      *
      * @return Response|\Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
+    public function upgrade_pass() {
+
+        $validator = Validator::make($this->request->all(), [
+            'szMobileKey'   => 'required',
+            'idPass'       => 'required',
+        ]);
+
+        $szMobileKey = $this->request['szMobileKey'];
+        $idSubscription = $this->request['idPass'];
+
+        if ($validator->fails()) {
+            return $this->respondWithValidationErrors($validator->errors());
+        }
+
+        $szMobileKey = $this->request['szMobileKey'];
+
+        try {
+
+            $user = $this->orderService->userRepository->findWhere([
+                'szMobileKey' => $szMobileKey,
+                'isDeleted' => 0
+            ])->first();
+
+            if (empty($user)) {
+                throw new \Exception('Invalid mobile key');
+            }
+
+            if ($user->szPaymentToken == '') {
+                throw new \Braintree_Exception('User does not have payment token');
+            }
+
+            # user already has payment token
+
+            $subscription = $this->orderService->subscriptionRepository->findWhere([
+                'id' => $idSubscription,
+                'isDeleted' => 0,
+            ])->first();
+
+            if (empty($subscription)) {
+                throw new \Exception('No subscription found');
+            }
+
+            $payment_method_token = $user->szPaymentToken;
+
+            $last_order = $this->orderService->orderRepository->findWhere([
+                'idUser' => $user->id
+            ])->sortByDesc('id')->first();
+
+            if (empty($last_order)) {
+                throw new \Exception('No last order found');
+            }
+
+            $paymentType = $last_order->szPaymentType;
+            if ($paymentType == '') {
+                $paymentType = 'Credit/Debit';
+            }
+
+            $szPaymentAmount = $subscription->fPrice;
+
+            $order = $this->orderService->placeOrder($user->id, $subscription->idMerchant, $subscription->id, $payment_method_token, $paymentType, $szPaymentAmount);
+
+            if ($order) {
+                $fractalManager = new Manager();
+                $fractalManager->setSerializer(new CustomSerializer());
+                $order = new Item($order, new OrderTransformer());
+                $order = $fractalManager->createData($order)->toArray();
+
+                return $this->respond($order);
+            }
+
+            return $this->respondWithErrors();
+        } catch (\Braintree_Exception $be) {
+
+            $clientToken = Braintree_ClientToken::generate(array(
+                "customerId" => ""
+            ));
+
+            if ($clientToken == '') {
+                return $this->respondWithErrors('Did not get client token');
+            }
+
+            return $this->respond([
+                'status' => 'CLIENT TOKEN',
+                'client_token' => $clientToken,
+            ]);
+        } catch (\Exception $e) {
+            throw $e;
+//            return $this->respondWithErrors($e->getMessage(), $e->getCode());
+        }
+    }
+
+    /**
+     * Order using Braintree Nonce
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function order_with_braintree_nonce() {
+
+        $validator = Validator::make($this->request->all(), [
+            'szMobileKey'   => 'required',
+            'idPass'        => 'required',
+            'szNonce'       => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->respondWithValidationErrors($validator->errors());
+        }
+
+        $szMobileKey = $this->request['szMobileKey'];
+        $idSubscription = $this->request['idPass'];
+        $szPaymentNonce = $this->request['szNonce'];
+
+        $szPaymentType = $this->request['szPaymentType'];
+        $szPaymentAmount = $this->request['szPaymentAmount'];
+
+        $res = [
+            'idCart'    => 0,
+            'profileId' => '',
+            'transactionStatus' => '',
+            'szRecurringPeriod' => '',
+            'amountSubscription'    => 0,
+            'paymentMethodToken'    => ''
+        ];
+
+        try {
+
+            $user = $this->orderService->userRepository->findWhere([
+                'isDeleted' => 0,
+                'szMobileKey' => $szMobileKey
+            ])->first();
+
+            if (empty($user)) {
+                throw new \Exception('Invalid mobile key');
+            }
+
+            $subscription = $this->orderService->subscriptionRepository->findWhere([
+                'id' => $idSubscription,
+                'isDeleted' => 0,
+            ])->first();
+
+            if (empty($subscription)) {
+                throw new \Exception('No subscription found');
+            }
+
+            if (strtolower($subscription->szPassType) != 'package pass' && strtolower($subscription->szPassType) != 'one time pass') {
+
+                if (!isset($this->request['szPeriod'])) {
+                    throw new \Exception('szPeriod is required');
+                }
+
+                $szPeriod = $this->request['szPeriod'];
+            }
+
+            $customer_id = '';
+            if ($user->szCustomerId != '') {
+                $customer = Braintree_Customer::find($user->szCustomerId);
+                $customer_id = $customer->id;
+            }
+
+            if ($customer_id == '') {
+                $result6 = Braintree_Customer::create(array(
+                    "firstName" => $user->szFirstName,
+                    "lastName"  => $user->szLastName,
+                ));
+
+                if ($result6->success != 1) {
+                    return $this->respondWithErrors($result6->errors->deepAll());
+                }
+
+                $customer_id = $result6->customer->id;
+            }
+
+            # create the payment method ( credit/debit, paypal, etc )
+
+            $result = Braintree_PaymentMethod::create(array(
+                'customerId' => $customer_id,
+                'paymentMethodNonce' => $szPaymentNonce,
+                'options' => [
+                    'failOnDuplicatePaymentMethod' => true,
+                    'makeDefault' => true,
+                ]
+            ));
+
+            # get customer , use first vault as payment method
+
+            $customer = Braintree_Customer::find($customer_id);
+
+            if ($szPaymentType == 'creditcard') {
+                $paymentType = 'Credit/Debit';
+                $payment_method_token = $customer->creditCards[0]->token;
+            } else {
+                $paymentType = 'PayPal';
+                $payment_method_token = $customer->paypalAccounts[0]->token;
+            }
+
+            $this->orderService->userRepository->update([
+                'szCustomerId' => $customer_id,
+                'szPaymentToken' => $payment_method_token
+            ], $user->id);
+
+            if (strtolower($subscription->szPassType) != 'package pass' && strtolower($subscription->szPassType) != 'one time pass') {
+
+                if (strtolower($szPeriod) == 'monthly') {
+
+                    $firstBillingDate = date('Y-m-d', strtotime("+1 MONTH", strtotime(date('Y-m-d'))));
+                    $planType = \Config::get('constatns.__MONTHLY_PLAN__');
+                } else if (strtolower($szPeriod) == 'yearly') {
+
+                    $firstBillingDate = date('Y-m-d',strtotime("+1 YEAR", strtotime(date('Y-m-d'))));
+                    $planType = \Config::get('constatns.__YEARLY_PLAN__');
+                }
+
+                $result3 = Braintree_Subscription::create(array(
+                    'paymentMethodToken' => $payment_method_token,
+                    'planId' => $planType,
+                    'price' => $szPaymentAmount,
+                    'trialPeriod' => false,
+                    'firstBillingDate' => $firstBillingDate
+                ));
+
+                if ($result3->success != 1) {
+                    return $this->respondWithErrors($result6->errors());
+                }
+
+                $res["idCart"]=$customer_id;
+                $res["profileId"]=$result3->subscription->id;
+                $res["tranctionStatus"]='Active';
+                $res["szRecurringPeriod"]=$szPeriod;
+                $res["amountSubscription"]=$szPaymentAmount;
+                $res["paymentMethodToken"]=$payment_method_token;
+
+            } else {
+                $res["idCart"]=$customer_id;
+                $res["paymentMethodToken"]=$payment_method_token;
+            }
+
+            $merchant = $this->orderService->merchantRepository->find($subscription->idMerchant);
+
+            $order = $this->orderService->placeOrder($user->id, $merchant->id, $subscription->id, $payment_method_token, $paymentType, $szPaymentAmount);
+
+            if ($order) {
+                $fractalManager = new Manager();
+                $fractalManager->setSerializer(new CustomSerializer());
+                $order = new Item($order, new OrderTransformer());
+                $order = $fractalManager->createData($order)->toArray();
+
+                return $this->respond($order);
+            }
+
+            return $this->respondWithErrors('no order created');
+        } catch (\Braintree_Exception $be) {
+
+            if ($res["profileId"] != '') {
+                Braintree_Subscription::cancel($res["profileId"]);
+            }
+
+//            throw $be;
+            return $this->respondWithErrors($be->getMessage(), $be->getCode());
+        } catch (\Exception $e) {
+//            throw $e;
+            return $this->respondWithErrors($e->getMessage(), $e->getCode());
+        }
+    }
+
+    /*
     public function get_braintree_token() {
 
         $validator = Validator::make($this->request->all(), [
@@ -894,161 +1238,6 @@ class OrderController extends ApiController
         }
     }
 
-    /**
-     * Order using Braintree Nonce
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function order_with_braintree_nonce() {
-        $validator = Validator::make($this->request->all(), [
-            'szMobileKey'   => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return $this->respondWithValidationErrors($validator->errors());
-        }
-
-        $szMobileKey = $this->request['szMobileKey'];
-        $idSubscription = $this->request['idPass'];
-        $szPaymentNonce = $this->request['szNonce'];
-
-        $szPaymentType = $this->request['szPaymentType'];
-        $szPaymentAmount = $this->request['szPaymentAmount'];
-
-        $res = [
-            'idCart'    => 0,
-            'profileId' => '',
-            'transactionStatus' => '',
-            'szRecurringPeriod' => '',
-            'amountSubscription'    => 0,
-            'paymentMethodToken'    => ''
-        ];
-
-        try {
-            
-            $user = $this->orderService->userRepository->findWhere([
-                'isDeleted' => 0,
-                'szMobileKey' => $szMobileKey
-            ])->first();
-
-            if (empty($user)) {
-                throw new \Exception('Invalid mobile key');
-            }
-
-            $subscription = $this->orderService->subscriptionRepository->findWhere([
-                'id' => $idSubscription,
-                'isDeleted' => 0,
-            ])->first();
-
-            if (empty($subscription)) {
-                throw new \Exception('No subscription found');
-            }
-
-            if (strtolower($subscription->szPassType) != 'package pass' && strtolower($subscription->szPassType) != 'one time pass') {
-
-                if (!isset($this->request['szPeriod'])) {
-                    throw new \Exception('szPeriod is required');
-                }
-
-                $szPeriod = $this->request['szPeriod'];
-            }
-
-            $result6 = Braintree_Customer::create(array(
-                "firstName" => $user->szFirstName,
-                "lastName"  => $user->szLastName,
-            ));
-
-            if ($result6->success != 1) {
-//                $result->errors->deepAll()
-                return $this->respondWithErrors($result6->errors->deepAll());
-            }
-
-            $customer_id = $result6->customer->id;
-
-            $result = Braintree_PaymentMethod::create(array(
-                'customerId' => $customer_id,
-                'paymentMethodNonce' => $szPaymentNonce,
-            ));
-
-            $customer = Braintree_Customer::find($customer_id);
-
-            if ($szPaymentType == 'creditcard') {
-                $paymentType = 'Credit/Debit';
-                $payment_method_token = $customer->creditCards[0]->token;
-            } else {
-                $paymentType = 'PayPal';
-                $payment_method_token = $customer->paypalAccounts[0]->token;
-            }
-
-            if (strtolower($subscription->szPassType) != 'package pass' && strtolower($subscription->szPassType) != 'one time pass') {
-
-                if (strtolower($szPeriod) == 'monthly') {
-
-                    $firstBillingDate = date('Y-m-d', strtotime("+1 MONTH", strtotime(date('Y-m-d'))));
-                    $planType = \Config::get('constatns.__MONTHLY_PLAN__');
-                } else if (strtolower($szPeriod) == 'yearly') {
-
-                    $firstBillingDate = date('Y-m-d',strtotime("+1 YEAR", strtotime(date('Y-m-d'))));
-                    $planType = \Config::get('constatns.__YEARLY_PLAN__');
-                }
-
-                $result3 = Braintree_Subscription::create(array(
-                    'paymentMethodToken' => $payment_method_token,
-                    'planId' => $planType,
-                    'price' => $szPaymentAmount,
-                    'trialPeriod' => false,
-                    'firstBillingDate' => $firstBillingDate
-                ));
-
-                if ($result3->success != 1) {
-                    return $this->respondWithErrors($result6->errors());
-                }
-
-                $res["idCart"]=$customer_id;
-                $res["profileId"]=$result3->subscription->id;
-                $res["tranctionStatus"]='Active';
-                $res["szRecurringPeriod"]=$szPeriod;
-                $res["amountSubscription"]=$szPaymentAmount;
-                $res["paymentMethodToken"]=$payment_method_token;
-
-            } else {
-                $res["idCart"]=$customer_id;
-                $res["paymentMethodToken"]=$payment_method_token;
-            }
-
-            $merchant = $this->orderService->merchantRepository->find($subscription->idMerchant);
-
-            $order = $this->orderService->placeOrder($user->id, $merchant->id, $subscription->id, $payment_method_token, $paymentType, $szPaymentAmount);
-
-            if ($order) {
-                $fractalManager = new Manager();
-                $fractalManager->setSerializer(new CustomSerializer());
-                $order = new Item($order, new OrderTransformer());
-                $order = $fractalManager->createData($order)->toArray();
-
-                return $this->respond($order);
-            }
-
-            return $this->respondWithErrors('no order created');
-        } catch (\Braintree_Exception $be) {
-
-            if ($res["profileId"] != '') {
-                Braintree_Subscription::cancel($res["profileId"]);
-            }
-
-//            throw $be;
-            return $this->respondWithErrors($be->getMessage(), $be->getCode());
-        } catch (\Exception $e) {
-//            throw $e;
-            return $this->respondWithErrors($e->getMessage(), $e->getCode());
-        }
-    }
-
-    /**
-     * Make payment by Braintree PayPal Nonce
-     *
-     * @return Response|\Illuminate\Http\JsonResponse
-     */
     public function pay_with_paypal_nonce() {
 
         $validator = Validator::make($this->request->all(), [
@@ -1108,101 +1297,5 @@ class OrderController extends ApiController
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
-
-    /**
-     * upgrade pass confirm
-     *
-     * @return Response|\Illuminate\Http\JsonResponse
-     * @throws \Exception
-     */
-    public function upgrade_pass() {
-
-        $validator = Validator::make($this->request->all(), [
-            'szMobileKey'   => 'required',
-            'idPass'       => 'required',
-        ]);
-
-        $szMobileKey = $this->request['szMobileKey'];
-        $idSubscription = $this->request['idPass'];
-
-        if ($validator->fails()) {
-            return $this->respondWithValidationErrors($validator->errors());
-        }
-
-        $szMobileKey = $this->request['szMobileKey'];
-
-        try {
-
-            $user = $this->orderService->userRepository->findWhere([
-                'szMobileKey' => $szMobileKey,
-                'isDeleted' => 0
-            ])->first();
-
-            if (empty($user)) {
-                throw new \Exception('Invalid mobile key');
-            }
-
-            if ($user->szPaymentToken == '') {
-                throw new \Braintree_Exception('User does not have payment token');
-            }
-
-            # user already has payment token
-
-            $subscription = $this->orderService->subscriptionRepository->findWhere([
-                'id' => $idSubscription,
-                'isDeleted' => 0,
-            ])->first();
-
-            if (empty($subscription)) {
-                throw new \Exception('No subscription found');
-            }
-
-            $payment_method_token = $user->szPaymentToken;
-
-            $last_order = $this->orderService->orderRepository->findWhere([
-                'idUser' => $user->id
-            ])->sortByDesc('id')->first();
-
-            if (empty($last_order)) {
-                throw new \Exception('No last order found');
-            }
-
-            $paymentType = $last_order->szPaymentType;
-            if ($paymentType == '') {
-                $paymentType = 'Credit/Debit';
-            }
-
-            $szPaymentAmount = $subscription->fPrice;
-
-            $order = $this->orderService->placeOrder($user->id, $subscription->idMerchant, $subscription->id, $payment_method_token, $paymentType, $szPaymentAmount);
-
-            if ($order) {
-                $fractalManager = new Manager();
-                $fractalManager->setSerializer(new CustomSerializer());
-                $order = new Item($order, new OrderTransformer());
-                $order = $fractalManager->createData($order)->toArray();
-
-                return $this->respond($order);
-            }
-
-            return $this->respondWithErrors();
-        } catch (\Braintree_Exception $be) {
-
-            $clientToken = Braintree_ClientToken::generate(array(
-                "customerId" => ""
-            ));
-
-            if ($clientToken == '') {
-                return $this->respondWithErrors('Did not get client token');
-            }
-
-            return $this->respond([
-                'status' => 'CLIENT TOKEN',
-                'client_token' => $clientToken,
-            ]);
-        } catch (\Exception $e) {
-            throw $e;
-//            return $this->respondWithErrors($e->getMessage(), $e->getCode());
-        }
-    }
+    */
 }
