@@ -555,7 +555,7 @@ class OrderService extends Service {
             'passType'  => $order->szPassType
         ];
 
-        if ($order->iTotalUseCount == $order->iLimitionCount) {
+        if ($order->iTotalUsedCount == $order->iLimitionCount) {
 
             if ($result['passType'] == 'package pass') {
 
