@@ -11,19 +11,19 @@ class MerchantService extends Service {
         $merchant = $merchant = $this->merchantRepository->find($data['idMerchant']);
 
         if (empty($merchant)) {
-            throw new \ErrorException('No found');
+            throw new \Exception('No found');
         }
 
         if ( isset($data['isAdmin']) && $data['isAdmin'] == 1) {
             $admin = $this->adminRepository->findWhere(['szMobileKey' => $data['szMobileKey']])->first();
 
             if (empty($admin)) {
-                throw new \ErrorException('Invalid mobile key');
+                throw new \Exception('Invalid mobile key');
             }
         } else {
 
             if ($merchant->szMobileKey != $data['szMobileKey']) {
-                throw new \ErrorException('Unauthorized merchant');
+                throw new \Exception('Unauthorized merchant');
             }
         }
 

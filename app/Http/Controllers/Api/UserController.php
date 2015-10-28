@@ -109,17 +109,17 @@ class UserController extends ApiController
             } else {
 
                 if (!isset($this->request['szPassword']) && $this->request['szPassword'] == '') {
-                    throw new \ErrorException('Password is required');
+                    throw new \Exception('Password is required');
                 }
                 $szPassword = $this->request['szPassword'];
 
                 if (!isset($this->request['szConPassword']) && $this->request['szConPassword'] == '') {
-                    throw new \ErrorException('Confirm password is required');
+                    throw new \Exception('Confirm password is required');
                 }
                 $szConPassword = $this->request['szConPassword'];
 
                 if ($szPassword != $szConPassword) {
-                    throw new \ErrorException('Password does not match');
+                    throw new \Exception('Password does not match');
                 }
             }
 
@@ -127,7 +127,7 @@ class UserController extends ApiController
 
             $exists_email = $this->userService->userRepository->existsEmail($szEmail, 0);
             if ($exists_email) {
-                throw new \ErrorException('Email address already exists');
+                throw new \Exception('Email address already exists');
             }
 
             $szInviteCode = '';
@@ -151,18 +151,18 @@ class UserController extends ApiController
                     ])->first();
 
                     if (empty($invite_code)) {
-                        throw new \ErrorException('Wrong Invite Code');
+                        throw new \Exception('Wrong Invite Code');
                     }
 
                     $newInviteCode = true;
                     $now = Carbon::now();
 
                     if ($invite_code->dtStart != '0000-00-00' && $now < $invite_code->dtStart) {
-                        throw new \ErrorException('Invite code is not available at the time');
+                        throw new \Exception('Invite code is not available at the time');
                     }
 
                     if ($invite_code->dtEnd != '0000-00-00' && $now > $invite_code->dtEnd) {
-                        throw new \ErrorException('Invite code is expired');
+                        throw new \Exception('Invite code is expired');
                     }
 
                     if ($invite_code->iUserLimit > 0) {
@@ -173,7 +173,7 @@ class UserController extends ApiController
                         ])->count();
 
                         if ($total >= $invite_code->iUserLimit) {
-                            throw new \ErrorException('Limit is overflowed');
+                            throw new \Exception('Limit is overflowed');
                         }
                     }
                 }
@@ -300,7 +300,7 @@ class UserController extends ApiController
                 $user = $fractalManager->createData($user)->toArray();
                 return $this->respond($user);
             }
-        } catch (\ErrorException $e) {
+        } catch (\Exception $e) {
             throw $e;
 //            return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
@@ -403,7 +403,7 @@ class UserController extends ApiController
             }
 
             return $this->respondWithErrors();
-        } catch (\ErrorException $e) {
+        } catch (\Exception $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -454,7 +454,7 @@ class UserController extends ApiController
             $user = $this->userService->get_by_email($szEmail);
 
             if (empty($user)) {
-                throw new \ErrorException('Invalid email');
+                throw new \Exception('Invalid email');
             }
 
             $this->userService->userRepository->update([
@@ -474,7 +474,7 @@ class UserController extends ApiController
             return $this->respond([
                 'szLoginCode' => $szLoginCode
             ]);
-        } catch (\ErrorException $e) {
+        } catch (\Exception $e) {
             throw $e;
 //            return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
@@ -505,11 +505,11 @@ class UserController extends ApiController
             $user = $this->userService->get_by_email($szEmail);
 
             if (empty($user)) {
-                throw new \ErrorException('Invalid email');
+                throw new \Exception('Invalid email');
             }
 
             if ($user->szLoginCode != $szLoginCode) {
-                throw new \ErrorException('Invalid login code');
+                throw new \Exception('Invalid login code');
             }
 
             $this->userService->userRepository->update([
@@ -522,7 +522,7 @@ class UserController extends ApiController
             $user = $fractalManager->createData($user)->toArray();
 
             return $this->respond($user);
-        } catch (\ErrorException $e) {
+        } catch (\Exception $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -692,7 +692,7 @@ class UserController extends ApiController
             $user = $this->userService->get_by_email($szEmail);
 
             if (empty($user)) {
-                throw new \ErrorException('Invalid email');
+                throw new \Exception('Invalid email');
             }
 
             $this->userService->userRepository->update([
@@ -722,7 +722,7 @@ class UserController extends ApiController
             return $this->respond([
                 'url' => $url,
             ], 'Your password reset link has been sent.');
-        } catch (\ErrorException $e) {
+        } catch (\Exception $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -751,7 +751,7 @@ class UserController extends ApiController
             ])->first();
 
             if (empty($user)) {
-                throw new \ErrorException('Invalid mobile key');
+                throw new \Exception('Invalid mobile key');
             }
 
             $szInviteCode = $user->szInviteCode;
@@ -790,7 +790,7 @@ class UserController extends ApiController
                 "twitter_message"   => $szInviteCode,
                 "facebook_message"  => $szInviteCode
             ]);
-        } catch (\ErrorException $e) {
+        } catch (\Exception $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }

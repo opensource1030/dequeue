@@ -147,7 +147,7 @@ class MerchantController extends ApiController {
             } else {
                 return $this->respondWithErrors('Do not have the admin right');
             }
-        } catch (\ErrorException $e) {
+        } catch (\Exception $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
 	}
@@ -177,7 +177,7 @@ class MerchantController extends ApiController {
             } else {
                 return $this->respond();
             }
-        } catch (\ErrorException $e) {
+        } catch (\Exception $e) {
             $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
 	}
@@ -284,7 +284,7 @@ class MerchantController extends ApiController {
             } else {
                 return $this->respondWithErrors('Not found');
             }
-        } catch (\ErrorException $e) {
+        } catch (\Exception $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
 	}
@@ -313,13 +313,13 @@ class MerchantController extends ApiController {
             $admin = $this->merchantService->adminRepository->findWhere(['szMobileKey' => $szMobileKey])->first();
 
             if (empty($admin)) {
-                throw new \ErrorException('Invalid mobile key');
+                throw new \Exception('Invalid mobile key');
             }
 
             $merchant = $this->merchantService->merchantRepository->find($id);
 
             if (empty($merchant)) {
-                throw new \ErrorException('No merchant found');
+                throw new \Exception('No merchant found');
             }
 
             $merchant = $this->merchantService->merchantRepository->update([
@@ -337,7 +337,7 @@ class MerchantController extends ApiController {
             }
 
             return $this->respondWithErrors();
-        } catch (\ErrorException $e) {
+        } catch (\Exception $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
 	}
@@ -365,7 +365,7 @@ class MerchantController extends ApiController {
             ])->first();
 
             if (empty($merchant)) {
-                throw new \ErrorException('Invalid email');
+                throw new \Exception('Invalid email');
             }
 
             $this->merchantService->merchantRepository->update([
@@ -391,7 +391,7 @@ class MerchantController extends ApiController {
             \EmailHelper::sendEmail($from, $to, $subject, $message, $merchant->id, 2);
 
             return $this->respond([], 'Your Password has been sent.');
-        } catch (\ErrorException $e) {
+        } catch (\Exception $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -415,13 +415,13 @@ class MerchantController extends ApiController {
             $admin = $this->merchantService->adminRepository->findWhere(['szMobileKey' => $szMobileKey])->first();
 
             if (empty($admin)) {
-                throw new \ErrorException('Invalid mobile key');
+                throw new \Exception('Invalid mobile key');
             }
 
             $merchant = $this->merchantService->merchantRepository->find($idMerchant);
 
             if (empty($merchant)) {
-                throw new \ErrorException('No merchant found');
+                throw new \Exception('No merchant found');
             }
 
             $merchant = $this->merchantService->merchantRepository->update([
@@ -438,7 +438,7 @@ class MerchantController extends ApiController {
             }
 
             return $this->respondWithErrors();
-        } catch (\ErrorException $e) {
+        } catch (\Exception $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -461,19 +461,19 @@ class MerchantController extends ApiController {
                 $admin = $this->merchantService->adminRepository->findWhere(['szMobileKey' => $data['szMobileKey']])->first();
 
                 if (empty($admin)) {
-                    throw new \ErrorException('Invalid mobile key');
+                    throw new \Exception('Invalid mobile key');
                 }
 
                 if (isset($data['idMerchant']) && $data['idMerchant'] > 0) {
                     $merchant = $merchant = $this->merchantService->merchantRepository->find($data['idMerchant']);
                 } else {
-                    throw new \ErrorException('Merchant Id is required');
+                    throw new \Exception('Merchant Id is required');
                 }
             } else {
                 $merchant = $merchant = $this->merchantService->merchantRepository->findWhere(['szMobileKey' => $data['szMobileKey']])->first();
 
                 if (empty($merchant)) {
-                    throw new \ErrorException('Invalid mobile key');
+                    throw new \Exception('Invalid mobile key');
                 }
             }
 
@@ -493,7 +493,7 @@ class MerchantController extends ApiController {
             ];
 
             return $this->respond($result);
-        } catch (\ErrorException $e) {
+        } catch (\Exception $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -515,25 +515,25 @@ class MerchantController extends ApiController {
                 $admin = $this->merchantService->adminRepository->findWhere(['szMobileKey' => $data['szMobileKey']])->first();
 
                 if (empty($admin)) {
-                    throw new \ErrorException('Invalid mobile key');
+                    throw new \Exception('Invalid mobile key');
                 }
 
                 if (isset($data['idMerchant']) && $data['idMerchant'] > 0) {
                     $merchant = $merchant = $this->merchantService->merchantRepository->find($data['idMerchant']);
                 } else {
-                    throw new \ErrorException('Merchant Id is required');
+                    throw new \Exception('Merchant Id is required');
                 }
 
                 if (isset($data['dtPayout']) && $data['dtPayout'] > 0 && $data['dtPayout'] < 100) {
                     $merchant = $merchant = $this->merchantService->merchantRepository->find($data['idMerchant']);
                 } else {
-                    throw new \ErrorException('Payout Date Should not be more than 2 digits');
+                    throw new \Exception('Payout Date Should not be more than 2 digits');
                 }
             } else {
                 $merchant = $this->merchantService->merchantRepository->findWhere(['szMobileKey' => $data['szMobileKey']])->first();
 
                 if (empty($merchant)) {
-                    throw new \ErrorException('Invalid mobile key');
+                    throw new \Exception('Invalid mobile key');
                 }
 
                 $data['isAdmin'] = 0;
@@ -587,7 +587,7 @@ class MerchantController extends ApiController {
             }
 
             return $this->respondWithErrors();
-        } catch (\ErrorException $e) {
+        } catch (\Exception $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -611,19 +611,19 @@ class MerchantController extends ApiController {
                 $admin = $this->merchantService->adminRepository->findWhere(['szMobileKey' => $data['szMobileKey']])->first();
 
                 if (empty($admin)) {
-                    throw new \ErrorException('Invalid mobile key');
+                    throw new \Exception('Invalid mobile key');
                 }
 
                 if (isset($data['idMerchant']) && $data['idMerchant'] > 0) {
                     $merchant = $merchant = $this->merchantService->merchantRepository->find($data['idMerchant']);
                 } else {
-                    throw new \ErrorException('Merchant Id is required');
+                    throw new \Exception('Merchant Id is required');
                 }
             } else {
                 $merchant = $merchant = $this->merchantService->merchantRepository->findWhere(['szMobileKey' => $data['szMobileKey']])->first();
 
                 if (empty($merchant)) {
-                    throw new \ErrorException('Invalid mobile key');
+                    throw new \Exception('Invalid mobile key');
                 }
             }
 
@@ -641,7 +641,7 @@ class MerchantController extends ApiController {
             }
 
             return $this->respond();
-        } catch (\ErrorException $e) {
+        } catch (\Exception $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -665,13 +665,13 @@ class MerchantController extends ApiController {
                 $admin = $this->merchantService->adminRepository->findWhere(['szMobileKey' => $data['szMobileKey']])->first();
 
                 if (empty($admin)) {
-                    throw new \ErrorException('Invalid mobile key');
+                    throw new \Exception('Invalid mobile key');
                 }
 
                 if (isset($data['idMerchant']) && $data['idMerchant'] > 0) {
                     $merchant = $this->merchantService->merchantRepository->find($data['idMerchant']);
                 } else {
-                    throw new \ErrorException('Merchant Id is required');
+                    throw new \Exception('Merchant Id is required');
                 }
             } else {
                 $merchant = $this->merchantService->merchantRepository->findWhere(['szMobileKey' => $data['szMobileKey']])->first();
@@ -680,7 +680,7 @@ class MerchantController extends ApiController {
             }
 
             if (empty($merchant)) {
-                throw new \ErrorException('No merchant found');
+                throw new \Exception('No merchant found');
             }
 
             $fractalManager = new Manager();
@@ -689,7 +689,7 @@ class MerchantController extends ApiController {
             $merchant = $fractalManager->createData($merchant)->toArray();
 
             return $this->respond($merchant);
-        } catch (\ErrorException $e) {
+        } catch (\Exception $e) {
 //            throw $e;
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }

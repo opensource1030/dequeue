@@ -54,7 +54,7 @@ class SubscriptionController extends ApiController
             }
 
             return $this->respond();
-        } catch (\ErrorException $e) {
+        } catch (\Exception $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -122,13 +122,13 @@ class SubscriptionController extends ApiController
                 $creator = $this->subscriptionService->merchantRepository->findWhere(['szMobileKey' => $szMobileKey])->first();
 
                 if (empty($creator) || $creator->id != $data['idMerchant']) {
-                    throw new \ErrorException('Unauthorized merchant');
+                    throw new \Exception('Unauthorized merchant');
                 }
             } else {
                 $creator = $this->subscriptionService->adminRepository->findWhere(['szMobileKey' => $szMobileKey])->first();
 
                 if (empty($creator)) {
-                    throw new \ErrorException('Unauthorized admin');
+                    throw new \Exception('Unauthorized admin');
                 }
 
                 $data = array_merge($data, $this->request->only(['szOnDemandPopup', 'dtOnDemandFromdate', 'dtOnDemandTodate']));
@@ -142,16 +142,16 @@ class SubscriptionController extends ApiController
                     $subscription = $this->subscriptionService->subscriptionRepository->findWhere(['szCouponCode' => $data['szCouponCode']])->first();
 
                     if ($subscription) {
-                        throw new \ErrorException('Coupon Code already exists');
+                        throw new \Exception('Coupon Code already exists');
                     }
                 } else {
-                    throw new \ErrorException('Coupon Code is required');
+                    throw new \Exception('Coupon Code is required');
                 }
             } else {
                 if ($data['szPassType'] == 'subscription pass') {
                     if ($data['szPeriodMonthly'] == 0 && $data['szPeriodYearly'] == 0)
                     {
-                        throw new \ErrorException('Subscription period is required');
+                        throw new \Exception('Subscription period is required');
                     }
 
                     if ($data['szPeriodMonthly'] == 1) {
@@ -174,7 +174,7 @@ class SubscriptionController extends ApiController
             }
 
             return $this->respond();
-        } catch (\ErrorException $e) {
+        } catch (\Exception $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -255,13 +255,13 @@ class SubscriptionController extends ApiController
                 $creator = $this->subscriptionService->merchantRepository->findWhere(['szMobileKey' => $szMobileKey])->first();
 
                 if (empty($creator) || $creator->id != $data['idMerchant']) {
-                    throw new \ErrorException('Unauthorized merchant');
+                    throw new \Exception('Unauthorized merchant');
                 }
             } else {
                 $creator = $this->subscriptionService->adminRepository->findWhere(['szMobileKey' => $szMobileKey])->first();
 
                 if (empty($creator)) {
-                    throw new \ErrorException('Unauthorized admin');
+                    throw new \Exception('Unauthorized admin');
                 }
 
                 $data = array_merge($data, $this->request->only(['szOnDemandPopup', 'dtOnDemandFromdate', 'dtOnDemandTodate']));
@@ -278,16 +278,16 @@ class SubscriptionController extends ApiController
                     ])->first();
 
                     if ($subscription) {
-                        throw new \ErrorException('Coupon Code already exists');
+                        throw new \Exception('Coupon Code already exists');
                     }
                 } else {
-                    throw new \ErrorException('Coupon Code is required');
+                    throw new \Exception('Coupon Code is required');
                 }
             } else {
                 if ($data['szPassType'] == 'subscription pass') {
                     if ($data['szPeriodMonthly'] == 0 && $data['szPeriodYearly'] == 0)
                     {
-                        throw new \ErrorException('Subscription period is required');
+                        throw new \Exception('Subscription period is required');
                     }
 
                     if ($data['szPeriodMonthly'] == 1) {
@@ -310,7 +310,7 @@ class SubscriptionController extends ApiController
             }
 
             return $this->respond();
-        } catch (\ErrorException $e) {
+        } catch (\Exception $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -340,16 +340,16 @@ class SubscriptionController extends ApiController
             if ($data['szFlag'] == 'admin') {
                 $admin = $this->subscriptionService->adminRepository->findWhere(['szMobileKey' => $data['szMobileKey']])->first();
                 if (empty($admin)) {
-                    throw new \ErrorException('Invalid mobile key');
+                    throw new \Exception('Invalid mobile key');
                 }
             } else {
                 $merchant = $this->subscriptionService->merchantRepository->findWhere(['szMobileKey' => $data['szMobileKey']])->first();
                 if (empty($merchant)) {
-                    throw new \ErrorException('Invalid mobile key');
+                    throw new \Exception('Invalid mobile key');
                 }
 
                 if ($merchant->id != $subscription->idMerchant) {
-                    throw new \ErrorException('Unauthorized merchant');
+                    throw new \Exception('Unauthorized merchant');
                 }
             }
 
@@ -362,7 +362,7 @@ class SubscriptionController extends ApiController
             }
 
             return $this->respond();
-        } catch (\ErrorException $e) {
+        } catch (\Exception $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -397,7 +397,7 @@ class SubscriptionController extends ApiController
 
             return $this->respond($model);
 //            var_dump($model);
-        } catch (\ErrorException $e) {
+        } catch (\Exception $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -420,19 +420,19 @@ class SubscriptionController extends ApiController
                 $admin = $this->subscriptionService->adminRepository->findWhere(['szMobileKey' => $data['szMobileKey']])->first();
 
                 if (empty($admin)) {
-                    throw new \ErrorException('Invalid mobile key');
+                    throw new \Exception('Invalid mobile key');
                 }
 
                 if (isset($data['idMerchant']) && $data['idMerchant'] > 0) {
                     $merchant = $merchant = $this->subscriptionService->merchantRepository->find($data['idMerchant']);
                 } else {
-                    throw new \ErrorException('Merchant Id is required');
+                    throw new \Exception('Merchant Id is required');
                 }
             } else {
                 $merchant = $this->subscriptionService->merchantRepository->findWhere(['szMobileKey' => $data['szMobileKey']])->first();
 
                 if (empty($merchant)) {
-                    throw new \ErrorException('Invalid mobile key');
+                    throw new \Exception('Invalid mobile key');
                 }
 
                 $data['isAdmin'] = 0;
@@ -449,7 +449,7 @@ class SubscriptionController extends ApiController
 
             return $this->respond($model);
 //            var_dump($model);
-        } catch (\ErrorException $e) {
+        } catch (\Exception $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -467,7 +467,7 @@ class SubscriptionController extends ApiController
             }
 
             return $this->respond($model);
-        } catch (\ErrorException $e) {
+        } catch (\Exception $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -485,7 +485,7 @@ class SubscriptionController extends ApiController
             }
 
             return $this->respond($model);
-        } catch (\ErrorException $e) {
+        } catch (\Exception $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -512,8 +512,28 @@ class SubscriptionController extends ApiController
             $model = new Collection($model, new SubscriptionTransformer());
             $model = $fractalManager->createData($model)->toArray();
 
+            if (isset($this->request['szMobileKey']) && $this->request['szMobileKey'] != '') {
+                $user = $this->subscriptionService->userRepository->findWhere([
+                    'szMobileKey' => $this->request['szMobileKey'],
+                    'isDeleted' => 0,
+                ])->first();
+
+                if ($user) {
+                    if ($user->szPaymentToken != '') {
+                        $payable = 1;
+                    } else {
+                        $payable = 0;
+                    }
+
+                    foreach ($model as & $m) {
+                        $m['user_pay_info_available'] = $payable;
+                        $m['fTotalUserCredit'] = $user->fTotalCredit;
+                    }
+                }
+            }
+
             return $this->respond($model);
-        } catch (\ErrorException $e) {
+        } catch (\Exception $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -521,7 +541,6 @@ class SubscriptionController extends ApiController
     /**
      * Find subscriptions by category id
      *
-     * @param Request $request
      * @return Response|\Illuminate\Http\JsonResponse
      */
     public function find_by_category() {
@@ -547,7 +566,7 @@ class SubscriptionController extends ApiController
             }
 
             return $this->respond();
-        } catch (\ErrorException $e) {
+        } catch (\Exception $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }
@@ -579,7 +598,7 @@ class SubscriptionController extends ApiController
             ])->first();
 
             if (empty($user)) {
-                throw new \ErrorException('Invalid mobile key');
+                throw new \Exception('Invalid mobile key');
             }
 
             $order = $this->subscriptionService->orderRepository->findWhere([
@@ -588,11 +607,11 @@ class SubscriptionController extends ApiController
             ])->first();
 
             if (empty($order)) {
-                throw new \ErrorException('No order found');
+                throw new \Exception('No order found');
             }
 
             if ($order->idUser != $user->id) {
-                throw new \ErrorException('Unauthorized user');
+                throw new \Exception('Unauthorized user');
             }
 
             $subscription = $this->subscriptionService->subscriptionRepository->findWhere([
@@ -601,7 +620,7 @@ class SubscriptionController extends ApiController
             ])->first();
 
             if (empty($subscription)) {
-                throw new \ErrorException('No subscription found');
+                throw new \Exception('No subscription found');
             }
 
             $query = $this->subscriptionService->subscriptionRepository->getModel()->newQuery()
@@ -624,7 +643,7 @@ class SubscriptionController extends ApiController
             $sub = $query->first();
 
             if (empty($sub)) {
-                throw new \ErrorException('No record found');
+                throw new \Exception('No record found');
             }
 
             $fractalManager = new Manager();
@@ -633,7 +652,7 @@ class SubscriptionController extends ApiController
             $sub = $fractalManager->createData($sub)->toArray();
 
             return $this->respond($sub);
-        } catch (\ErrorException $e) {
+        } catch (\Exception $e) {
             return $this->respondWithErrors($e->getMessage(), $e->getCode());
         }
     }

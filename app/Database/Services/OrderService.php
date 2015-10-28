@@ -38,7 +38,7 @@ class OrderService extends Service {
 
             return $order;
         } else {
-            throw new \ErrorException('Unauthorized User');
+            throw new \Exception('Unauthorized User');
         }
     }
 
@@ -56,7 +56,7 @@ class OrderService extends Service {
         $user = $this->userRepository->findWhere(['szMobileKey' => $szMobileKey])->first();
 
         if (empty($user)) {
-            throw new \ErrorException('Unauthorized User');
+            throw new \Exception('Unauthorized User');
         }
 
         $queryBuilder = $this->orderRepository->getModel()->newQuery()
@@ -91,13 +91,13 @@ class OrderService extends Service {
         $subscription = $this->subscriptionRepository->find($idSubscription);
 
         if (empty($subscription)) {
-            throw new \ErrorException('No subscription found');
+            throw new \Exception('No subscription found');
         }
 
         $user = $this->userRepository->find($idUser);
 
         if (empty($user)) {
-            throw new \ErrorException('No user found');
+            throw new \Exception('No user found');
         }
 
         $now = Carbon::now();
@@ -122,7 +122,7 @@ class OrderService extends Service {
         $order = $this->orderRepository->create($attributes);
 
         if (empty($order)) {
-            throw new \ErrorException('Fail to insert');
+            throw new \Exception('Fail to insert');
         }
 
         $this->uosMappingRepository->create([
@@ -438,11 +438,11 @@ class OrderService extends Service {
         $now = Carbon::now();
 
         if ($order->dtExpiry <= $now) {
-            throw new \ErrorException('Your pass has expired');
+            throw new \Exception('Your pass has expired');
         }
 
         if ($order->dtAvailable > $now) {
-            throw new \ErrorException('This Pass is not available at this time');
+            throw new \Exception('This Pass is not available at this time');
         }
 
         if ($order->szPassType == 'package pass' ||
@@ -451,7 +451,7 @@ class OrderService extends Service {
             $order->iLimitioins == 'Activation Number') {
 
             if ($order->iTotalUsedCount == $order->iLimitionCount) {
-                throw new \ErrorException('Your pass has been used');
+                throw new \Exception('Your pass has been used');
             }
         }
 
@@ -608,7 +608,7 @@ class OrderService extends Service {
             $result['szOnDemandPopUpText'] = '';
         } else {
 
-            if ( $popup->szOnDemandPopup !='' &&
+            if (!empty($popup) && $popup->szOnDemandPopup !='' &&
                 strtotime($popup->dtOnDemandFromdate) <= $now &&
                 ($popup->dtOnDemandTodate == '0000-00-00' || strtotime($popup->dtOnDemandTodate) >= $now)) {
 
