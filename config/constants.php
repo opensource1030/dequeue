@@ -36,5 +36,5 @@ return [
     '__FEEDBACK_EMAIL_ADDRESS__'        => 'feedback@chooseyourpass.com',
     '__NOTIFICATIN_EMAIL__'             => 'merchantteam@chooseyourpass.com',
 
-    '__INVITE_REFERRAL_CREDIT__'        => '5.0',
+    '__INVITE_REFERRAL_CREDIT__'        => 5.0,
 ];

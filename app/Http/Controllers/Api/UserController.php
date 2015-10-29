@@ -219,7 +219,7 @@ class UserController extends ApiController
 
                 # insert_signup_credit_history
                 if ($uiMapping) {
-                    $credit_history = \DB::table('')->insert([
+                    $credit_history = \DB::table('tblusercreditdebithistory')->insert([
                         'idUser'    => $user->id,
                         'fPrice'    => $uiMapping->fReferralcredit,
                         'idinvitecodemapped'    => $uiMapping->id,
@@ -238,17 +238,18 @@ class UserController extends ApiController
 #TODO very straing in original code, this part wouldn't be executed
                 if ($szInviteCode != '' && $refer_user) {
 
+                    #  insert_invitecode_mapping
                     $uiMapping = $this->userService->uiMappingRepository->create([
                         'idReferUser'   => $refer_user->id,
                         'idSignupUser'  => $user->id,
                         'szInviteCode'  => $szInviteCode,
-                        'fReferralcredit'   => $invite_code->fCreditAmount,
+                        'fReferralcredit'   => \Config::get('constants.__INVITE_REFERRAL_CREDIT__'),
                         'dtSignup'      => $now,
                     ]);
 
                     # insert_signup_credit_history
                     if ($uiMapping) {
-                        $credit_history = \DB::table('')->insert([
+                        $credit_history = \DB::table('tblusercreditdebithistory')->insert([
                             'idUser'    => $user->id,
                             'fPrice'    => $uiMapping->fReferralcredit,
                             'idinvitecodemapped'    => $uiMapping->id,

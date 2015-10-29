@@ -192,6 +192,70 @@ class CardController extends ApiController
      */
     public function destroy($id)
     {
-        //
+        $validator = Validator::make($this->request->all(), [
+            'szMobileKey'   => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->respondWithValidationErrors($validator->errors());
+        }
+
+        $szMobileKey = $this->request['szMobileKey'];
+
+        $user = $this->userService->get_by_key($szMobileKey);
+
+        if (empty($user)) {
+            return $this->respondWithErrors('Invalid mobile key');
+        }
+
+        if ($user->szCustomerId == '') {
+            return $this->respond([], 'Unregistered customer');
+        }
+
+        $result = $this->cardService->delete_card($id, $user->szCustomerId);
+
+//        var_dump($result);
+        if ($result) {
+            return $this->respond();
+        } else {
+            return $this->respondWithErrors();
+        }
+    }
+
+    public function set_default_card() {
+
+        $validator = Validator::make($this->request->all(), [
+            'szMobileKey'   => 'required',
+            'id'            => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->respondWithValidationErrors($validator->errors());
+        }
+
+        $szMobileKey = $this->request['szMobileKey'];
+        $id = $this->request['id'];
+
+        $user = $this->userService->get_by_key($szMobileKey);
+
+        if (empty($user)) {
+            return $this->respondWithErrors('Invalid mobile key');
+        }
+
+        if ($user->szCustomerId == '') {
+            return $this->respond([], 'Unregistered customer');
+        }
+
+        $result = $this->cardService->delete_card($id, $user->szCustomerId);
+
+//        var_dump($result);
+        if ($result) {
+            $this->cardService->userRepository->update([
+                'szPaymentToken' => $id,
+            ], $user->id);
+            return $this->respond();
+        } else {
+            return $this->respondWithErrors();
+        }
     }
 }

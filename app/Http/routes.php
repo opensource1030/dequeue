@@ -74,5 +74,5 @@ Route::group(['prefix' => '/api/v1'], function () {
     Route::post('others/track_level_up', ['as' => 'api.v1.others.track_level_up', 'uses' => 'Api\OtherController@track_level_up']);
     Route::post('others/track_redemption_location', ['as' => 'api.v1.others.track_redemption_location', 'uses' => 'Api\OtherController@track_redemption_location']);
 
-//    Route::get('others/app_images', ['as' => 'api.v1.others.app_images', 'uses' => 'Api\OtherController@app_images']);
+    Route::post('cards/set_default_card', ['as' => 'api.v1.cards.set_default_card', 'uses' => 'Api\CardController@set_default_card']);
 });

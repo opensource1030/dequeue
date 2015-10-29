@@ -37,9 +37,9 @@ class CardService extends Service {
         return $creditCards;
     }
 
-    public function get_card($cardToken, $customerId) {
+    public function get_card($token, $customerId) {
 
-        $paymentMethod = Braintree_PaymentMethod::find($cardToken);
+        $paymentMethod = Braintree_PaymentMethod::find($token);
 
         $result = [];
         if ($paymentMethod instanceof Braintree_CreditCard) {
@@ -60,7 +60,7 @@ class CardService extends Service {
             'cvv'           => $cvv,
             'options' => [
 //                'failOnDuplicatePaymentMethod' => true,
-                'makeDefault'   => true,
+//                'makeDefault'   => true,
             ]
         ]);
 
@@ -71,6 +71,24 @@ class CardService extends Service {
         }
 
         $result = $this->convertCreditCardToJson($result->creditCard);
+
+        return $result;
+    }
+
+    public function delete_card($token, $customerId) {
+
+        $result = Braintree_PaymentMethod::delete($token);
+
+        return $result;
+    }
+
+    public function set_default_card($token, $customerId) {
+
+        $result = Braintree_PaymentMethod::update($token, [
+            'options' => [
+                'makeDefault'   => true
+            ]
+        ]);
 
         return $result;
     }
