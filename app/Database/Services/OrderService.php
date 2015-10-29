@@ -313,7 +313,7 @@ class OrderService extends Service {
                         'fTotalCredit' => \DB::raw("fTotalCredit + {$fReferralCredit}")
                     ]);
 
-                \Log::info($queryBuilder->toSql());
+//                \Log::info($queryBuilder);
 
                 \DB::table('tblusercreditdebithistory')->insert([
                     'idUser'    => $uiMapping->idReferUser,
