@@ -1051,7 +1051,7 @@ class OrderController extends ApiController
                 ));
 
                 if ($result3->success != 1) {
-                    return $this->respondWithErrors($result6->errors());
+                    return $this->respondWithErrors($result6->errors->deepAll());
                 }
 
                 $res["idCart"]=$customer_id;
