@@ -257,6 +257,8 @@ class OrderService extends Service {
                 'idParentOrder' => $idParentOrder,
             ]);
 
+            # order payout to merchant
+
             if ($merchant->szBraintreeMerchantId != '') {
                 $this->orderRepository->update([
                     'iPayoutPaid'   => 1,
@@ -277,7 +279,8 @@ class OrderService extends Service {
                 'szPassType' => $passType,
             ]);
 
-            # insert_user_debit_history
+            # insert_user_debit_history  // previous code only records for invite, but I don't think so
+
             if ($user->fTotalCredit > 0.00 && $fDiscountAmount > 0.00) {
 
                 \DB::table('tblusercreditdebithistory')->insert([
@@ -291,6 +294,29 @@ class OrderService extends Service {
                 $this->userRepository->update([
                     'fTotalCredit' => $user->fTotalCredit - $fDiscountAmount,
                 ], $user->id);
+            }
+
+            # updatereferalcredited
+
+            $uiMapping = $this->uiMappingRepository->findWhere([
+                'idSignupUser' => $user->id,
+                'dtCredited' => '0000-00-00 00:00:00'
+            ])->first();
+
+            if ($uiMapping) {
+
+                \DB::table('tblusercreditdebithistory')->insert([
+                    'idUser'    => $uiMapping->idReferUser,
+                    'fPrice'    => $uiMapping->fReferralcredit,
+                    'idinvitecodemapped'    => $uiMapping->id,
+                    'szcredittype'      => 'referal',          // previous code 'referal'
+                    'sztransactiontype' => 'credit',
+                    'datetime'  => $now,
+                ]);
+
+                $this->uiMappingRepository->update([
+                    'dtCredited' => $now
+                ], $uiMapping->id);
             }
 
             # email

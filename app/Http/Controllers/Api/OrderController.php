@@ -1023,6 +1023,8 @@ class OrderController extends ApiController
                 $payment_method_token = $customer->paypalAccounts[0]->token;
             }
 
+            # user default payment , but it is not updated to braintree
+
             $this->orderService->userRepository->update([
                 'szCustomerId' => $customer_id,
                 'szPaymentToken' => $payment_method_token
