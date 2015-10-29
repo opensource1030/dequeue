@@ -305,6 +305,16 @@ class OrderService extends Service {
 
             if ($uiMapping) {
 
+                $fReferralCredit = (float) $uiMapping->fReferralcredit;
+
+                $queryBuilder = $this->userRepository->getModel()->newQuery()
+                    ->where('id', $uiMapping->idReferUser)
+                    ->update([
+                        'fTotalCredit' => \DB::raw("fTotalCredit + {$fReferralCredit}")
+                    ]);
+
+                \Log::info($queryBuilder->toSql());
+
                 \DB::table('tblusercreditdebithistory')->insert([
                     'idUser'    => $uiMapping->idReferUser,
                     'fPrice'    => $uiMapping->fReferralcredit,

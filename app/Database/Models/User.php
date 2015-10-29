@@ -43,7 +43,7 @@ class User extends Model
      * @param $password
      */
     public function setSzPasswordAttribute($password) {
-        Log::info('password hashed');
+//        Log::info('password hashed');
 
         $this->attributes['szPassword'] = StringHelper::encryptString($password);
 //        $this->attributes['szPassword'] = bcrypt($password);
