@@ -246,7 +246,7 @@ class CardController extends ApiController
             return $this->respond([], 'Unregistered customer');
         }
 
-        $result = $this->cardService->delete_card($id, $user->szCustomerId);
+        $result = $this->cardService->set_default_card($id, $user->szCustomerId);
 
 //        var_dump($result);
         if ($result) {

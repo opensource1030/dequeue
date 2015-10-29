@@ -267,6 +267,8 @@ class UserController extends ApiController
                 }
             }
 
+            $user = $this->userService->userRepository->find($user->id);
+
             $wildCardEmail = substr($szEmail, strpos($szEmail, "@") + 1);
             $gifts  = $this->orderService->giftRepository->findWhereIn('szEmail', [$szEmail, $wildCardEmail]);
 
