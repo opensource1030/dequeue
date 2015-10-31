@@ -59,7 +59,7 @@ class CardService extends Service {
             'expirationYear'    => $expirationYear,
             'cvv'           => $cvv,
             'options' => [
-//                'failOnDuplicatePaymentMethod' => true,
+                'failOnDuplicatePaymentMethod' => true,
 //                'makeDefault'   => true,
             ]
         ]);
