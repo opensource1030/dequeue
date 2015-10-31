@@ -235,7 +235,7 @@ class UserController extends ApiController
                     }
                 }
             } else {
-#TODO very straing in original code, this part wouldn't be executed
+#TODO very strange in original code, this part wouldn't be executed
                 if ($szInviteCode != '' && $refer_user) {
 
                     #  insert_invitecode_mapping

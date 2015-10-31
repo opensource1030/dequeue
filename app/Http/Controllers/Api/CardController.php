@@ -120,8 +120,8 @@ class CardController extends ApiController
         try {
             $result = $this->cardService->create_card($number, $expirationMonth, $expirationYear, $cvv, $user->szCustomerId);
 
-            var_dump($result);
-//        return $this->respond($result);
+//            var_dump($result);
+        return $this->respond($result);
         } catch (\Braintree_Exception $be) {
             return $this->respondWithErrors($be->getMessage(), $be->getCode());
         }

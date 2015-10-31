@@ -14,7 +14,6 @@ class LocationHelper {
 
         for($i=0; $i<10; $i++)
         {
-            $streetAry = array();
             $streetAry = explode(' ', $streetText);
             $street='';
             for($j=0; $j < count($streetAry); $j++)
