@@ -478,8 +478,8 @@ class UserController extends ApiController
                 'szLoginCode' => $szLoginCode
             ]);
         } catch (\Exception $e) {
-            throw $e;
-//            return $this->respondWithErrors($e->getMessage(), $e->getCode());
+//            throw $e;
+            return $this->respondWithErrors($e->getMessage(), $e->getLine());
         }
     }
 
