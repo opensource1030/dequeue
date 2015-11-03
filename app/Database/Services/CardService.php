@@ -25,6 +25,47 @@ class CardService extends Service {
         ];
     }
 
+    public function getCustomerId($idUser) {
+
+        $user = $this->userRepository->findWhere([
+            'id' => $idUser
+        ])->first();
+
+        if (empty($user))
+            return false;
+
+        if ($user->szCustomerId != '')
+            return $user->szCustomerId;
+
+        $szCustomerId = "";
+
+        if ($user->szPaymentToken != '') {
+
+            $card = Braintree_PaymentMethod::find($user->szPaymentToken);
+            $szCustomerId = $card->customerId;
+//            var_dump($card);
+//            if (empty($szCustomerId) || $szCustomerId == "") {
+        } else {
+
+            $result = Braintree_Customer::create([
+                "firstName" => $user->szFirstName,
+                "lastName"  => $user->szLastName,
+            ]);
+
+            if ($result->success != 1) {
+                return false;
+            }
+
+            $szCustomerId = $result->customer->id;
+        }
+
+        $this->userRepository->update([
+            'szCustomerId' => $szCustomerId,
+        ], $user->id);
+
+        return $szCustomerId;
+    }
+
     public function get_all_cards($customerId) {
 
         $customer = Braintree_Customer::find($customerId);
@@ -91,5 +132,10 @@ class CardService extends Service {
         ]);
 
         return $result;
+    }
+
+    public function get_default_card($customerId) {
+
+
     }
 }

@@ -35,7 +35,7 @@ class CardController extends ApiController
     public function index()
     {
         $validator = Validator::make($this->request->all(), [
-            'szMobileKey'   => 'required',
+            'szMobileKey' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -50,11 +50,13 @@ class CardController extends ApiController
             return $this->respondWithErrors('Invalid mobile key');
         }
 
-        if ($user->szCustomerId == '') {
-            return $this->respond([], 'Unregistered customer');
+        $szCustomerId = $user->szCustomerId;
+        if ($szCustomerId == '') {
+//            return $this->respond([], 'Unregistered customer');
+            $szCustomerId = $this->cardService->getCustomerId($user->id);
         }
 
-        $result = $this->cardService->get_all_cards($user->szCustomerId);
+        $result = $this->cardService->get_all_cards($szCustomerId);
 
         if ($result) {
 //            var_dump($result);
@@ -86,11 +88,11 @@ class CardController extends ApiController
     public function store(Request $request)
     {
         $validator = Validator::make($this->request->all(), [
-            'szMobileKey'   => 'required',
-            'number'        => 'required',
-            'expirationMonth'   => 'required',
-            'expirationYear'    => 'required',
-            'cvv'           => 'required',
+            'szMobileKey' => 'required',
+            'number' => 'required',
+            'expirationMonth' => 'required',
+            'expirationYear' => 'required',
+            'cvv' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -113,17 +115,19 @@ class CardController extends ApiController
             return $this->respondWithErrors('Invalid mobile key');
         }
 
-        if ($user->szCustomerId == '') {
-            return $this->respond([], 'Unregistered customer');
+        $szCustomerId = $user->szCustomerId;
+        if ($szCustomerId == '') {
+//            return $this->respond([], 'Unregistered customer');
+            $szCustomerId = $this->cardService->getCustomerId($user->id);
         }
 
         try {
-            $result = $this->cardService->create_card($number, $expirationMonth, $expirationYear, $cvv, $user->szCustomerId);
+            $result = $this->cardService->create_card($number, $expirationMonth, $expirationYear, $cvv, $szCustomerId);
 
 //            var_dump($result);
-        return $this->respond($result);
+            return $this->respond($result);
         } catch (\Braintree_Exception $be) {
-            return $this->respondWithErrors($be->getMessage(), $be->getCode());
+            return $this->respondWithErrors($be->getMessage(), $be->getLine());
         }
     }
 
@@ -136,7 +140,7 @@ class CardController extends ApiController
     public function show($id)
     {
         $validator = Validator::make($this->request->all(), [
-            'szMobileKey'   => 'required',
+            'szMobileKey' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -193,7 +197,7 @@ class CardController extends ApiController
     public function destroy($id)
     {
         $validator = Validator::make($this->request->all(), [
-            'szMobileKey'   => 'required',
+            'szMobileKey' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -222,11 +226,12 @@ class CardController extends ApiController
         }
     }
 
-    public function set_default_card() {
+    public function set_default_card()
+    {
 
         $validator = Validator::make($this->request->all(), [
-            'szMobileKey'   => 'required',
-            'id'            => 'required'
+            'szMobileKey' => 'required',
+            'id' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -257,5 +262,37 @@ class CardController extends ApiController
         } else {
             return $this->respondWithErrors();
         }
+    }
+
+    public function get_default_card() {
+
+        $validator = Validator::make($this->request->all(), [
+            'szMobileKey' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->respondWithValidationErrors($validator->errors());
+        }
+
+        $szMobileKey = $this->request['szMobileKey'];
+
+        $user = $this->userService->get_by_key($szMobileKey);
+
+        if (empty($user)) {
+            return $this->respondWithErrors('Invalid mobile key');
+        }
+
+        $szCustomerId = $user->szCustomerId;
+        if ($szCustomerId == '') {
+            $szCustomerId = $this->cardService->getCustomerId($user->id);
+        }
+
+        if ($szCustomerId == false || $szCustomerId == '') {
+            return $this->respond([], 'Unregistered customer');
+        }
+
+        $token = $this->cardService->get_default_card($szCustomerId);
+
+        return $this->respond(['token' => $token]);
     }
 }
