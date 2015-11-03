@@ -322,7 +322,7 @@ class UserController extends ApiController
 
             return $this->respond([
                 'szLoginCode' => $szLoginCode,
-                'szMobileKey' => $user->szMobileKey,
+//                'szMobileKey' => $user->szMobileKey,
             ]);
 
         } catch (\Exception $e) {
@@ -498,7 +498,7 @@ class UserController extends ApiController
 
             return $this->respond([
                 'szLoginCode' => $szLoginCode,
-                'szMobileKey' => $user->szMobileKey,
+//                'szMobileKey' => $user->szMobileKey,
             ]);
         } catch (\Exception $e) {
 //            throw $e;
