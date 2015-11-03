@@ -103,25 +103,27 @@ class UserController extends ApiController
                 $iFBFlag = 1;
             }
 
-            if ($iFBFlag == 1) {
+            $szPassword = \StringHelper::randomString(8);
 
-                $szPassword = \StringHelper::randomString(8);
-            } else {
-
-                if (!isset($this->request['szPassword']) && $this->request['szPassword'] == '') {
-                    throw new \Exception('Password is required');
-                }
-                $szPassword = $this->request['szPassword'];
-
-                if (!isset($this->request['szConPassword']) && $this->request['szConPassword'] == '') {
-                    throw new \Exception('Confirm password is required');
-                }
-                $szConPassword = $this->request['szConPassword'];
-
-                if ($szPassword != $szConPassword) {
-                    throw new \Exception('Password does not match');
-                }
-            }
+//            if ($iFBFlag == 1) {
+//
+//                $szPassword = \StringHelper::randomString(8);
+//            } else {
+//
+//                if (!isset($this->request['szPassword']) && $this->request['szPassword'] == '') {
+//                    throw new \Exception('Password is required');
+//                }
+//                $szPassword = $this->request['szPassword'];
+//
+//                if (!isset($this->request['szConPassword']) && $this->request['szConPassword'] == '') {
+//                    throw new \Exception('Confirm password is required');
+//                }
+//                $szConPassword = $this->request['szConPassword'];
+//
+//                if ($szPassword != $szConPassword) {
+//                    throw new \Exception('Password does not match');
+//                }
+//            }
 
             $szEmail = $this->request['szEmail'];
 
@@ -286,23 +288,43 @@ class UserController extends ApiController
 
             # email
 
-            $template = $this->userService->emailTemplateRepository->findWhere(['keyname' => '__REGISTRATION_EMAIL__'])->first();
+//            $template = $this->userService->emailTemplateRepository->findWhere(['keyname' => '__REGISTRATION_EMAIL__'])->first();
+//
+//            $subject = $template->subject;
+//            $message = $template->description;
+//
+//            $from = \Config::get('constants.__SUPPORT_EMAIL_ADDRESS__');
+//            $to = $szEmail;
+//
+//            \EmailHelper::sendEmail($from, $to, $subject, $message, $user->id);
 
-            $subject = $template->subject;
-            $message = $template->description;
+//            if ($user) {
+//                $fractalManager = new Manager();
+//                $fractalManager->setSerializer(new CustomSerializer());
+//                $user = new Item($user, new UserTransformer());
+//                $user = $fractalManager->createData($user)->toArray();
+//                return $this->respond($user);
+//            }
 
+            $szLoginCode = \StringHelper::randomDigits();
+
+            $this->userService->userRepository->update([
+                'szLoginCode' => $szLoginCode,
+            ], $user->id);
+
+            $subject = "Login Code";
+            $message = "Hello {$user->szFirstName}<br>Here is your login code : {$szLoginCode}";
+
+            $to = $user->szEmail;
             $from = \Config::get('constants.__SUPPORT_EMAIL_ADDRESS__');
-            $to = $szEmail;
 
             \EmailHelper::sendEmail($from, $to, $subject, $message, $user->id);
 
-            if ($user) {
-                $fractalManager = new Manager();
-                $fractalManager->setSerializer(new CustomSerializer());
-                $user = new Item($user, new UserTransformer());
-                $user = $fractalManager->createData($user)->toArray();
-                return $this->respond($user);
-            }
+            return $this->respond([
+                'szLoginCode' => $szLoginCode,
+                'szMobileKey' => $user->szMobileKey,
+            ]);
+
         } catch (\Exception $e) {
 //            throw $e;
             return $this->respondWithErrors($e->getMessage(), $e->getLine());
@@ -457,7 +479,7 @@ class UserController extends ApiController
             $user = $this->userService->get_by_email($szEmail);
 
             if (empty($user)) {
-                throw new \Exception('Invalid email');
+                throw new \Exception('No user found with the email');
             }
 
             $this->userService->userRepository->update([
@@ -475,7 +497,8 @@ class UserController extends ApiController
             \EmailHelper::sendEmail($from, $to, $subject, $message, $user->id);
 
             return $this->respond([
-                'szLoginCode' => $szLoginCode
+                'szLoginCode' => $szLoginCode,
+                'szMobileKey' => $user->szMobileKey,
             ]);
         } catch (\Exception $e) {
 //            throw $e;
