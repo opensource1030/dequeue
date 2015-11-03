@@ -675,7 +675,7 @@ class OrderController extends ApiController
                     if ($szPeriod == 'Monthly') {
                         $firstBillingDate = date('Y-m-d', strtotime("+1 MONTH", strtotime(date('Y-m-d'))));
                         $planType = \Config::get('constants.__MONTHLY_PLAN__');
-                    } else if ($szPeriod == 'Monthly') {
+                    } else if ($szPeriod == 'Yearly') {
                         $firstBillingDate = date('Y-m-d', strtotime("+1 YEAR", strtotime(date('Y-m-d'))));
                         $planType = \Config::get('constants.__YEARLY_PLAN__');
                     }
@@ -1035,11 +1035,11 @@ class OrderController extends ApiController
                 if (strtolower($szPeriod) == 'monthly') {
 
                     $firstBillingDate = date('Y-m-d', strtotime("+1 MONTH", strtotime(date('Y-m-d'))));
-                    $planType = \Config::get('constatns.__MONTHLY_PLAN__');
+                    $planType = \Config::get('constants.__MONTHLY_PLAN__');
                 } else if (strtolower($szPeriod) == 'yearly') {
 
                     $firstBillingDate = date('Y-m-d',strtotime("+1 YEAR", strtotime(date('Y-m-d'))));
-                    $planType = \Config::get('constatns.__YEARLY_PLAN__');
+                    $planType = \Config::get('constants.__YEARLY_PLAN__');
                 }
 
                 $result3 = Braintree_Subscription::create(array(
