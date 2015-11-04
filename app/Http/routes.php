@@ -60,9 +60,10 @@ Route::group(['prefix' => '/api/v1'], function () {
     Route::post('orders/order_with_braintree_nonce', ['as' => 'api.v1.orders.order_with_braintree_nonce', 'uses' => 'Api\OrderController@order_with_braintree_nonce']);
     Route::post('orders/toggle_auto_renew_flag', ['as' => 'api.v1.orders.toggle_auto_renew_flag', 'uses' => 'Api\OrderController@toggle_auto_renew_flag']);
     Route::post('orders/renew_order', ['as' => 'api.v1.orders.renew_order', 'uses' => 'Api\OrderController@renew_order']);
-//    Route::post('orders/get_braintree_token', ['as' => 'api.v1.orders.get_braintree_token', 'uses' => 'Api\OrderController@get_braintree_token']);
     Route::post('orders/order_with_default_card', ['as' => 'api.v1.orders.order_with_default_card', 'uses' => 'Api\OrderController@order_with_default_card']);
     Route::post('orders/upgrade_pass', ['as' => 'api.v1.orders.upgrade_pass', 'uses' => 'Api\OrderController@upgrade_pass']);
+    Route::post('orders/get_braintree_client_token', ['as' => 'api.v1.orders.get_braintree_client_token', 'uses' => 'Api\OrderController@get_braintree_client_token']);
+//    Route::post('orders/get_braintree_token', ['as' => 'api.v1.orders.get_braintree_token', 'uses' => 'Api\OrderController@get_braintree_token']);
 
     Route::get('others/app_images', ['as' => 'api.v1.others.app_images', 'uses' => 'Api\OtherController@app_images']);
     Route::get('others/privacy_policy', ['as' => 'api.v1.others.privacy_policy', 'uses' => 'Api\OtherController@privacy_policy']);
