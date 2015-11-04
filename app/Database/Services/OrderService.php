@@ -274,7 +274,7 @@ class OrderService extends Service {
                 'iPeriod' => $subscription->iPeriod,
                 'iYearlyPeriod' => $subscription->iYearlyPeriod,
                 'fYearlyPrice' => $subscription->fYearlyPrice,
-                'iLimitions' => $activation_count,
+                'iLimitions' => $subscription->iLimitions,
                 'iLimitionCount' => $activation_count,
                 'szPassType' => $passType,
             ]);
