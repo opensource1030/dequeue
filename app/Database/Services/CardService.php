@@ -136,6 +136,25 @@ class CardService extends Service {
 
     public function get_default_card($customerId) {
 
+        $customer = Braintree_Customer::find($customerId);
+        $token = $customer->creditCards[0]->token;
+        foreach ($customer->creditCards as $cc) {
+            if ($cc->isDefault()) {
+                $token = $cc->token;
+                break;
+            }
+        }
 
+        $user = $this->userRepository->findWhere([
+            'szCustomerId' => $customerId
+        ])->first();
+
+        if ($user) {
+            $this->userRepository->update([
+                'szPaymentToken' => $token,
+            ], $user->id);
+        }
+
+        return $token;
     }
 }

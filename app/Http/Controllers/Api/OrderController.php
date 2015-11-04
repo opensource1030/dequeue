@@ -1055,63 +1055,22 @@ class OrderController extends ApiController
                 $szPeriod = $this->request['szPeriod'];
             }
 
-            /*
-            $customer_id = '';
-            if ($user->szCustomerId != '') {
-                $customer = Braintree_Customer::find($user->szCustomerId);
-                $customer_id = $customer->id;
-            }
-
-            if ($customer_id == '') {
-                $result6 = Braintree_Customer::create(array(
-                    "firstName" => $user->szFirstName,
-                    "lastName"  => $user->szLastName,
-                ));
-
-                if ($result6->success != 1) {
-                    return $this->respondWithErrors($result6->errors->deepAll());
-                }
-
-                $customer_id = $result6->customer->id;
-            }
-
-            # create the payment method ( credit/debit, paypal, etc )
-
-            $result = Braintree_PaymentMethod::create(array(
-                'customerId' => $customer_id,
-                'paymentMethodNonce' => $szPaymentNonce,
-                'options' => [
-//                    'failOnDuplicatePaymentMethod' => true,
-                    'makeDefault' => true,
-                ]
-            ));
-
-//            \Log::info($customer_id);
-
-            # get customer , use first vault as payment method
-
-            $customer = Braintree_Customer::find($customer_id);
-            */
-
             $szCustomerId = $this->cardService->getCustomerId($user->id);
-            $result = Braintree_PaymentMethod::create(array(
-                'customerId' => $szCustomerId,
-                'paymentMethodNonce' => $szPaymentNonce,
-                'options' => [
-//                    'failOnDuplicatePaymentMethod' => true,
-                    'makeDefault' => true,
-                ]
-            ));
-
-            if ($result->success != 1) {
-                throw new \Exception('Invalid nonce');
-            }
-
+//            $result = Braintree_PaymentMethod::create(array(
+//                'customerId' => $szCustomerId,
+//                'paymentMethodNonce' => $szPaymentNonce,
+//                'options' => [
+//                    'makeDefault' => true,
+//                ]
+//            ));
+//            if ($result->success != 1) {
+//                throw new \Exception('Invalid nonce');
+//            }
 //            var_dump($result);
-
-            $payment_method_token = $result->paymentMethod->token;
-
+//            $payment_method_token = $result->paymentMethod->token;
 //            \Log::info('payment method token : ' . $payment_method_token);
+
+            $payment_method_token = $this->cardService->get_default_card($szCustomerId);
 
             # paymentType
             if ($szPaymentType == 'creditcard') {
