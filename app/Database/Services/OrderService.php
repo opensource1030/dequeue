@@ -173,13 +173,15 @@ class OrderService extends Service {
      * @return mixed
      * @throws \Exception
      */
-    public function placeOrder($idUser, $idMerchant, $idSubscription, $payment_method_token, $paymentType, $szPaymentAmount, $idParentOrder = 0) {
+    public function placeOrder($idUser, $idMerchant, $idSubscription, $payment_method_token, $paymentType, $szPaymentAmount, $szPeriod='', $idParentOrder = 0) {
 
         $user = $this->userRepository->find($idUser);
         $merchant = $this->merchantRepository->find($idMerchant);
         $subscription = $this->subscriptionRepository->find($idSubscription);
 
         $now = Carbon::now();
+
+        # calculate service fee
 
         $serviceFee = 0.00;
         if ($merchant->fServiceFeePercentage > 0.00) {
@@ -220,229 +222,257 @@ class OrderService extends Service {
 
         if ($trans_result->success != 1) {
             throw new \Braintree_Exception('Fail in Braintree_Transaction');
-        } else {
-            $passType = $subscription->szPassType;
+        }
+
+        # estimate expiry date, passAmount, etc.
+
+        $passType = $subscription->szPassType;
+        $autoRenewFlag = 0;
+        $activation_count = 0;
+        $passAmount = 0;
+
+        $tranctionStatus = $trans_result->transaction->_attributes['status'];
+        $idCart = $trans_result->transaction->_attributes['id'];
+
+        if ($passType=='package pass' || $passType=='one time pass') {
+
             $dtExpiry = '2099-12-31';
             $activation_count = $subscription->iActivationCount;
-            $autoRenewFlag = $subscription->iAutoRenewFlag;
+            $passAmount = $szPaymentAmount;
 
-            $tranctionStatus = $trans_result->transaction->_attributes['status'];
-            $idCart = $trans_result->transaction->_attributes['id'];
-
-            $order = $this->orderRepository->create([
-                'idUser' => $user->id,
-                'idSubscription' => $subscription->id,
-                'fSubscriptionAmount' => $szPaymentAmount,
-                'szFirstName' => $user->szFirstName,
-                'szLastName' => $user->szLastName,
-                'szEmail' => $user->szEmail,
-                'szZipCode' => $user->szZipCode,
-                'szPaymentType' => $paymentType,
-                'szSubscriptionPeriod' => '',
-                'dtExpiry' => $dtExpiry,
-                'iLimitionCount' => $activation_count,
-                'szPassType' => $passType,
-                'iAutoRenewFlag' => $autoRenewFlag,
-                'iCompleted' => 1,
-                'dtPurchased' => $now,
-                'dtAvailable' => $now,
-                'iTotalPaymentCount' => 1,
-                'fPaidAmount' => $fPaidAmount,
-                'fDiscountAmount' => $fDiscountAmount,
-                'PROFILESTATUS' => $tranctionStatus,
-                'PROFILEID' =>  '',
-                'TRANSACTIONID' => $idCart,
-                'szPaymentToken' => $payment_method_token,
-                'fServiceFee' => $serviceFee,
-                'idParentOrder' => $idParentOrder,
-            ]);
-
-            # order payout to merchant
-
-            if ($merchant->szBraintreeMerchantId != '') {
-                $this->orderRepository->update([
-                    'iPayoutPaid'   => 1,
-                    'dtPayoutPaid'  => $now,
-                ], $order->id);
+            if($passType=='package pass') {
+                $autoRenewFlag = $subscription->iAutoRenewFlag;
             }
 
-            $this->uosMappingRepository->create([
-                'idUser' => $user->id,
-                'idOrder' => $order->id,
-                'idSubscription' => $subscription->id,
-                'fPrice' => $szPaymentAmount,
-                'iPeriod' => $subscription->iPeriod,
-                'iYearlyPeriod' => $subscription->iYearlyPeriod,
-                'fYearlyPrice' => $subscription->fYearlyPrice,
-                'iLimitions' => $subscription->iLimitions,
-                'iLimitionCount' => $activation_count,
-                'szPassType' => $passType,
+        } else {
+
+            $activation_count = $subscription->iLimitionCount;
+            $passAmount = $subscription->fPrice;
+
+            if (strtolower($szPeriod) == 'monthly') {
+                $dtExpiry = date('Y-m-d', strtotime('+ 30 DAY'));
+            } else if (strtolower($szPeriod) == 'yearly') {
+                $dtExpiry = date('Y-m-d', strtotime('+ 1 YEAR'));
+            }
+        }
+
+        $order = $this->orderRepository->create([
+            'idUser' => $user->id,
+            'idSubscription' => $subscription->id,
+            'fSubscriptionAmount' => $szPaymentAmount,
+            'szFirstName' => $user->szFirstName,
+            'szLastName' => $user->szLastName,
+            'szEmail' => $user->szEmail,
+            'szZipCode' => $user->szZipCode,
+            'szPaymentType' => $paymentType,
+            'szSubscriptionPeriod' => $szPeriod,
+            'dtExpiry' => $dtExpiry,
+            'iLimitionCount' => $activation_count,
+            'szPassType' => $passType,
+            'iAutoRenewFlag' => $autoRenewFlag,
+            'iCompleted' => 1,
+            'dtPurchased' => $now,
+            'dtAvailable' => $now,
+            'iTotalPaymentCount' => 1,
+            'fPaidAmount' => $fPaidAmount,
+            'fDiscountAmount' => $fDiscountAmount,
+            'PROFILESTATUS' => $tranctionStatus,
+            'PROFILEID' =>  '',
+            'TRANSACTIONID' => $idCart,
+            'szPaymentToken' => $payment_method_token,
+            'fServiceFee' => $serviceFee,
+            'idParentOrder' => $idParentOrder,
+        ]);
+
+        if ($passType == 'package pass') {
+            $subscription->iLimitions = $activation_count;
+        }
+
+        # order payout to merchant
+
+        if ($merchant->szBraintreeMerchantId != '') {
+            $this->orderRepository->update([
+                'iPayoutPaid'   => 1,
+                'dtPayoutPaid'  => $now,
+            ], $order->id);
+        }
+
+        $this->uosMappingRepository->create([
+            'idUser' => $user->id,
+            'idOrder' => $order->id,
+            'idSubscription' => $subscription->id,
+            'fPrice' => $passAmount,
+            'iPeriod' => $subscription->iPeriod,
+            'iYearlyPeriod' => $subscription->iYearlyPeriod,
+            'fYearlyPrice' => $subscription->fYearlyPrice,
+            'iLimitions' => $subscription->iLimitions,
+            'iLimitionCount' => $activation_count,
+            'szPassType' => $passType,
+        ]);
+
+        # insert_user_debit_history  // previous code only records for invite, but I don't think so
+
+        if ($user->fTotalCredit > 0.00 && $fDiscountAmount > 0.00) {
+
+            \DB::table('tblusercreditdebithistory')->insert([
+                'idUser'    => $user->id,
+                'fPrice'    => $fDiscountAmount,
+                'idDebitOrder'  => $order->id,
+                'sztransactiontype' => 'debit',
+                'datetime'  => $now,
             ]);
 
-            # insert_user_debit_history  // previous code only records for invite, but I don't think so
+            $this->userRepository->update([
+                'fTotalCredit' => $user->fTotalCredit - $fDiscountAmount,
+            ], $user->id);
+        }
 
-            if ($user->fTotalCredit > 0.00 && $fDiscountAmount > 0.00) {
+        # updatereferalcredited
 
-                \DB::table('tblusercreditdebithistory')->insert([
-                    'idUser'    => $user->id,
-                    'fPrice'    => $fDiscountAmount,
-                    'idDebitOrder'  => $order->id,
-                    'sztransactiontype' => 'debit',
-                    'datetime'  => $now,
+        $uiMapping = $this->uiMappingRepository->findWhere([
+            'idSignupUser' => $user->id,
+            'dtCredited' => '0000-00-00 00:00:00'
+        ])->first();
+
+        if ($uiMapping) {
+
+            $fReferralCredit = (float) $uiMapping->fReferralcredit;
+
+            $queryBuilder = $this->userRepository->getModel()->newQuery()
+                ->where('id', $uiMapping->idReferUser)
+                ->update([
+                    'fTotalCredit' => \DB::raw("fTotalCredit + {$fReferralCredit}")
                 ]);
-
-                $this->userRepository->update([
-                    'fTotalCredit' => $user->fTotalCredit - $fDiscountAmount,
-                ], $user->id);
-            }
-
-            # updatereferalcredited
-
-            $uiMapping = $this->uiMappingRepository->findWhere([
-                'idSignupUser' => $user->id,
-                'dtCredited' => '0000-00-00 00:00:00'
-            ])->first();
-
-            if ($uiMapping) {
-
-                $fReferralCredit = (float) $uiMapping->fReferralcredit;
-
-                $queryBuilder = $this->userRepository->getModel()->newQuery()
-                    ->where('id', $uiMapping->idReferUser)
-                    ->update([
-                        'fTotalCredit' => \DB::raw("fTotalCredit + {$fReferralCredit}")
-                    ]);
 
 //                \Log::info($queryBuilder);
 
-                \DB::table('tblusercreditdebithistory')->insert([
-                    'idUser'    => $uiMapping->idReferUser,
-                    'fPrice'    => $uiMapping->fReferralcredit,
-                    'idinvitecodemapped'    => $uiMapping->id,
-                    'szcredittype'      => 'referal',          // previous code 'referal'
-                    'sztransactiontype' => 'credit',
-                    'datetime'  => $now,
-                ]);
+            \DB::table('tblusercreditdebithistory')->insert([
+                'idUser'    => $uiMapping->idReferUser,
+                'fPrice'    => $uiMapping->fReferralcredit,
+                'idinvitecodemapped'    => $uiMapping->id,
+                'szcredittype'      => 'referal',          // previous code 'referal'
+                'sztransactiontype' => 'credit',
+                'datetime'  => $now,
+            ]);
 
-                $this->uiMappingRepository->update([
-                    'dtCredited' => $now
-                ], $uiMapping->id);
-            }
+            $this->uiMappingRepository->update([
+                'dtCredited' => $now
+            ], $uiMapping->id);
+        }
 
-            # email
+        # email
 
-            $template = $this->emailTemplateRepository->findWhere(['keyname' => '__SUBSCRIPTION_CONFIRMATION_EMAIL__'])->first();
+        $template = $this->emailTemplateRepository->findWhere(['keyname' => '__SUBSCRIPTION_CONFIRMATION_EMAIL__'])->first();
 
-            $subject = $template->subject;
-            $message = $template->description;
+        $subject = $template->subject;
+        $message = $template->description;
 
-            $subject = str_replace('szNumber', $order->id, $subject);
+        $subject = str_replace('szNumber', $order->id, $subject);
 //            $passType = $order->szPassType;
 //            $szSubscriptionPeriod = 'Package Pass';
 
-            $paymentInfoKey = \StringHelper::encryptString(date('dmYHis'));
-            $this->userRepository->update([
-                'szConfirmationKey' => $paymentInfoKey,
-            ], $user->id);
+        $paymentInfoKey = \StringHelper::encryptString(date('dmYHis'));
+        $this->userRepository->update([
+            'szConfirmationKey' => $paymentInfoKey,
+        ], $user->id);
 
 
-            $link = \Config::get('constants.__MAIN_SITE_URL__')  . '/changePaymentInfo.php?szConfirmationKey=' . $paymentInfoKey;
+        $link = \Config::get('constants.__MAIN_SITE_URL__')  . '/changePaymentInfo.php?szConfirmationKey=' . $paymentInfoKey;
 
-            $szName = $user->szFirstName . ' ' . $user->szLastName;
+        $szName = $user->szFirstName . ' ' . $user->szLastName;
 //            $szAppUrl = \config::get('constants.__BASE_URL__') . 'app/';
 //            $szPassUrl = \config::get('constants.__BASE_URL__') . 'myPasses/';
 
-            $merchantAddress = '';
-            $location = $merchant->locations()->first();
-            if ($location) {
+        $merchantAddress = '';
+        $location = $merchant->locations()->first();
+        if ($location) {
 
-                if ($location->szAddress1 != '') {
-                    $merchantAddress = $location->szAddress;
-                }
-                if ($location->szAddress2 != '') {
-                    $merchantAddress .= ' ' . $location->szAddress2;
-                }
-                if ($location->szCity != '') {
-                    $merchantAddress .= ', ' . $location->szCity;
-                }
-                if ($location->szState != '') {
-                    $merchantAddress .= ', ' . $location->szState;
-                }
-                if ($location->szRegion != '') {
-                    $merchantAddress .= ', ' . $location->szRegion;
-                }
+            if ($location->szAddress1 != '') {
+                $merchantAddress = $location->szAddress;
             }
-
-            $message = str_replace('szStreetAddress', $merchantAddress, $message);
-
-            $message = str_replace('szMerchantCompany', $merchant->szCompanyName, $message);
-            $message = str_replace('szPassName', $subscription->szTilte, $message);
-            $message = str_replace('szMerchantName', $merchant->szName, $message);
-
-            $message = str_replace('fAmount', number_format((float) $order->fSubscriptionAmount, 2), $message);
-            $message = str_replace('fDiscountAmount', number_format((float) $order->fDiscountAmount, 2), $message);
-            $message = str_replace('fPaidAmount', number_format((float) $order->fPaidAmount, 2),$message);
-
-            $message = str_replace('idOrderNumber', $order->id, $message);
-            $message = str_replace('szPaymentType', $paymentType, $message);
-            $message = str_replace('http://szLink', $link, $message);
-            $message = str_replace('szTransactionDate', date('M d Y h:i A', strtotime($order->dtPurchased)), $message);
-            $message = str_replace('CURRENT_YEAR',date('Y'), $message);
-
-            //$email="ashish@whiz-solutions.com";
-            $message = str_replace('http://szLink', $link, $message);
-
-            $to = $user->szEmail;
-            $from = \Config::get('constants.__SUPPORT_EMAIL_ADDRESS__');
-
-            \EmailHelper::sendEmail($from, $to, $subject, $message, $user->id);
-
-            # email
-
-            $template = $this->emailTemplateRepository->findWhere(['keyname' => '__PURCHASE_PASS_NOTIFICATION_TO_ADMIN__'])->first();
-
-            $subjectAdmin = $template['subject'];
-            $messageAdmin = $template['description'];
-
-            $messageAdmin = str_replace('szPassName', $subscription->szTilte, $messageAdmin);
-            $messageAdmin = str_replace('szMerchantName', $merchant->szName, $messageAdmin);
-            $messageAdmin = str_replace('szName', $szName, $messageAdmin);
-            $messageAdmin = str_replace('szEmail', $to, $messageAdmin);
-
-            $messageAdmin = str_replace('fAmount',number_format((float) $order->fSubscriptionAmount, 2), $messageAdmin);
-            $messageAdmin = str_replace('fDiscountAmount',number_format((float) $order->fDiscountAmount,2), $messageAdmin);
-            $messageAdmin = str_replace('fPaidAmount',number_format((float) $order->fPaidAmount, 2), $messageAdmin);
-
-            $messageAdmin = str_replace('szPassType', 'Auto Renew', $messageAdmin);
-
-            $from = \Config::get('constants.__SUPPORT_EMAIL_ADDRESS__');
-            $to = \Config::get('constants.__NOTIFICATIN_EMAIL__');
-
-            \EmailHelper::sendEmail($from, $to, $subjectAdmin, $messageAdmin, $user->id);
-
-            if ($order->szPaymentType == 'Credit/Debit') {
-                \DB::table('tblbraintreelog')->insert([
-                    'idOrder'       => $order->id,
-                    'idUser'        => $order->idUser,
-                    'idSubscription'    => $order->idSubscription,
-                    'szDate'        => $now,
-                    'iActive'       => 1,
-                    'dtEndDate'     => '2099-12-31',
-                    'PROFILEID'     => '',
-                    'PROFILESTATUS' => $tranctionStatus,
-                ]);
-            } else  {
-                \DB::table('tblpaypallog')->insert([
-                    'dtEndDate' => '2099-12-31',
-                    'PROFILEID' => '',
-                    'PROFILESTATUS' => $tranctionStatus,
-                    'idOrder'   => $order->id,
-                    'idUser'    => $order->idUser,
-                    'idSubscription'    => $order->idSubscription,
-                    'szAmount'  => $order->fPaidAmount,
-                    'szCartID'  => $idCart,
-                ]);
+            if ($location->szAddress2 != '') {
+                $merchantAddress .= ' ' . $location->szAddress2;
             }
+            if ($location->szCity != '') {
+                $merchantAddress .= ', ' . $location->szCity;
+            }
+            if ($location->szState != '') {
+                $merchantAddress .= ', ' . $location->szState;
+            }
+            if ($location->szRegion != '') {
+                $merchantAddress .= ', ' . $location->szRegion;
+            }
+        }
+
+        $message = str_replace('szStreetAddress', $merchantAddress, $message);
+
+        $message = str_replace('szMerchantCompany', $merchant->szCompanyName, $message);
+        $message = str_replace('szPassName', $subscription->szTilte, $message);
+        $message = str_replace('szMerchantName', $merchant->szName, $message);
+
+        $message = str_replace('fAmount', number_format((float) $order->fSubscriptionAmount, 2), $message);
+        $message = str_replace('fDiscountAmount', number_format((float) $order->fDiscountAmount, 2), $message);
+        $message = str_replace('fPaidAmount', number_format((float) $order->fPaidAmount, 2),$message);
+
+        $message = str_replace('idOrderNumber', $order->id, $message);
+        $message = str_replace('szPaymentType', $paymentType, $message);
+        $message = str_replace('http://szLink', $link, $message);
+        $message = str_replace('szTransactionDate', date('M d Y h:i A', strtotime($order->dtPurchased)), $message);
+        $message = str_replace('CURRENT_YEAR',date('Y'), $message);
+
+        //$email="ashish@whiz-solutions.com";
+        $message = str_replace('http://szLink', $link, $message);
+
+        $to = $user->szEmail;
+        $from = \Config::get('constants.__SUPPORT_EMAIL_ADDRESS__');
+
+        \EmailHelper::sendEmail($from, $to, $subject, $message, $user->id);
+
+        # email
+
+        $template = $this->emailTemplateRepository->findWhere(['keyname' => '__PURCHASE_PASS_NOTIFICATION_TO_ADMIN__'])->first();
+
+        $subjectAdmin = $template['subject'];
+        $messageAdmin = $template['description'];
+
+        $messageAdmin = str_replace('szPassName', $subscription->szTilte, $messageAdmin);
+        $messageAdmin = str_replace('szMerchantName', $merchant->szName, $messageAdmin);
+        $messageAdmin = str_replace('szName', $szName, $messageAdmin);
+        $messageAdmin = str_replace('szEmail', $to, $messageAdmin);
+
+        $messageAdmin = str_replace('fAmount',number_format((float) $order->fSubscriptionAmount, 2), $messageAdmin);
+        $messageAdmin = str_replace('fDiscountAmount',number_format((float) $order->fDiscountAmount,2), $messageAdmin);
+        $messageAdmin = str_replace('fPaidAmount',number_format((float) $order->fPaidAmount, 2), $messageAdmin);
+
+        $messageAdmin = str_replace('szPassType', 'Auto Renew', $messageAdmin);
+
+        $from = \Config::get('constants.__SUPPORT_EMAIL_ADDRESS__');
+        $to = \Config::get('constants.__NOTIFICATIN_EMAIL__');
+
+        \EmailHelper::sendEmail($from, $to, $subjectAdmin, $messageAdmin, $user->id);
+
+        if ($order->szPaymentType == 'Credit/Debit') {
+            \DB::table('tblbraintreelog')->insert([
+                'idOrder'       => $order->id,
+                'idUser'        => $order->idUser,
+                'idSubscription'    => $order->idSubscription,
+                'szDate'        => $now,
+                'iActive'       => 1,
+                'dtEndDate'     => '2099-12-31',
+                'PROFILEID'     => '',
+                'PROFILESTATUS' => $tranctionStatus,
+            ]);
+        } else  {
+            \DB::table('tblpaypallog')->insert([
+                'dtEndDate' => '2099-12-31',
+                'PROFILEID' => '',
+                'PROFILESTATUS' => $tranctionStatus,
+                'idOrder'   => $order->id,
+                'idUser'    => $order->idUser,
+                'idSubscription'    => $order->idSubscription,
+                'szAmount'  => $order->fPaidAmount,
+                'szCartID'  => $idCart,
+            ]);
         }
 
         return $order;
@@ -635,7 +665,7 @@ class OrderService extends Service {
                                 $idOrder_old = $order->id;
                             }
 
-                            $this->placeOrder($user->id, $merchant->id, $subscription->id, $payment_method_token, $paymentType, $szPaymentAmount, $idOrder_old);
+                            $this->placeOrder($user->id, $merchant->id, $subscription->id, $payment_method_token, $paymentType, $szPaymentAmount, '', $idOrder_old);
                         }
                     }
                 }

@@ -658,6 +658,7 @@ class OrderController extends ApiController
             $szPaymentAmount = $this->request['szPaymentAmount'];
             $idSubscription = $this->request['idPass'];
             $payment_method_token = $user->szPaymentToken;
+            $szPeriod = '';
 
             $subscription = $this->orderService->subscriptionRepository->find($idSubscription);
 
@@ -723,7 +724,7 @@ class OrderController extends ApiController
                 throw new \Exception('No merchant found');
             }
 
-            $this->orderService->placeOrder($user->id, $merchant->id, $subscription->id, $payment_method_token, $paymentType, $szPaymentAmount);
+            $this->orderService->placeOrder($user->id, $merchant->id, $subscription->id, $payment_method_token, $paymentType, $szPaymentAmount, $szPeriod);
 
             return $this->respond([
                 'purchase_status' => 'COMPLETED'
@@ -804,6 +805,7 @@ class OrderController extends ApiController
             $szPaymentAmount = $subscription->fPrice;
             $payment_method_token = $order->szPaymentToken;
             $paymentType = $order->szPaymentType;
+            $szPeriod = '';
 
             if ($order->idParentOrder > 0) {
                 $idOrder_old = $order->idParentOrder;
@@ -811,7 +813,7 @@ class OrderController extends ApiController
                 $idOrder_old = $order->id;
             }
 
-            $order = $this->orderService->placeOrder($user->id, $merchant->id, $subscription->id, $payment_method_token, $paymentType, $szPaymentAmount, $idOrder_old);
+            $order = $this->orderService->placeOrder($user->id, $merchant->id, $subscription->id, $payment_method_token, $paymentType, $szPaymentAmount, $szPeriod, $idOrder_old);
 
             # order
 
@@ -983,6 +985,7 @@ class OrderController extends ApiController
                 throw new \Exception('No subscription found');
             }
 
+            $szPeriod = '';
             if (strtolower($subscription->szPassType) != 'package pass' && strtolower($subscription->szPassType) != 'one time pass') {
 
                 if (!isset($this->request['szPeriod'])) {
@@ -1102,7 +1105,7 @@ class OrderController extends ApiController
 
             $merchant = $this->orderService->merchantRepository->find($subscription->idMerchant);
 
-            $order = $this->orderService->placeOrder($user->id, $merchant->id, $subscription->id, $payment_method_token, $paymentType, $szPaymentAmount);
+            $order = $this->orderService->placeOrder($user->id, $merchant->id, $subscription->id, $payment_method_token, $paymentType, $szPaymentAmount, $szPeriod);
 
             if ($order) {
                 $fractalManager = new Manager();
