@@ -352,22 +352,25 @@ class OrderService extends Service {
 //            $szAppUrl = \config::get('constants.__BASE_URL__') . 'app/';
 //            $szPassUrl = \config::get('constants.__BASE_URL__') . 'myPasses/';
 
-            $location = $merchant->locations()->first();
             $merchantAddress = '';
-            if ($merchant->szAddress1 != '') {
-                $merchantAddress = $location->szAddress;
-            }
-            if ($location->szAddress2 != '') {
-                $merchantAddress .= ' ' . $location->szAddress2;
-            }
-            if ($location->szCity != '') {
-                $merchantAddress .= ', ' . $location->szCity;
-            }
-            if ($location->szState != '') {
-                $merchantAddress .= ', ' . $location->szState;
-            }
-            if ($location->szRegion != '') {
-                $merchantAddress .= ', ' . $location->szRegion;
+            $location = $merchant->locations()->first();
+            if ($location) {
+
+                if ($location->szAddress1 != '') {
+                    $merchantAddress = $location->szAddress;
+                }
+                if ($location->szAddress2 != '') {
+                    $merchantAddress .= ' ' . $location->szAddress2;
+                }
+                if ($location->szCity != '') {
+                    $merchantAddress .= ', ' . $location->szCity;
+                }
+                if ($location->szState != '') {
+                    $merchantAddress .= ', ' . $location->szState;
+                }
+                if ($location->szRegion != '') {
+                    $merchantAddress .= ', ' . $location->szRegion;
+                }
             }
 
             $message = str_replace('szStreetAddress', $merchantAddress, $message);

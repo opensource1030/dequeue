@@ -15,8 +15,8 @@ return [
     |
     */
 
-//    'driver' => env('MAIL_DRIVER', 'smtp'),
-    'driver' => 'smtp',
+    'driver' => env('MAIL_DRIVER', 'smtp'),
+//    'driver' => 'smtp',
 
     /*
     |--------------------------------------------------------------------------
@@ -29,8 +29,8 @@ return [
     |
     */
 
-//    'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
-    'host' => 'smtp.mandrillapp.com',
+    'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+//    'host' => 'smtp.mandrillapp.com',
 
     /*
     |--------------------------------------------------------------------------
@@ -43,8 +43,8 @@ return [
     |
     */
 
-//    'port' => env('MAIL_PORT', 587),
-    'port' => 587,
+    'port' => env('MAIL_PORT', 587),
+//    'port' => 587,
 
     /*
     |--------------------------------------------------------------------------
@@ -71,8 +71,8 @@ return [
     |
     */
 
-//    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-    'encryption' => 'tls',
+    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+//    'encryption' => 'tls',
 
     /*
     |--------------------------------------------------------------------------
@@ -85,8 +85,8 @@ return [
     |
     */
 
-//    'username' => env('MAIL_USERNAME'),
-    'username' => 'support@chooseyourpass.com',
+    'username' => env('MAIL_USERNAME'),
+//    'username' => 'support@chooseyourpass.com',
 
     /*
     |--------------------------------------------------------------------------
@@ -99,8 +99,8 @@ return [
     |
     */
 
-//    'password' => env('MAIL_PASSWORD'),
-    'password' => 'n6Dvm9Mz9CtL-WbrhRHc_g',
+    'password' => env('MAIL_PASSWORD'),
+//    'password' => 'n6Dvm9Mz9CtL-WbrhRHc_g',
 
     /*
     |--------------------------------------------------------------------------

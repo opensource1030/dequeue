@@ -11,7 +11,8 @@ return [
     | This can be either 'sandbox' or 'production'.
     |
     */
-	'environment' => 'sandbox',
+    'environment' => env('BRAINTREE_ENVIRONMENT'),
+//	'environment' => 'sandbox',
 
 	/*
     |--------------------------------------------------------------------------
@@ -21,7 +22,8 @@ return [
     | Please provide your Merchant ID.
     |
     */
-	'merchantId' => 'ghm77yx7g8cytn59',
+    'merchantId' => env('BRAINTREE_MERCHANT_ID'),
+//	'merchantId' => 'ghm77yx7g8cytn59',
 
 	/*
     |--------------------------------------------------------------------------
@@ -31,7 +33,8 @@ return [
     | Please provide your Public Key.
     |
     */
-	'publicKey' => 'cxgn6xz9py2gvs3h',
+    'publicKey' => env('BRAINTREE_PUBLIC_KEY'),
+//	'publicKey' => 'cxgn6xz9py2gvs3h',
 
 	/*
     |--------------------------------------------------------------------------
@@ -41,7 +44,8 @@ return [
     | Please provide your Private Key.
     |
     */
-	'privateKey' => '5668fbfa70c40b3ee41e0cf5620ee275',
+    'privateKey' => env('BRAINTREE_PRIVATE_KEY'),
+//	'privateKey' => '5668fbfa70c40b3ee41e0cf5620ee275',
 
 	/*
     |--------------------------------------------------------------------------
