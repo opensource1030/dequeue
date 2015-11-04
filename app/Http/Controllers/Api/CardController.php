@@ -65,8 +65,8 @@ class CardController extends ApiController
             return $this->respond($result);
         }
 
-        return $this->respond(['customerId' => $user->szCustomerId]);
-//        return $this->respond();
+//        return $this->respond(['customerId' => $szCustomerId]);
+        return $this->respond();
     }
 
     /**
