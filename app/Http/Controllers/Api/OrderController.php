@@ -23,6 +23,7 @@ use Braintree_Transaction;
 use Braintree_Subscription;
 use Braintree_ClientToken;
 use Braintree_PaymentMethod;
+use Mockery\CountValidator\Exception;
 
 class OrderController extends ApiController
 {
@@ -1027,14 +1028,6 @@ class OrderController extends ApiController
             # get customer , use first vault as payment method
 
             $customer = Braintree_Customer::find($customer_id);
-
-            if ($szPaymentType == 'creditcard') {
-                $paymentType = 'Credit/Debit';
-                $payment_method_token = $customer->creditCards[0]->token;
-            } else {
-                $paymentType = 'PayPal';
-                $payment_method_token = $customer->paypalAccounts[0]->token;
-            }
             */
 
             $szCustomerId = $this->cardService->getCustomerId($user->id);
@@ -1047,9 +1040,22 @@ class OrderController extends ApiController
                 ]
             ));
 
+            if ($result->success != 1) {
+                throw new \Exception('Invalid nonce');
+            }
+
+//            var_dump($result);
+
             $payment_method_token = $result->paymentMethod->token;
 
-            \Log::info('payment method token : ' . $payment_method_token);
+//            \Log::info('payment method token : ' . $payment_method_token);
+
+            # paymentType
+            if ($szPaymentType == 'creditcard') {
+                $paymentType = 'Credit/Debit';
+            } else {
+                $paymentType = 'PayPal';
+            }
 
             # user default payment , but it is not updated to braintree
 
@@ -1115,10 +1121,10 @@ class OrderController extends ApiController
             }
 
 //            throw $be;
-            return $this->respondWithErrors($be->getMessage(), $be->getCode());
+            return $this->respondWithErrors($be->getMessage(), $be->getLine());
         } catch (\Exception $e) {
 //            throw $e;
-            return $this->respondWithErrors($e->getTraceAsString(), $e->getCode());
+            return $this->respondWithErrors($e->getMessage(), $e->getLine());
         }
     }
 
