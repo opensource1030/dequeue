@@ -469,6 +469,10 @@ class OrderService extends Service {
         }
 
         $order = $this->orderRepository->find($data['orderId']);
+        $uosMapping = $order->uosMapping()->first();
+
+//        \Log::info($uosMapping->iLimitions);
+//        var_dump($uosMapping);
 
         if ($order->idUser != $user->id) {
             throw new \Exception ('Invalid user');
@@ -499,15 +503,15 @@ class OrderService extends Service {
         $dtAvailable = $order->dtAvailable;
         $iActivationCount = 0;
 
-        if ($order->iLimitions == 'Daily') {
+        if ($uosMapping->iLimitions == 'Daily') {
             $dtAvailable = date('Y-m-d', strtotime('+ 1 DAY'));
-        } else if ($order->iLimitions == 'Weekly') {
+        } else if ($uosMapping->iLimitions == 'Weekly') {
             $dtAvailable = date('Y-m-d', strtotime('+ 1 WEEK'));
-        } else if ($order->iLimitions == 'Monthly') {
+        } else if ($uosMapping->iLimitions == 'Monthly') {
             $dtAvailable = date('Y-m-d',strtotime('+ 1 MONTH'));
-        } else if ($order->iLimitions == 'Unlimited') {
+        } else if ($uosMapping->iLimitions == 'Unlimited') {
             $dtAvailable = date('Y-m-d H:i:s', strtotime('+30 minutes'));
-        } else if ($order->iLimitions == 'Activation Number') {
+        } else if ($uosMapping->iLimitions == 'Activation Number') {
             $dtAvailable = date('Y-m-d');
             $iActivationCount = $order->iLimitionCount;
         }

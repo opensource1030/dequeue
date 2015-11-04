@@ -33,4 +33,13 @@ class UserOrderSubscriptionMapping extends Model
      * @var array
      */
     protected $guarded = [];
+
+    /**
+     * an order
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function order() {
+        return $this->belongsTo(Order::class, 'idOrder');
+    }
 }

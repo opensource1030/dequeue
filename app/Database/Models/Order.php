@@ -51,4 +51,13 @@ class Order extends Model
     public function user() {
         return $this->belongsTo(User::class, 'idUser');
     }
+
+    /**
+     * return a uosMapping
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function uosMapping() {
+        return $this->hasOne(UserOrderSubscriptionMapping::class, 'idOrder');
+    }
 }
