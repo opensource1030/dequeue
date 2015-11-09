@@ -35,6 +35,7 @@ class SubscriptionTransformer extends TransformerAbstract {
             'szDescription'	=> $model->szDescription,
             'szShortDescription'	=> $model->szShortDescription,
             'fPrice'	    => $model->fPrice,
+            'iPeriod'       => $model->iPeriod,
             'iLimitions'	=> $model->iLimitions,
             'iLimitionCount'		=> $model->iLimitionCount,
             'dtCreated'		=> $model->dtCreated,
