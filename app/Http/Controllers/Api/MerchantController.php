@@ -72,7 +72,9 @@ class MerchantController extends ApiController {
 
             $fractalManager = new Manager();
             $fractalManager->setSerializer(new CustomSerializer());
-            $fractalManager->parseIncludes('locations');
+            $fractalManager->parseIncludes(['locations']);
+//            $fractalManager->parseIncludes(['locations', 'categories']);
+
             $model = new Collection($model, new MerchantTransformer());
             $model = $fractalManager->createData($model)->toArray();
 

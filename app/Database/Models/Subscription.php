@@ -39,6 +39,16 @@ class Subscription extends Model
     }
 
     /**
+     * Return a category
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'idCategory');
+    }
+
+    /**
      * Return orders
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

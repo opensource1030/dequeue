@@ -17,9 +17,9 @@ class MerchantTransformer extends TransformerAbstract {
 		'locations'
 	];
 
-	// protected $defaultIncludes = [
-	// 	'locations'
-	// ];
+	 protected $defaultIncludes = [
+	 	'categories'
+	 ];
 
 	/**
 	 * Turn this item object into a generic array
@@ -79,4 +79,24 @@ class MerchantTransformer extends TransformerAbstract {
 		
 		return $this->collection($locations, new LocationTransformer, 'merchant_location');
 	}
+
+    public function includeCategories(Merchant $merchant) {
+
+//        \Log::info('includeCategories called');
+        $subscriptions = $merchant->subscriptions()->with('category')->get();
+        $categories = $subscriptions->pluck('category');
+        $unique = $categories->unique('id')->all();
+//        $categories = [];
+//        foreach ($subscriptions as $subscription) {
+//            $categories[] = $subscription->category;
+//        }
+
+//        var_dump($subscription);
+//        if ($categories)
+//            return $this->collection($categories, new CategoryTransformer());
+
+//        var_dump($unique);
+        if ($unique)
+            return $this->collection($unique, new CategoryTransformer());
+    }
 }

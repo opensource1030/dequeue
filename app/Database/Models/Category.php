@@ -33,4 +33,13 @@ class Category extends Model
      * @var array
      */
     protected $guarded = [];
+
+    /**
+     * Return subscriptions belong to the category
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function subscriptions() {
+        return $this->hasMany(Subscription::class, 'idCategory');
+    }
 }

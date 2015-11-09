@@ -11,45 +11,51 @@ use Log;
 
 class SubscriptionTransformer extends TransformerAbstract {
 
-    /**
-     * List of resources possible to include
-     *
-     * @var array
-     */
     protected $availableIncludes = [];
+
+    protected $defaultIncludes = [
+        'category'
+    ];
 
     /**
      * Turn this item object into a generic array
      *
+     * @param Subscription $subscription
      * @return array
      */
-    public function transform(Subscription $model) {
+    public function transform(Subscription $subscription) {
 
         return [
-            'id'			=> (int) $model->id,
-            'idParentPass'	=> $model->idParentPass,
-            'idCategory'	=> $model->idCategory,
-            'idMerchant'	=> $model->idMerchant,
-            'szTilte'	    => $model->szTilte,
-            'szCleanTitle'	=> $model->szCleanTitle,
-            'szDescription'	=> $model->szDescription,
-            'szShortDescription'	=> $model->szShortDescription,
-            'fPrice'	    => $model->fPrice,
-            'iPeriod'       => $model->iPeriod,
-            'iLimitions'	=> $model->iLimitions,
-            'iLimitionCount'		=> $model->iLimitionCount,
-            'dtCreated'		=> $model->dtCreated,
-            'iActive'		=> $model->iActive,
-            'szFileName'	=> $model->szFileName, // URL::to
-            'szUploadImageName'	=> $model->szUploadImageName ? Config::get('constants.__MAIN_SITE_URL__') . Config::get('constants.__UPLOAD_SUBSCRIPTION_IMAGE_DIR__') . $model->szUploadImageName : '',
-            'iYearlyPeriod'		=> $model->iYearlyPeriod,
-            'fYearlyPrice'	=> $model->fYearlyPrice,
-            'iOrder'		=> $model->iOrder,
-            'szOfferHighlight'	=> $model->szOfferHighlight,
-            'iPromotional'	    => $model->iPromotional,
-            'iActivationCount'  => $model->iActivationCount,
-            'szCouponCode'      => $model->szCouponCode,
-            'isGifted'      => $model->isGifted,
+            'id'			=> (int) $subscription->id,
+            'idParentPass'	=> $subscription->idParentPass,
+            'idCategory'	=> $subscription->idCategory,
+            'idMerchant'	=> $subscription->idMerchant,
+            'szTilte'	    => $subscription->szTilte,
+            'szCleanTitle'	=> $subscription->szCleanTitle,
+            'szDescription'	=> $subscription->szDescription,
+            'szShortDescription'	=> $subscription->szShortDescription,
+            'fPrice'	    => $subscription->fPrice,
+            'iPeriod'       => $subscription->iPeriod,
+            'iLimitions'	=> $subscription->iLimitions,
+            'iLimitionCount'		=> $subscription->iLimitionCount,
+            'dtCreated'		=> $subscription->dtCreated,
+            'iActive'		=> $subscription->iActive,
+            'szFileName'	=> $subscription->szFileName, // URL::to
+            'szUploadImageName'	=> $subscription->szUploadImageName ? Config::get('constants.__MAIN_SITE_URL__') . Config::get('constants.__UPLOAD_SUBSCRIPTION_IMAGE_DIR__') . $subscription->szUploadImageName : '',
+            'iYearlyPeriod'		=> $subscription->iYearlyPeriod,
+            'fYearlyPrice'	=> $subscription->fYearlyPrice,
+            'iOrder'		=> $subscription->iOrder,
+            'szOfferHighlight'	=> $subscription->szOfferHighlight,
+            'iPromotional'	    => $subscription->iPromotional,
+            'iActivationCount'  => $subscription->iActivationCount,
+            'szCouponCode'      => $subscription->szCouponCode,
+            'isGifted'      => $subscription->isGifted,
         ];
+    }
+
+    public function includeCategory(Subscription $subscription) {
+        $category = $subscription->category()->get()->first();
+        if ($category)
+            return $this->item($category, new CategoryTransformer());
     }
 }

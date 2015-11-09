@@ -9,16 +9,16 @@ use Config;
 
 class SubscriptionDetailTransformer extends TransformerAbstract {
 
-    /**
-     * List of resources possible to include
-     *
-     * @var array
-     */
     protected $availableIncludes = [];
+
+    protected $defaultIncludes = [
+        'category'
+    ];
 
     /**
      * Turn this item object into a generic array
      *
+     * @param Subscription $subscription
      * @return array
      */
     public function transform(Subscription $subscription) {
@@ -55,5 +55,11 @@ class SubscriptionDetailTransformer extends TransformerAbstract {
             'szMerchantName'    => $merchant->szName,
             'szWebsite'         => $merchant->szWebsite,
         ];
+    }
+
+    public function includeCategory(Subscription $subscription) {
+        $category = $subscription->category()->get()->first();
+        if ($category)
+            return $this->item($category, new CategoryTransformer());
     }
 }

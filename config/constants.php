@@ -36,8 +36,8 @@ return [
     '__IMAGE_DIR__'                     => 'images/',
     '__UPLOAD_SUBSCRIPTION_IMAGE_DIR__' => 'subscriptionImage/archiveSubscriptionImage/',
     '__UPLOAD_CATEGORY_IMAGE_DIR__'     => 'categoryImage/archiveCategoryImage/',
-    '__UPLOAD_USER_IMAGE_DIR__'             => 'userImage/archiveUserImage/',
-    '__UPLOAD_MERCHANT_IMAGE_DIR__'         => 'merchantImage/archiveMerchantImage/',
+    '__UPLOAD_USER_IMAGE_DIR__'         => 'userImage/archiveUserImage/',
+    '__UPLOAD_MERCHANT_IMAGE_DIR__'     => 'merchantImage/archiveMerchantImage/',
 
     '__SUPPORT_EMAIL_ADDRESS__'         => 'support@chooseyourpass.com',
     '__FEEDBACK_EMAIL_ADDRESS__'        => 'feedback@chooseyourpass.com',
