@@ -17,6 +17,13 @@ class OrderDetailTransformer extends TransformerAbstract {
     protected $availableIncludes = [];
 
     /**
+     * List of resources default to include
+     *
+     * @var array
+     */
+    protected $defaultIncludes = ['category'];
+
+    /**
      * Turn this item object into a generic array
      *
      * @return array
@@ -92,5 +99,13 @@ class OrderDetailTransformer extends TransformerAbstract {
 
             'szShowLocationCodePopUp'   => $popup->szFlag,
         ];
+    }
+
+    public function includeCategory(Order $order) {
+        $subscription = $order->subscription()->with('category')->get()->first();
+        $category = $subscription->category;
+
+        if ($category)
+            return $this->item($category, new CategoryTransformer());
     }
 }
