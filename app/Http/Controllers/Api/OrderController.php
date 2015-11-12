@@ -573,7 +573,7 @@ class OrderController extends ApiController
             # main process
 
             if ($order->szPassType == 'subscription pass') {
-                if ($order->iAutoRenewFlag == 0) {
+                if ($order->iCancelSubscriptionFlag == 0) {
                     $order = $this->orderService->orderRepository->update([
                         'iCancelSubscriptionFlag' => 1,
                     ], $order->id);
