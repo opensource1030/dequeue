@@ -1,8 +1,8 @@
 <?php
 
 return [
-    '__MAIL_CHIMP_API_KEY__'            => '6bb5280b7a0f39bdd4d25c511a58ff57-us3',
-    '__MAIL_CHIMP_LIST_KEY__'           => '2c4eeadc86',
+    '__MAIL_CHIMP_API_KEY__'            => env('MAIL_CHIMP_API_KEY'),
+    '__MAIL_CHIMP_LIST_KEY__'           => env('MAIL_CHIMP_LIST_KEY'),
 
 //    '__PAYPAL_API_USERNAME__'           => 'coolaj_1345697072_biz_api1.gmail.com',
 //    '__PAYPAL_API_PASSWORD__'           => '1345697097',
@@ -12,23 +12,8 @@ return [
 //    '__PAYPAL_SANDBOX_FLAG__'           => true,
 //    '__PAYPAL_CASHOUT_ENVIRONMENT__'    => 'sandbox',
 
-//    '__BRAINTREE_CASHOUT_ENVIRONMENT__' => 'sandbox', //'production',
-//    '__BRAINTREE_MERCHANT_ID__'         => 'b45tx5v3723g4zxq',
-//    '__BRAINTREE_PUBLIC_KEY__'          => 'ckp9b7m9x7wddt84',
-//    '__BRAINTREE_PRIVATE_KEY__'         => 'a9ab729acafecdf7f3db9330edcaf7b5',
-    
-//    '__MONTHLY_PLAN__'                  => 'test',
-//    '__YEARLY_PLAN__'                   => 'Yearly',
-
     '__MONTHLY_PLAN__'                  => env('BRAINTREE_MONTHLY_PLAN'),
     '__YEARLY_PLAN__'                   => env('BRAINTREE_YEARLY_PLAN'),
-
-
-//    '__MAIN_SITE_PATH__'                => '/Applications/XAMPP/xamppfiles/htdocs/pass_old/',
-//    '__MAIN_SITE_URL__'                 => 'http://localhost/pass_old/',
-
-//    '__MAIN_SITE_PATH__'                => '/var/www/html/pass/',
-//    '__MAIN_SITE_URL__'                 => 'http://52.26.137.137/pass/',
 
     '__MAIN_SITE_PATH__'                => env('MAIN_SITE_PATH'),
     '__MAIN_SITE_URL__'                 => env('MAIN_SITE_URL'),
