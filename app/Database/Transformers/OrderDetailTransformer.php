@@ -74,6 +74,8 @@ class OrderDetailTransformer extends TransformerAbstract {
 
             'szTilte'           => $subscription->szTilte,
             'szShortDescription'=> $subscription->szShortDescription,
+            'szUpgradeDescription'  => $subscription->szUpgradeDescription,
+            'szExchangeDescription' => $subscription->szExchangeDescription,
             'szDescription'     => $subscription->szDescription,
             'szOfferHighlight'  => $subscription->szOfferHighlight,
             'szPassImg'         => $subscription->szUploadImageName && file_exists($path . \Config::get('constants.__UPLOAD_SUBSCRIPTION_IMAGE_DIR__') . $subscription->szUploadImageName) ?
