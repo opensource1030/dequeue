@@ -50,6 +50,8 @@ class SubscriptionTransformer extends TransformerAbstract {
             'iActivationCount'  => $subscription->iActivationCount,
             'szCouponCode'      => $subscription->szCouponCode,
             'isGifted'      => $subscription->isGifted,
+            'szUpgradeDescription'  => $subscription->szUpgradeDescription,
+            'szExchangeDescription' => $subscription->szExchangeDescription,
         ];
     }
 
