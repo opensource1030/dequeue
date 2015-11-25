@@ -287,13 +287,13 @@ class OtherController extends ApiController
 
     public function privacy_policy() {
         return $this->respond([
-            'privacy_policy' => \Config::get('constants.__MAIN_SITE_URL__') . 'pdf/C.it_-_Privacy_Policy921906_3_BN.pdf'
+            'privacy_policy' => \Config::get('constants.__MAIN_SITE_URL__') . 'pdf/PassDISCOPrivacyPolicy.pdf'
         ]);
     }
 
     public function terms_conditions() {
         return $this->respond([
-            'terms_conditions' => \Config::get('constants.__MAIN_SITE_URL__') . 'pdf/Pass_Terms_of_Service_.pdf'
+            'terms_conditions' => \Config::get('constants.__MAIN_SITE_URL__') . 'pdf/PassDISCOTermsofService.pdf'
         ]);
     }
 
