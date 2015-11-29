@@ -56,7 +56,7 @@ Route::group(['prefix' => '/api/v1'], function () {
     Route::post('orders/active_pass', ['as' => 'api.v1.orders.active_pass', 'uses' => 'Api\OrderController@active_pass']);
     Route::post('orders/order_promotional_pass', ['as' => 'api.v1.orders.order_promotional_pass', 'uses' => 'Api\OrderController@order_promotional_pass']);
     Route::post('orders/order_promotional_pass_with_coupon', ['as' => 'api.v1.orders.order_promotional_pass_with_coupon', 'uses' => 'Api\OrderController@order_promotional_pass_with_coupon']);
-    Route::post('orders/order_with_braintree', ['as' => 'api.v1.orders.order_with_braintree', 'uses' => 'Api\OrderController@order_with_braintree']);
+    Route::post('orders/orwith_braintree', ['as' => 'api.v1.orders.order_with_braintree', 'uses' => 'Api\OrderController@order_with_braintree']);
     Route::post('orders/order_with_braintree_nonce', ['as' => 'api.v1.orders.order_with_braintree_nonce', 'uses' => 'Api\OrderController@order_with_braintree_nonce']);
     Route::post('orders/toggle_auto_renew_flag', ['as' => 'api.v1.orders.toggle_auto_renew_flag', 'uses' => 'Api\OrderController@toggle_auto_renew_flag']);
     Route::post('orders/renew_order', ['as' => 'api.v1.orders.renew_order', 'uses' => 'Api\OrderController@renew_order']);

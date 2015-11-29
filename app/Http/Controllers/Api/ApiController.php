@@ -20,9 +20,9 @@ class ApiController extends BaseController
 
 
 	public function __construct(
-			ResponseFactory 	$response, 
+			ResponseFactory 	$response,
 			Request 			$request
-			// Guard 				$auth 
+			// Guard 				$auth
 		) {
 
 		$this->response 	= $response;
@@ -35,7 +35,7 @@ class ApiController extends BaseController
 
 
 	/**
-	 * 
+	 *
 	 * @param array $data
 	 * @param string response_message
 	 * @param int $status_code
@@ -43,7 +43,7 @@ class ApiController extends BaseController
 	 */
 	public function respond($data = [], $response_message = 'Success', $status_code = 200) {
 
-		// if this is and internal request, we only return the data 
+		// if this is and internal request, we only return the data
 		// if ($this->request->input('no-json'))
 		// 	return $data;
 
@@ -73,7 +73,7 @@ class ApiController extends BaseController
 		return $this->response->json($message, $status_code);
 	}
 
-	
+
 	public function respondWithValidationErrors($errors, $status_code = 400) {
 
 		$message = [
